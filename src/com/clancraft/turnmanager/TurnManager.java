@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class TurnManager extends JavaPlugin {
     
     public void onEnable() {
-        PluginDescriptionFile pdfFile = new PluginDescriptionFile();
+        PluginDescriptionFile pdfFile = getDescription();
         Logger logger = getLogger();
 
         logger.info(pdfFile.getName() + " has been enabled! (v." + pdfFile.getVersion() + ")");

@@ -1,0 +1,5 @@
+main: com.clancraft.turnmanager.TurnManager
+version: 1.0
+name: TurnManager
+
+commands:
