@@ -11,6 +11,7 @@ public class TM implements CommandExecutor {
 
     public TM() {
         cycle = new Cycle();
+        cycle.init();
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -18,26 +19,28 @@ public class TM implements CommandExecutor {
             Player player = (Player) sender;
 
             if (args.length > 0) {
-                player.sendMessage(args[0]);
-                // switch (args[0])
-                // {
-                //     case "cycle":
-                //         switch (args[1]) {
-                //             case "add":
-                //                 cycle.addPlayer(args[2]);
-                //                 break;
-                //             case "remove":
-                //                 cycle.removePlayer(args[2]);
-                //                 break;
-                //             case "swap":
-                //                 cycle.swap(args[2], args[3]);
-                //                 break;
-                //             case "next":
-                //                 cycle.nextTurn();
-                //                 break;
-                //         }
-                //         break;
-                // }
+                 switch (args[0])
+                 {
+                     case "cycle":
+                         switch (args[1]) {
+                         	 case "list":
+                         		 player.sendMessage(cycle.listPlayers());
+                         		 break;
+                             case "add":
+                                 cycle.addPlayer(args[2]);
+                                 break;
+                             case "remove":
+                                 cycle.removePlayer(args[2]);
+                                 break;
+                             case "swap":
+                                 cycle.swap(args[2], args[3]);
+                                 break;
+                             case "next":
+                                 cycle.nextTurn();
+                                 break;
+                         }
+                         break;
+                 }
             } else {
                 player.sendMessage("/tm requires an argument:");
                 player.sendMessage("/tm [argument]");

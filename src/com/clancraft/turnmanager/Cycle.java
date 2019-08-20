@@ -3,6 +3,7 @@ package com.clancraft.turnmanager;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class Cycle {
     private ArrayList<String> playerList;
@@ -11,7 +12,18 @@ public class Cycle {
     private final String ANNOUNCE_FORMAT = "Current player is: %s\n" + "%s\n";
 
     public void init() {
+    	playerList = new ArrayList<String>();
         //get all the names of all the online players
+    }
+    
+    public String listPlayers() {
+        StringBuilder turnSequence = new StringBuilder();
+        for (String s : playerList) {
+            turnSequence.append( s + " -> ");
+        }
+        turnSequence.append("END OF CYCLE");
+        
+        return turnSequence.toString();
     }
 
     public boolean addPlayer(String playerName) {
