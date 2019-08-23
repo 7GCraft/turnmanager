@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Libraries/craftbukkit-1.10.2.jar"/>
+	<classpathentry kind="lib" path="D:/Server/craftbukkit-1.10.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
