@@ -1,6 +1,5 @@
 package com.clancraft.turnmanager;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,8 +25,8 @@ public class TM implements CommandExecutor {
                         break;
                 }
             } else {
-                player.sendMessage(TurnManager.pluginPrefix + "/tm requires an argument:");
-                player.sendMessage(TurnManager.pluginPrefix + "/tm [argument]");
+                //tm has no argument
+                player.sendMessage(TMStrings.MISSING_ARGUMENT_ERROR);
             }
         }
 
@@ -37,34 +36,34 @@ public class TM implements CommandExecutor {
     public boolean cycleHandler(Player player, String[] args) {
         switch (args[1]) {
             case "list":
-                player.sendMessage(TurnManager.pluginPrefix + cycle.getTurnSequence());
+                player.sendMessage(String.format(TMStrings.PLAYER_LIST, cycle.getTurnSequence()));
                 break;
             case "add":
                 if (cycle.addPlayer(args[2])) {
-                    player.sendMessage(TurnManager.pluginPrefix + args[2] + " has been added to the turn sequence.");
+                    player.sendMessage(String.format(TMStrings.ADD_PLAYER_SUCCESS, args[2]));
                 } else {
-                    player.sendMessage(TurnManager.pluginPrefix + ChatColor.RED + args[2] + "could not be added to the turn sequence.");
+                    player.sendMessage(String.format(TMStrings.ADD_PLAYER_FAILED, args[2]));
                 }
                 break;
             case "remove":
                 if (cycle.removePlayer(args[2])) {
-                    player.sendMessage(TurnManager.pluginPrefix + args[2] + " has been removed from the turn sequence.");
+                    player.sendMessage(String.format(TMStrings.REMOVE_PLAYER_SUCCESS, args[2]));
                 } else {
-                    player.sendMessage(TurnManager.pluginPrefix + ChatColor.RED + args[2] + "could not be removed from the turn sequence.");
+                    player.sendMessage(String.format(TMStrings.REMOVE_PLAYER_FAILED, args[2]));
                 }
                 break;
             case "swap":
                 if (cycle.swap(args[2], args[3])) {
-                    player.sendMessage(TurnManager.pluginPrefix + "Players have been swapped in the turn sequence.");
+                    player.sendMessage(String.format(TMStrings.SWAP_PLAYER_SUCCESS, args[2], args[3]));
                 } else {
-                    player.sendMessage(TurnManager.pluginPrefix + ChatColor.RED + "Players could not be swapped in the turn sequence.");
+                    player.sendMessage(String.format(TMStrings.SWAP_PLAYER_FAILED, args[2], args[3]));
                 }
                 break;
             case "next":
                 cycle.nextTurn();
                 break;
             default:
-                player.sendMessage(TurnManager.pluginPrefix + ChatColor.RED + "Invalid argument.");
+                player.sendMessage(TMStrings.INVALID_ARGUMENT_ERROR);
                 break;
         }
         return true;

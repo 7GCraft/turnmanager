@@ -9,8 +9,6 @@ public class Cycle {
     private ArrayList<String> playerList;
     private int currPlayerIndex;
 
-    private final String ANNOUNCE_FORMAT = "Current player is: %s\n" + "%s\n";
-
     public void init() {
     	playerList = new ArrayList<String>();
         //get all the names of all the online players
@@ -70,7 +68,7 @@ public class Cycle {
     public void announceTurn() {
         String turnSequence = getTurnSequence();   
     
-        Bukkit.broadcastMessage(TurnManager.pluginPrefix + String.format(ANNOUNCE_FORMAT, playerList.get(currPlayerIndex), turnSequence));
+        Bukkit.broadcastMessage(String.format(TMStrings.CURRENT_PLAYER_ANNOUNCE, playerList.get(currPlayerIndex), turnSequence));
     }
     
     public boolean reinstatePlayer() {

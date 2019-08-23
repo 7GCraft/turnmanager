@@ -10,9 +10,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.clancraft.turnmanager.TM;
 
 public class TurnManager extends JavaPlugin {
-    
-	public static final String pluginPrefix =
-			ChatColor.DARK_RED + "[" + ChatColor.GOLD + "TurnManager" + ChatColor.DARK_RED + "]" + ChatColor.GOLD + " ";
 	
     public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
