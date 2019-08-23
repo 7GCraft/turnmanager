@@ -15,20 +15,19 @@ public class Cycle {
     	playerList = new ArrayList<String>();
         //get all the names of all the online players
     }
-    
-    public String listPlayers() {
-        StringBuilder turnSequence = new StringBuilder();
-        for (String s : playerList) {
-            turnSequence.append( s + " -> ");
-        }
-        turnSequence.append("END OF CYCLE");
-        
-        return turnSequence.toString();
-    }
 
     public boolean addPlayer(String playerName) {
         if (!playerList.contains(playerName)) {
             playerList.add(playerName.toLowerCase());
+            return true;
+        }
+        //TODO: check whether player name is valid or not
+        return false;
+    }
+    
+    public boolean addPlayer(String playerName, int order) {
+        if (!playerList.contains(playerName)) {
+            playerList.add(order, playerName.toLowerCase());
             return true;
         }
         //TODO: check whether player name is valid or not
@@ -69,18 +68,29 @@ public class Cycle {
     } 
 
     public void announceTurn() {
-        StringBuilder turnSequence = new StringBuilder();
-        for (String s : playerList) {
-            turnSequence.append( s + " -> ");
-        }
-        turnSequence.append("END OF CYCLE");        
+        String turnSequence = getTurnSequence();   
     
-        Bukkit.broadcastMessage(String.format(ANNOUNCE_FORMAT, playerList.get(currPlayerIndex), turnSequence.toString()));
+        Bukkit.broadcastMessage(TurnManager.pluginPrefix + String.format(ANNOUNCE_FORMAT, playerList.get(currPlayerIndex), turnSequence));
+    }
+    
+    public boolean reinstatePlayer() {
+    	return false;
     }
 
     public void nextTurn() {
         currPlayerIndex = (currPlayerIndex + 1) % playerList.size();
         announceTurn();
+    }
+    
+    public String getTurnSequence() {
+    	StringBuilder turnSequence = new StringBuilder();
+    	
+        for (String s : playerList) {
+            turnSequence.append( s + " -> ");
+        }
+        turnSequence.append("END OF CYCLE");
+        
+        return turnSequence.toString();
     }
 
     //TODO timer functionality
