@@ -68,7 +68,7 @@ public class Cycle {
     public void announceTurn() {
         String turnSequence = getTurnSequence();   
     
-        Bukkit.broadcastMessage(String.format(TMStrings.CURRENT_PLAYER_ANNOUNCE, playerList.get(currPlayerIndex), turnSequence));
+        Bukkit.broadcastMessage(String.format(TMStrings.CURRENT_PLAYER_ANNOUNCE, playerList.get(currPlayerIndex), String.format(TMStrings.PLAYER_LIST, turnSequence)));
     }
     
     public boolean reinstatePlayer() {
