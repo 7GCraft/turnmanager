@@ -36,6 +36,16 @@ public class Cycle {
         return playerList.remove(playerName);
     }
 
+    public boolean removePlayer(int spot) {
+        try {
+            playerList.remove(spot);
+        } catch (IndexOutOfBoundsException e) {
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean swap(String playerName1, String playerName2) {
         int index1 = -1;
         int index2 = -1;
@@ -71,6 +81,7 @@ public class Cycle {
         Bukkit.broadcastMessage(String.format(TMStrings.CURRENT_PLAYER_ANNOUNCE, playerList.get(currPlayerIndex), String.format(TMStrings.PLAYER_LIST, turnSequence)));
     }
     
+    //TODO what does this do? Put the last person back in the queue?
     public boolean reinstatePlayer() {
     	return false;
     }
@@ -93,4 +104,5 @@ public class Cycle {
 
     //TODO timer functionality
     
+    //TODO add functionality where it automatically skips players who's not present
 }
