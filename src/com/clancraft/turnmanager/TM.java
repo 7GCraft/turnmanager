@@ -11,7 +11,6 @@ public class TM implements CommandExecutor {
 
     public TM() {
         cycle = new Cycle();
-        cycle.init();
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -21,7 +20,7 @@ public class TM implements CommandExecutor {
             if (args.length > 0) {
                 switch (args[0]) {
                     case "cycle":
-                        cycleHandler(player, args);
+                        handleCycle(player, args);
                         break;
                 }
             } else {
@@ -33,7 +32,8 @@ public class TM implements CommandExecutor {
         return true;
     }
 
-    public boolean cycleHandler(Player player, String[] args) {
+    //TODO potential to refactor into another class if this method gets more complicated
+    public boolean handleCycle(Player player, String[] args) {
         switch (args[1]) {
             case "list":
                 player.sendMessage(String.format(TMStrings.PLAYER_LIST, cycle.getTurnSequence()));

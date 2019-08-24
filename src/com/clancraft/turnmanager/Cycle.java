@@ -9,9 +9,9 @@ public class Cycle {
     private ArrayList<String> playerList;
     private int currPlayerIndex;
 
-    public void init() {
+    public Cycle() {
     	playerList = new ArrayList<String>();
-        //get all the names of all the online players
+        //TODO get all the names of all the online players
     }
 
     public boolean addPlayer(String playerName) {
