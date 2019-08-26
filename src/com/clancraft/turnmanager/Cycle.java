@@ -1,6 +1,7 @@
 package com.clancraft.turnmanager;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,21 +16,48 @@ public class Cycle {
     }
 
     public boolean addPlayer(String playerName) {
-        if (!playerList.contains(playerName)) {
-            playerList.add(playerName.toLowerCase());
-            return true;
+        // checks whether player already exists inside the list
+        for (String s : playerList) {
+            if (s.toLowerCase().equals(playerName.toLowerCase())) {
+                return false;
+            }
         }
-        //TODO: check whether player name is valid or not
-        return false;
+
+        String validatedName = validatePlayerName(playerName);
+        if (validatedName == null) {
+            return false;
+        }
+
+        playerList.add(validatedName);
+        return true;
     }
-    
+
     public boolean addPlayer(String playerName, int order) {
-        if (!playerList.contains(playerName)) {
-            playerList.add(order, playerName.toLowerCase());
-            return true;
+        // checks whether player already exists inside the list
+        for (String s : playerList) {
+            if (s.toLowerCase().equals(playerName.toLowerCase())) {
+                return false;
+            }
         }
-        //TODO: check whether player name is valid or not
-        return false;
+
+        String validatedName = validatePlayerName(playerName);
+        if (validatedName == null) {
+            return false;
+        }
+
+        playerList.add(order, validatedName);
+        return true;
+    }
+
+    private String validatePlayerName(String input) {
+        Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
+        while (playerIter.hasNext()) {
+            String currPlayer = playerIter.next().getName();
+            if (input.toLowerCase().equals(currPlayer.toLowerCase())) {
+                return currPlayer;
+            }
+        }
+        return null;
     }
 
     public boolean removePlayer(String playerName) {
