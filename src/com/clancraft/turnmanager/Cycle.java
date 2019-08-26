@@ -12,7 +12,6 @@ public class Cycle {
 
     public Cycle() {
     	playerList = new ArrayList<String>();
-        //TODO get all the names of all the online players
     }
 
     public boolean addPlayer(String playerName) {
@@ -61,7 +60,13 @@ public class Cycle {
     }
 
     public boolean removePlayer(String playerName) {
-        return playerList.remove(playerName);
+        for (int i = 0; i < playerList.size(); i++) {
+            if (playerList.get(i).toLowerCase().equals(playerName.toLowerCase())) {
+                playerList.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean removePlayer(int spot) {
@@ -79,10 +84,10 @@ public class Cycle {
         int index2 = -1;
 
         for (int i = 0; i < playerList.size(); i++) {
-            if (playerList.get(i).equals(playerName1)) {
+            if (playerList.get(i).toLowerCase().equals(playerName1.toLowerCase())) {
                 index1 = i;
             }
-            if (playerList.get(i).equals(playerName2)) {
+            if (playerList.get(i).toLowerCase().equals(playerName2.toLowerCase())) {
                 index2 = i;
             }
         }
