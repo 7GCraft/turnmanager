@@ -7,14 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class TM implements CommandExecutor {
-
-    private Cycle cycle;
-    private int currPlayerIndex;
-
-    public TM() {
-        cycle = new Cycle();
-    }
-
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
@@ -43,37 +35,36 @@ public class TM implements CommandExecutor {
     public boolean handleTurn(Player player, String[] args) {
         switch(args[1]) {
             case "next":
-                nextTurn();
+                TurnManager.turn.nextTurn();
                 break;
             case "announce":
-                announceTurn();
+                TurnManager.turn.announceTurn();
                 break;
         }
         return true;
     }
 
-    //TODO potential to refactor into another class if this method gets more complicated
     public boolean handleCycle(Player player, String[] args) {
         switch (args[1]) {
             case "list":
-                player.sendMessage(String.format(TMStrings.PLAYER_LIST, cycle.toString()));
+                player.sendMessage(String.format(TMStrings.PLAYER_LIST, TurnManager.cycle.toString()));
                 break;
             case "add":
-                if (cycle.addPlayer(args[2])) {
+                if (TurnManager.cycle.addPlayer(args[2])) {
                     player.sendMessage(String.format(TMStrings.ADD_PLAYER_SUCCESS, args[2]));
                 } else {
                     player.sendMessage(String.format(TMStrings.ADD_PLAYER_FAILED, args[2]));
                 }
                 break;
             case "remove":
-                if (cycle.removePlayer(args[2])) {
+                if (TurnManager.cycle.removePlayer(args[2])) {
                     player.sendMessage(String.format(TMStrings.REMOVE_PLAYER_SUCCESS, args[2]));
                 } else {
                     player.sendMessage(String.format(TMStrings.REMOVE_PLAYER_FAILED, args[2]));
                 }
                 break;
             case "swap":
-                if (cycle.swap(args[2], args[3])) {
+                if (TurnManager.cycle.swap(args[2], args[3])) {
                     player.sendMessage(String.format(TMStrings.SWAP_PLAYER_SUCCESS, args[2], args[3]));
                 } else {
                     player.sendMessage(String.format(TMStrings.SWAP_PLAYER_FAILED, args[2], args[3]));
@@ -85,34 +76,4 @@ public class TM implements CommandExecutor {
         }
         return true;
     }
-
-
-    public void announceTurn() {
-        String turnSequence = cycle.toString();   
-    
-        Bukkit.broadcastMessage(String.format(TMStrings.CURRENT_PLAYER_ANNOUNCE, cycle.getPlayerName(currPlayerIndex), String.format(TMStrings.PLAYER_LIST, turnSequence)));
-    }
-    
-    //TODO what does this do? Put the last person back in the queue?
-    public boolean reinstatePlayer() {
-    	return false;
-    }
-
-    public void nextTurn() {
-        currPlayerIndex = (currPlayerIndex + 1) % cycle.size();
-        announceTurn();
-    }
-
-    /**
-     * NOTICE: Swap does NOT validate this inside Cycle.
-     * Code from swapping:
-     *  if (index1 < currPlayerIndex && index2 > currPlayerIndex || 
-            index2 < currPlayerIndex && index1 > currPlayerIndex) {
-            return false;
-        }
-     */
-
-    //TODO timer functionality
-    
-    //TODO add functionality where it automatically skips players who's not present
 }

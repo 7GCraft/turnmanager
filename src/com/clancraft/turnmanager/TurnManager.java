@@ -2,14 +2,12 @@ package com.clancraft.turnmanager;
 
 import java.util.logging.Logger;
 
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.clancraft.turnmanager.TM;
-
 public class TurnManager extends JavaPlugin {
+    protected static Cycle cycle;
+    protected static Turn turn;
 	
     public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
@@ -17,6 +15,9 @@ public class TurnManager extends JavaPlugin {
 
         registerCommands();
         
+        cycle = new Cycle();
+        turn = new Turn();
+
         logger.info(pdfFile.getName() + " has been enabled! (v." + pdfFile.getVersion() + ")");
     }
 
