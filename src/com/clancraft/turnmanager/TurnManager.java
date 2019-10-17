@@ -29,6 +29,6 @@ public class TurnManager extends JavaPlugin {
     }
     
     private void registerCommands() {
-        getCommand("tm").setExecutor(new TM());
+        getCommand("tm").setExecutor(new TMCommandHandler());
     }
 }
