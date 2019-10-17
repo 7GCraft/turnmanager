@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 
 public class Cycle {
     private ArrayList<String> playerList;
-    private int currPlayerIndex;
 
     public Cycle() {
     	playerList = new ArrayList<String>();
@@ -96,17 +95,16 @@ public class Cycle {
             return false;
         }
 
-        if (index1 < currPlayerIndex && index2 > currPlayerIndex || 
-            index2 < currPlayerIndex && index1 > currPlayerIndex) {
-            return false;
-        }
+        return swap(index1, index2);
+    } 
 
+    public boolean swap(int index1, int index2) {
         String tempString = playerList.get(index1);
         playerList.set(index1, playerList.get(index2));
         playerList.set(index2, tempString);
 
         return true;
-    } 
+    }
 
     public int size() {
         return playerList.size();
