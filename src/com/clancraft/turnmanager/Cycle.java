@@ -108,22 +108,14 @@ public class Cycle {
         return true;
     } 
 
-    public void announceTurn() {
-        String turnSequence = getTurnSequence();   
-    
-        Bukkit.broadcastMessage(String.format(TMStrings.CURRENT_PLAYER_ANNOUNCE, playerList.get(currPlayerIndex), String.format(TMStrings.PLAYER_LIST, turnSequence)));
-    }
-    
-    //TODO what does this do? Put the last person back in the queue?
-    public boolean reinstatePlayer() {
-    	return false;
+    public int size() {
+        return playerList.size();
     }
 
-    public void nextTurn() {
-        currPlayerIndex = (currPlayerIndex + 1) % playerList.size();
-        announceTurn();
+    public String getPlayerName(int spot) {
+        return playerList.get(spot);
     }
-    
+
     public String getTurnSequence() {
     	StringBuilder turnSequence = new StringBuilder();
     	
@@ -134,8 +126,4 @@ public class Cycle {
         
         return turnSequence.toString();
     }
-
-    //TODO timer functionality
-    
-    //TODO add functionality where it automatically skips players who's not present
 }
