@@ -38,7 +38,7 @@ public class TM implements CommandExecutor {
     public boolean handleCycle(Player player, String[] args) {
         switch (args[1]) {
             case "list":
-                player.sendMessage(String.format(TMStrings.PLAYER_LIST, cycle.getTurnSequence()));
+                player.sendMessage(String.format(TMStrings.PLAYER_LIST, cycle.toString()));
                 break;
             case "add":
                 if (cycle.addPlayer(args[2])) {
@@ -73,7 +73,7 @@ public class TM implements CommandExecutor {
 
 
     public void announceTurn() {
-        String turnSequence = cycle.getTurnSequence();   
+        String turnSequence = cycle.toString();   
     
         Bukkit.broadcastMessage(String.format(TMStrings.CURRENT_PLAYER_ANNOUNCE, cycle.getPlayerName(currPlayerIndex), String.format(TMStrings.PLAYER_LIST, turnSequence)));
     }
@@ -89,7 +89,8 @@ public class TM implements CommandExecutor {
     }
 
     /**
-     *  Code from swapping:
+     * NOTICE: Swap does NOT validate this inside Cycle.
+     * Code from swapping:
      *  if (index1 < currPlayerIndex && index2 > currPlayerIndex || 
             index2 < currPlayerIndex && index1 > currPlayerIndex) {
             return false;

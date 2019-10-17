@@ -114,7 +114,7 @@ public class Cycle {
         return playerList.get(spot);
     }
 
-    public String getTurnSequence() {
+    public String toString() {
     	StringBuilder turnSequence = new StringBuilder();
     	
         for (String s : playerList) {
