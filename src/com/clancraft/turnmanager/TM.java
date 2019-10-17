@@ -24,6 +24,12 @@ public class TM implements CommandExecutor {
                     case "cycle":
                         handleCycle(player, args);
                         break;
+                    case "turn":
+                        handleTurn(player, args);
+                        break;
+                    default:
+                        player.sendMessage(TMStrings.INVALID_ARGUMENT_ERROR);
+                        break;
                 }
             } else {
                 //tm has no argument
@@ -31,6 +37,18 @@ public class TM implements CommandExecutor {
             }
         }
 
+        return true;
+    }
+
+    public boolean handleTurn(Player player, String[] args) {
+        switch(args[1]) {
+            case "next":
+                nextTurn();
+                break;
+            case "announce":
+                announceTurn();
+                break;
+        }
         return true;
     }
 
@@ -60,12 +78,6 @@ public class TM implements CommandExecutor {
                 } else {
                     player.sendMessage(String.format(TMStrings.SWAP_PLAYER_FAILED, args[2], args[3]));
                 }
-                break;
-            case "next":
-                nextTurn();
-                break;
-            case "announce":
-                announceTurn();
                 break;
             default:
                 player.sendMessage(TMStrings.INVALID_ARGUMENT_ERROR);
