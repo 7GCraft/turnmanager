@@ -64,6 +64,9 @@ public class TM implements CommandExecutor {
             case "next":
                 nextTurn();
                 break;
+            case "announce":
+                announceTurn();
+                break;
             default:
                 player.sendMessage(TMStrings.INVALID_ARGUMENT_ERROR);
                 break;
