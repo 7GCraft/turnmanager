@@ -1,3 +1,5 @@
+package com.clancraft.turnmanager;
+
 import org.bukkit.Bukkit;
 
 public class Turn {
