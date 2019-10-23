@@ -7,6 +7,8 @@ public class TMStrings {
 
     public static final String MISSING_ARGUMENT_ERROR = PLUGIN_PREFIX + "/tm requires an argument!\n" + 
                                                         PLUGIN_PREFIX + "/tm [argument]";
+    public static final String INVALID_ARGUMENT_ERROR = PLUGIN_PREFIX + ChatColor.RED + "Invalid argument.";
+    public static final String NO_PERMISSION_ERROR = PLUGIN_PREFIX + ChatColor.RED + "You don't have permission to do that.";
 
     public static final String PLAYER_LIST = PLUGIN_PREFIX + "%s";
 
@@ -19,7 +21,17 @@ public class TMStrings {
     public static final String SWAP_PLAYER_SUCCESS = PLUGIN_PREFIX + "%s and %s have been swapped in the turn sequence.";
     public static final String SWAP_PLAYER_FAILED = PLUGIN_PREFIX + ChatColor.RED + "%s and %s could not be swapped in the turn sequence.";
 
-    public static final String INVALID_ARGUMENT_ERROR = PLUGIN_PREFIX + ChatColor.RED + "Invalid argument.";
-
     public static final String CURRENT_PLAYER_ANNOUNCE = PLUGIN_PREFIX + "Current player is: %s\n" + "%s\n";
+    
+    // PERMISSIONS
+    // TO-DO: make separate class?
+    public static final String CYCLE_PERMISSION = "tm.cycle";
+    public static final String CYCLE_ADD_PERMISSION = CYCLE_PERMISSION + ".add";
+    public static final String CYCLE_LIST_PERMISSION = CYCLE_PERMISSION + ".list";
+    public static final String CYCLE_REMOVE_PERMISSION = CYCLE_PERMISSION + ".remove";
+    public static final String CYCLE_SWAP_PERMISSION = CYCLE_PERMISSION + ".swap";
+    
+    public static final String TURN_PERMISSION = "tm.turn";
+    public static final String TURN_NEXT_PERMISSION = TURN_PERMISSION + ".next";
+    public static final String TURN_ANNOUNCE_PERMISSION = TURN_PERMISSION + ".announce";
 }

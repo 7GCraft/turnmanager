@@ -35,10 +35,18 @@ public class TMCommandHandler implements CommandExecutor {
     public boolean handleTurn(Player player, String[] args) {
         switch(args[1]) {
             case "next":
-                TurnManager.turn.nextTurn();
+                if (player.hasPermission(TMStrings.TURN_NEXT_PERMISSION)) {
+                	TurnManager.turn.nextTurn();
+                } else {
+                	player.sendMessage(TMStrings.NO_PERMISSION_ERROR);
+                }
                 break;
             case "announce":
-                TurnManager.turn.announceTurn();
+            	if (player.hasPermission(TMStrings.TURN_ANNOUNCE_PERMISSION)) {
+                	TurnManager.turn.announceTurn();
+                } else {
+                	player.sendMessage(TMStrings.NO_PERMISSION_ERROR);
+                }
                 break;
         }
         return true;
@@ -47,27 +55,43 @@ public class TMCommandHandler implements CommandExecutor {
     public boolean handleCycle(Player player, String[] args) {
         switch (args[1]) {
             case "list":
-                player.sendMessage(String.format(TMStrings.PLAYER_LIST, TurnManager.cycle.toString()));
+                if (player.hasPermission(TMStrings.CYCLE_LIST_PERMISSION)) {
+                	player.sendMessage(String.format(TMStrings.PLAYER_LIST, TurnManager.cycle.toString()));
+                } else {
+                	player.sendMessage(TMStrings.NO_PERMISSION_ERROR);
+                }
                 break;
             case "add":
-                if (TurnManager.cycle.addPlayer(args[2])) {
-                    player.sendMessage(String.format(TMStrings.ADD_PLAYER_SUCCESS, args[2]));
+                if (player.hasPermission(TMStrings.CYCLE_ADD_PERMISSION)) {
+                	if (TurnManager.cycle.addPlayer(args[2])) {
+                        player.sendMessage(String.format(TMStrings.ADD_PLAYER_SUCCESS, args[2]));
+                    } else {
+                        player.sendMessage(String.format(TMStrings.ADD_PLAYER_FAILED, args[2]));
+                    }
                 } else {
-                    player.sendMessage(String.format(TMStrings.ADD_PLAYER_FAILED, args[2]));
+                	player.sendMessage(TMStrings.NO_PERMISSION_ERROR);
                 }
                 break;
             case "remove":
-                if (TurnManager.cycle.removePlayer(args[2])) {
-                    player.sendMessage(String.format(TMStrings.REMOVE_PLAYER_SUCCESS, args[2]));
+                if (player.hasPermission(TMStrings.CYCLE_REMOVE_PERMISSION)) {
+                	if (TurnManager.cycle.removePlayer(args[2])) {
+                        player.sendMessage(String.format(TMStrings.REMOVE_PLAYER_SUCCESS, args[2]));
+                    } else {
+                        player.sendMessage(String.format(TMStrings.REMOVE_PLAYER_FAILED, args[2]));
+                    }
                 } else {
-                    player.sendMessage(String.format(TMStrings.REMOVE_PLAYER_FAILED, args[2]));
+                	player.sendMessage(TMStrings.NO_PERMISSION_ERROR);
                 }
                 break;
             case "swap":
-                if (TurnManager.cycle.swap(args[2], args[3])) {
-                    player.sendMessage(String.format(TMStrings.SWAP_PLAYER_SUCCESS, args[2], args[3]));
+                if (player.hasPermission(TMStrings.CYCLE_SWAP_PERMISSION)) {
+                	if (TurnManager.cycle.swap(args[2], args[3])) {
+                        player.sendMessage(String.format(TMStrings.SWAP_PLAYER_SUCCESS, args[2], args[3]));
+                    } else {
+                        player.sendMessage(String.format(TMStrings.SWAP_PLAYER_FAILED, args[2], args[3]));
+                    }
                 } else {
-                    player.sendMessage(String.format(TMStrings.SWAP_PLAYER_FAILED, args[2], args[3]));
+                	player.sendMessage(TMStrings.NO_PERMISSION_ERROR);
                 }
                 break;
             default:
