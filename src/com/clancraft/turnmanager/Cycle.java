@@ -6,6 +6,11 @@ import java.util.Iterator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+/**
+ * A class to hold a cycle of players. This class is similar to queue that 
+ * always loops back to the front infinitely. This cycle is specifically written
+ * to store players in Minecraft.
+ */
 public class Cycle {
     private ArrayList<String> playerList;
     private int currIndex;
