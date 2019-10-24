@@ -18,6 +18,10 @@ public class Cycle {
         currIndex = -1;
     }
 
+    /**
+     * Advances the internal state of the cycle, returns the next player.
+     * @return name of the next player
+     */
     public String pop() {
         currIndex = (currIndex + 1) % playerList.size();
         try {
@@ -28,6 +32,11 @@ public class Cycle {
         }
     }
 
+    /**
+     * Adds the specified player to the end of the queue.
+     * @param playerName name of the player to be added
+     * @return whether player was added successfully
+     */
     public boolean addPlayer(String playerName) {
         // checks whether player already exists inside the list
         for (String s : playerList) {
@@ -45,7 +54,13 @@ public class Cycle {
         return true;
     }
 
-    public boolean addPlayer(String playerName, int order) {
+    /**
+     * Adds the specified player to the specified spot.
+     * @param playerName name of the player to be added
+     * @param spot where in the cycle to add the player
+     * @return whether player was added successfully
+     */
+    public boolean addPlayer(String playerName, int spot) {
         // checks whether player already exists inside the list
         for (String s : playerList) {
             if (s.toLowerCase().equals(playerName.toLowerCase())) {
@@ -58,14 +73,19 @@ public class Cycle {
             return false;
         }
 
-        if (order <= currIndex) {
+        if (spot <= currIndex) {
             currIndex++;
         }
 
-        playerList.add(order, validatedName);
+        playerList.add(spot, validatedName);
         return true;
     }
 
+    /**
+     * Helper method to validate player name to be added.
+     * @param input name of the player to be validated
+     * @return the actual player name with proper capitalization
+     */
     private String validatePlayerName(String input) {
         Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
         while (playerIter.hasNext()) {
@@ -77,6 +97,11 @@ public class Cycle {
         return null;
     }
 
+    /**
+     * Removes the specified player from the cycle.
+     * @param playerName name of the player to be removed
+     * @return whether player was removed successfully
+     */
     public boolean removePlayer(String playerName) {
         for (int i = 0; i < playerList.size(); i++) {
             if (playerList.get(i).toLowerCase().equals(playerName.toLowerCase())) {
@@ -87,6 +112,11 @@ public class Cycle {
         return false;
     }
 
+    /**
+     * Removes a player on the specified spot from the cycle.
+     * @param spot where in the list to remove player from
+     * @return whether player was removed successfully
+     */
     public boolean removePlayer(int spot) {
         try {
             playerList.remove(spot);
@@ -101,6 +131,12 @@ public class Cycle {
         return true;
     }
 
+    /**
+     * Swaps the two specified players' spots in the cycle.
+     * @param playerName1 name of the first player to be swapped
+     * @param playerName2 name of the second player to be swapped
+     * @return whether the players were swapped successfully
+     */
     public boolean swap(String playerName1, String playerName2) {
         int index1 = -1;
         int index2 = -1;
@@ -121,6 +157,12 @@ public class Cycle {
         return swap(index1, index2);
     } 
 
+    /**
+     * Swaps the players in the two specified spots in the cycle.
+     * @param index1 spot of the first player to be swapped
+     * @param index2 spot of the second player to be swapped
+     * @return whether the players were swapped successfully
+     */
     public boolean swap(int index1, int index2) {
         if (index1 < currIndex && index2 > currIndex || 
             index2 < currIndex && index1 > currIndex) {
@@ -134,14 +176,27 @@ public class Cycle {
         return true;
     }
 
+    /**
+     * Returns the number of players currently in the cycle.
+     * @return number of players in the cycle
+     */
     public int size() {
         return playerList.size();
     }
 
+    /**
+     * Returns the name of the player in the specified spot.
+     * @return name of the player in the spot
+     */
     public String getPlayerName(int spot) {
         return playerList.get(spot);
     }
 
+    /**
+     * Returns a string representation of the cycle, which is the order of
+     * the players in the cycle.
+     * @return order of the players in the cycle
+     */
     public String toString() {
     	StringBuilder turnSequence = new StringBuilder();
     	
