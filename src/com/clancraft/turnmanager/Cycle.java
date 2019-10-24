@@ -8,9 +8,24 @@ import org.bukkit.entity.Player;
 
 public class Cycle {
     private ArrayList<String> playerList;
+    private int currIndex;
 
+    /**
+     * Default constructor. Initializes the fields to zero-like values. 
+     */
     public Cycle() {
-    	playerList = new ArrayList<String>();
+        playerList = new ArrayList<String>();
+        currIndex = -1;
+    }
+
+    public String pop() {
+        currIndex = (currIndex + 1) % playerList.size();
+        try {
+            return playerList.get(currIndex);
+        } catch (IndexOutOfBoundsException e) {
+            //TODO put an error message in logger here
+            return null;
+        }
     }
 
     public boolean addPlayer(String playerName) {
@@ -41,6 +56,10 @@ public class Cycle {
         String validatedName = validatePlayerName(playerName);
         if (validatedName == null) {
             return false;
+        }
+
+        if (order <= currIndex) {
+            currIndex++;
         }
 
         playerList.add(order, validatedName);
@@ -75,6 +94,10 @@ public class Cycle {
             return false;
         }
 
+        if (spot <= currIndex) {
+            currIndex--;
+        }
+
         return true;
     }
 
@@ -99,6 +122,11 @@ public class Cycle {
     } 
 
     public boolean swap(int index1, int index2) {
+        if (index1 < currIndex && index2 > currIndex || 
+            index2 < currIndex && index1 > currIndex) {
+            return false;
+        }
+
         String tempString = playerList.get(index1);
         playerList.set(index1, playerList.get(index2));
         playerList.set(index2, tempString);

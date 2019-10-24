@@ -3,12 +3,10 @@ package com.clancraft.turnmanager;
 import org.bukkit.Bukkit;
 
 public class Turn {
-    private int currPlayerIndex;
-
-    public void announceTurn() {
+    public void announceTurn(String currPlayer) {
         String turnSequence = TurnManager.cycle.toString();   
     
-        Bukkit.broadcastMessage(String.format(TMStrings.CURRENT_PLAYER_ANNOUNCE, TurnManager.cycle.getPlayerName(currPlayerIndex), String.format(TMStrings.PLAYER_LIST, turnSequence)));
+        Bukkit.broadcastMessage(String.format(TMStrings.CURRENT_PLAYER_ANNOUNCE, currPlayer, String.format(TMStrings.PLAYER_LIST, turnSequence)));
     }
     
     //TODO what does this do? Put the last person back in the queue?
@@ -17,18 +15,12 @@ public class Turn {
     }
 
     public void nextTurn() {
-        currPlayerIndex = (currPlayerIndex + 1) % TurnManager.cycle.size();
-        announceTurn();
-    }
+        String currPlayer = TurnManager.cycle.pop();
 
-    /**
-     * NOTICE: Swap does NOT validate this inside Cycle.
-     * Code from swapping:
-     *  if (index1 < currPlayerIndex && index2 > currPlayerIndex || 
-            index2 < currPlayerIndex && index1 > currPlayerIndex) {
-            return false;
+        if (currPlayer != null) {
+            announceTurn(currPlayer);
         }
-     */
+    }
 
     //TODO timer functionality
     
