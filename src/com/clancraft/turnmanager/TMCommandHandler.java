@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class TMCommandHandler implements CommandExecutor {
+	
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
@@ -47,6 +48,8 @@ public class TMCommandHandler implements CommandExecutor {
                 } else {
                 	player.sendMessage(TMStrings.NO_PERMISSION_ERROR);
                 }
+            default:
+            	player.sendMessage(TMStrings.INVALID_ARGUMENT_ERROR);
                 break;
         }
         return true;
