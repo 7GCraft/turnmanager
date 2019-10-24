@@ -105,8 +105,7 @@ public class Cycle {
     public boolean removePlayer(String playerName) {
         for (int i = 0; i < playerList.size(); i++) {
             if (playerList.get(i).toLowerCase().equals(playerName.toLowerCase())) {
-                playerList.remove(i);
-                return true;
+                return removePlayer(i);
             }
         }
         return false;
