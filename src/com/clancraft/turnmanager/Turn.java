@@ -17,11 +17,33 @@ public class Turn {
     }
 
     public void nextTurn() {
-        String currPlayer = TurnManager.cycle.pop();
-
-        if (currPlayer != null) {
-            announceTurn(currPlayer);
+        String currPlayer = validatePlayerName(TurnManager.cycle.pop());
+        for (int i = 0; currPlayer == null; i++) {
+            currPlayer = validatePlayerName(TurnManager.cycle.pop());
+            if (i >= TurnManager.cycle.size()) {
+                Bukkit.broadcastMessage("No player in the cycle is currently present!");
+                return;
+            }
         }
+
+        announceTurn(currPlayer);
+    }
+
+    /**
+     * Helper method to validate player name to be added.
+     * 
+     * @param input name of the player to be validated
+     * @return the actual player name with proper capitalization
+     */
+    private String validatePlayerName(String input) {
+        Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
+        while (playerIter.hasNext()) {
+            String currPlayer = playerIter.next().getName();
+            if (input.toLowerCase().equals(currPlayer.toLowerCase())) {
+                return currPlayer;
+            }
+        }
+        return null;
     }
 
     public void startTimer() {
@@ -37,6 +59,4 @@ public class Turn {
         timer.halt();
         timer = null;
     }
-    
-    //TODO add functionality where it automatically skips players who's not present
 }
