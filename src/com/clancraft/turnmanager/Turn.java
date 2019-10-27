@@ -1,6 +1,9 @@
 package com.clancraft.turnmanager;
 
+import java.util.Iterator;
+
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class Turn {
     private TurnTimer timer;
@@ -47,11 +50,15 @@ public class Turn {
     }
 
     public void startTimer() {
+        startTimer(15);
+    }
+
+    public void startTimer(int minute) {
         if (timer != null) {
             timer.halt();
         }
 
-        timer = new TurnTimer();
+        timer = new TurnTimer(minute);
         timer.start();
     }
 
