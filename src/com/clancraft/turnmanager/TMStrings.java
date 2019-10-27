@@ -26,7 +26,7 @@ public class TMStrings {
 
     public static final String CURRENT_PLAYER_ANNOUNCE = PLUGIN_PREFIX + "Current player is: %s\n" + "%s\n";
 
-    public static final String TIMER_INITIAL = "Turn has started. %d minutes remaining in this turn.";
+    public static final String TIMER_INITIAL = "Turn has started.";
     public static final String TIMER_COUNTDOWN = "%d minutes remaining in this turn.";
     public static final String TIMER_TIMEUP = "The time for this turn is up!";
     public static final String TIMER_OVERTIME = "This turn is %d minutes over time!";
