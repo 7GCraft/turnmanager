@@ -3,6 +3,8 @@ package com.clancraft.turnmanager;
 import org.bukkit.Bukkit;
 
 public class Turn {
+    private TurnTimer timer;
+
     public void announceTurn(String currPlayer) {
         String turnSequence = TurnManager.cycle.toString();   
     
@@ -22,7 +24,19 @@ public class Turn {
         }
     }
 
-    //TODO timer functionality
+    public void startTimer() {
+        if (timer != null) {
+            timer.halt();
+        }
+
+        timer = new TurnTimer();
+        timer.start();
+    }
+
+    public void stopTimer() {
+        timer.halt();
+        timer = null;
+    }
     
     //TODO add functionality where it automatically skips players who's not present
 }
