@@ -2,6 +2,9 @@ package com.clancraft.turnmanager;
 
 import org.bukkit.ChatColor;
 
+/**
+ * A class to store String prompts for all other methods.
+ */
 public class TMStrings {
     public static final String PLUGIN_PREFIX = ChatColor.DARK_RED + "[" + ChatColor.GOLD + "TurnManager" + ChatColor.DARK_RED + "]" + ChatColor.GOLD + " ";
 
