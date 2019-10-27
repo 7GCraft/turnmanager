@@ -33,7 +33,7 @@ public class TurnTimer extends Thread {
             minutesRemaining -= 5;
         }
 
-        while (!terminateNow) {
+        while (!terminateNow && minutesRemaining < 60) {
             Bukkit.broadcastMessage(String.format(TMStrings.TIMER_OVERTIME, minutesRemaining));
             try {
                 Thread.sleep(ONE_MINUTE);
