@@ -1,5 +1,7 @@
 package com.clancraft.turnmanager;
 
+import org.bukkit.Bukkit;
+
 public class TurnTimer extends Thread {
     private final int FIVE_MINUTES = 300000;
     private final int ONE_MINUTE = 60000;
@@ -13,12 +15,12 @@ public class TurnTimer extends Thread {
 
     @Override
     public void run() {
-        System.out.println(String.format(TMStrings.TIMER_INITIAL, minutesRemaining));
+        Bukkit.broadcastMessage(String.format(TMStrings.TIMER_INITIAL, minutesRemaining));
         while (!terminateNow) {
             if (minutesRemaining > 0) {
-                System.out.println(String.format(TMStrings.TIMER_COUNTDOWN, minutesRemaining));
+                Bukkit.broadcastMessage(String.format(TMStrings.TIMER_COUNTDOWN, minutesRemaining));
             } else {
-                System.out.println(String.format(TMStrings.TIMER_TIMEUP, minutesRemaining));
+                Bukkit.broadcastMessage(String.format(TMStrings.TIMER_TIMEUP, minutesRemaining));
                 break;
             }
 
@@ -32,7 +34,7 @@ public class TurnTimer extends Thread {
         }
 
         while (!terminateNow) {
-            System.out.println(String.format(TMStrings.TIMER_OVERTIME, minutesRemaining));
+            Bukkit.broadcastMessage(String.format(TMStrings.TIMER_OVERTIME, minutesRemaining));
             try {
                 Thread.sleep(ONE_MINUTE);
             } catch (Exception InterruptedException) {
