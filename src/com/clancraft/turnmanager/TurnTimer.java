@@ -14,30 +14,31 @@ public class TurnTimer extends Thread {
     @Override
     public void run() {
         System.out.println(String.format(TMStrings.TIMER_INITIAL, minutesRemaining));
-        while(!terminateNow) {
+        while (!terminateNow) {
+            if (minutesRemaining > 0) {
+                System.out.println(String.format(TMStrings.TIMER_COUNTDOWN, minutesRemaining));
+            } else {
+                System.out.println(String.format(TMStrings.TIMER_TIMEUP, minutesRemaining));
+                break;
+            }
+
             try {
                 Thread.sleep(FIVE_MINUTES);
             } catch (Exception InterruptedException) {
                 System.err.println("My slumber is disturbed.");
             }
-            
+
             minutesRemaining -= 5;
-            if (minutesRemaining > 0) {
-                System.out.println(String.format(TMStrings.TIMER_COUNTDOWN, minutesRemaining));
-            } else {
-                System.out.println(String.format(TMStrings.TIMER_TIMEUP, minutesRemaining));
-                break;                
-            }
         }
 
         while (!terminateNow) {
+            System.out.println(String.format(TMStrings.TIMER_OVERTIME, minutesRemaining));
             try {
                 Thread.sleep(ONE_MINUTE);
             } catch (Exception InterruptedException) {
                 System.err.println("My rest is disturbed.");
             }
             minutesRemaining += 1;
-            System.out.println(String.format(TMStrings.TIMER_OVERTIME, minutesRemaining));
         }
     }
 }
