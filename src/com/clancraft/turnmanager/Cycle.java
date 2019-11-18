@@ -27,7 +27,7 @@ public class Cycle {
      * Advances the internal state of the cycle, returns the next player.
      * @return name of the next player
      */
-    public String pop() {
+    public String next() {
         currIndex = (currIndex + 1) % playerList.size();
         try {
             return playerList.get(currIndex);

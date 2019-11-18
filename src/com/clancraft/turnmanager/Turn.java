@@ -20,9 +20,9 @@ public class Turn {
     }
 
     public void nextTurn() {
-        String currPlayer = validatePlayerName(TurnManager.cycle.pop());
+        String currPlayer = validatePlayerName(TurnManager.cycle.next());
         for (int i = 0; currPlayer == null; i++) {
-            currPlayer = validatePlayerName(TurnManager.cycle.pop());
+            currPlayer = validatePlayerName(TurnManager.cycle.next());
             if (i >= TurnManager.cycle.size()) {
                 Bukkit.broadcastMessage("No player in the cycle is currently present!");
                 return;
