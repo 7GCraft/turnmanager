@@ -20,7 +20,8 @@ public class Cycle {
      */
     public Cycle() {
         playerList = new ArrayList<String>();
-        currIndex = -1;
+        playerList.add("Break");
+        currIndex = 0;
     }
 
     /**
@@ -37,12 +38,7 @@ public class Cycle {
      */
     public String next() {
         currIndex = (currIndex + 1) % playerList.size();
-        try {
-            return playerList.get(currIndex);
-        } catch (IndexOutOfBoundsException e) {
-            //TODO put an error message in logger here
-            return null;
-        }
+        return currentPlayer();
     }
 
     /**
@@ -51,20 +47,7 @@ public class Cycle {
      * @return whether player was added successfully
      */
     public boolean addPlayer(String playerName) {
-        // checks whether player already exists inside the list
-        for (String s : playerList) {
-            if (s.toLowerCase().equals(playerName.toLowerCase())) {
-                return false;
-            }
-        }
-
-        String validatedName = validatePlayerName(playerName);
-        if (validatedName == null) {
-            return false;
-        }
-
-        playerList.add(validatedName);
-        return true;
+        return addPlayer(playerName, size());
     }
 
     /**
@@ -74,6 +57,10 @@ public class Cycle {
      * @return whether player was added successfully
      */
     public boolean addPlayer(String playerName, int spot) {
+        if (spot < 0 || spot > size()) {
+            return false;
+        }
+
         // checks whether player already exists inside the list
         for (String s : playerList) {
             if (s.toLowerCase().equals(playerName.toLowerCase())) {
@@ -116,7 +103,7 @@ public class Cycle {
      * @return whether player was removed successfully
      */
     public boolean removePlayer(String playerName) {
-        for (int i = 0; i < playerList.size(); i++) {
+        for (int i = 0; i < size(); i++) {
             if (playerList.get(i).toLowerCase().equals(playerName.toLowerCase())) {
                 return removePlayer(i);
             }
@@ -130,11 +117,11 @@ public class Cycle {
      * @return whether player was removed successfully
      */
     public boolean removePlayer(int spot) {
-        try {
-            playerList.remove(spot);
-        } catch (IndexOutOfBoundsException e) {
+        if (spot < 0 || spot >= size()) {
             return false;
         }
+
+        playerList.remove(spot);
 
         if (spot <= currIndex) {
             currIndex--;
@@ -153,7 +140,7 @@ public class Cycle {
         int index1 = -1;
         int index2 = -1;
 
-        for (int i = 0; i < playerList.size(); i++) {
+        for (int i = 0; i < size(); i++) {
             if (playerList.get(i).toLowerCase().equals(playerName1.toLowerCase())) {
                 index1 = i;
             }
@@ -176,6 +163,14 @@ public class Cycle {
      * @return whether the players were swapped successfully
      */
     public boolean swap(int index1, int index2) {
+        if (index1 < 0 || index1 >= size()) {
+            return false;
+        }
+
+        if (index2 < 0 || index2 >= size()) {
+            return false;
+        }
+
         if (index1 < currIndex && index2 > currIndex || 
             index2 < currIndex && index1 > currIndex) {
             return false;
@@ -193,7 +188,7 @@ public class Cycle {
      * @return number of players in the cycle
      */
     public int size() {
-        return playerList.size();
+        return playerList.size() - 1; // - 1 to account for "Break"
     }
 
     /**
@@ -211,11 +206,11 @@ public class Cycle {
      */
     public String toString() {
     	StringBuilder turnSequence = new StringBuilder();
-    	
-        for (String s : playerList) {
-            turnSequence.append( s + " -> ");
+        turnSequence.append(playerList.get(0)); // guaranteed to have index 0
+        
+        for (int i = 1; i < playerList.size(); i++) {
+            turnSequence.append(" -> " + playerList.get(i));
         }
-        turnSequence.append("END OF CYCLE");
         
         return turnSequence.toString();
     }
