@@ -24,6 +24,14 @@ public class Cycle {
     }
 
     /**
+     * Returns the current player.
+     * @return name of the current player
+     */
+    public String currentPlayer() {
+        return playerList.get(currIndex);
+    }
+
+    /**
      * Advances the internal state of the cycle, returns the next player.
      * @return name of the next player
      */
