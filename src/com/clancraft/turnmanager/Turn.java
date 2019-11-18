@@ -8,6 +8,9 @@ import org.bukkit.entity.Player;
 public class Turn {
     private TurnTimer timer;
 
+    /**
+     * Announces the current player's turn along with the entire sequence.
+     */
     public void announceTurn() {
         String currPlayer = TurnManager.cycle.currentPlayer();
         String turnSequence = TurnManager.cycle.toString();   
@@ -20,6 +23,10 @@ public class Turn {
     	return false;
     }
 
+    /**
+     * Advances Cycle until it finds an available player. Then, automatically
+     * announce that player's turn.
+     */
     public void nextTurn() {
         // while next player is not available
         for (int i = 0; !checkPlayerAvailability(TurnManager.cycle.next()); i++) {
