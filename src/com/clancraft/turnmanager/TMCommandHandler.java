@@ -59,7 +59,7 @@ public class TMCommandHandler implements CommandExecutor {
         switch (args[1]) {
             case "list":
                 if (player.hasPermission(TMStrings.CYCLE_LIST_PERMISSION)) {
-                	player.sendMessage(String.format(TMStrings.PLAYER_LIST, TurnManager.cycle.toString()));
+                	player.sendMessage(String.format(TMStrings.ANNOUNCE_SEQUENCE, TurnManager.cycle.toString()));
                 } else {
                 	player.sendMessage(TMStrings.NO_PERMISSION_ERROR);
                 }

@@ -13,8 +13,6 @@ public class TMStrings {
     public static final String INVALID_ARGUMENT_ERROR = PLUGIN_PREFIX + ChatColor.RED + "Invalid argument.";
     public static final String NO_PERMISSION_ERROR = PLUGIN_PREFIX + ChatColor.RED + "You don't have permission to do that.";
 
-    public static final String PLAYER_LIST = PLUGIN_PREFIX + "%s";
-
     public static final String ADD_PLAYER_SUCCESS = PLUGIN_PREFIX + "%s has been added to the turn sequence.";
     public static final String ADD_PLAYER_FAILED = PLUGIN_PREFIX + ChatColor.RED + "%s could not be added to the turn sequence.";
 
@@ -24,7 +22,8 @@ public class TMStrings {
     public static final String SWAP_PLAYER_SUCCESS = PLUGIN_PREFIX + "%s and %s have been swapped in the turn sequence.";
     public static final String SWAP_PLAYER_FAILED = PLUGIN_PREFIX + ChatColor.RED + "%s and %s could not be swapped in the turn sequence.";
 
-    public static final String CURRENT_PLAYER_ANNOUNCE = PLUGIN_PREFIX + "Current player is: %s\n" + "%s\n";
+    public static final String ANNOUNCE_CURRENT_PLAYER = PLUGIN_PREFIX + "Current player is: %s";
+    public static final String ANNOUNCE_SEQUENCE = PLUGIN_PREFIX + "Sequence: %s";
 
     public static final String TIMER_INITIAL = "Turn has started.";
     public static final String TIMER_COUNTDOWN = "%d minutes remaining in this turn.";
