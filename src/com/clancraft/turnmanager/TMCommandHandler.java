@@ -20,6 +20,8 @@ public class TMCommandHandler implements CommandExecutor {
                     case "turn":
                         handleTurn(player, args);
                         break;
+                    case "timer":
+                        handleTimer(player, args);
                     default:
                         player.sendMessage(TMStrings.INVALID_ARGUMENT_ERROR);
                         break;
@@ -33,7 +35,25 @@ public class TMCommandHandler implements CommandExecutor {
         return true;
     }
 
-    public boolean handleTurn(Player player, String[] args) {
+    public void handleTimer(Player player, String[] args) {
+        switch(args[1]) {
+            case "start":
+                if (args.length > 2) {
+                    TurnManager.turn.startTimer(Integer.parseInt(args[2]));
+                } else {
+                    TurnManager.turn.startTimer();
+                }
+                break;
+            case "stop":
+                TurnManager.turn.stopTimer();
+                break;
+            default:
+                player.sendMessage(TMStrings.INVALID_ARGUMENT_ERROR);
+                break;
+        }
+    }
+
+    public void handleTurn(Player player, String[] args) {
         switch(args[1]) {
             case "next":
                 if (player.hasPermission(TMStrings.TURN_NEXT_PERMISSION)) {
@@ -52,10 +72,9 @@ public class TMCommandHandler implements CommandExecutor {
             	player.sendMessage(TMStrings.INVALID_ARGUMENT_ERROR);
                 break;
         }
-        return true;
     }
 
-    public boolean handleCycle(Player player, String[] args) {
+    public void handleCycle(Player player, String[] args) {
         switch (args[1]) {
             case "list":
                 if (player.hasPermission(TMStrings.CYCLE_LIST_PERMISSION)) {
@@ -101,6 +120,5 @@ public class TMCommandHandler implements CommandExecutor {
                 player.sendMessage(TMStrings.INVALID_ARGUMENT_ERROR);
                 break;
         }
-        return true;
     }
 }
