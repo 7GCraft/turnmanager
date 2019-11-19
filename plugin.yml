@@ -8,13 +8,13 @@ commands:
 
 permissions:
    tm.cycle:
-   	  description: Allows you to access all cycle commands.
-   	  default: op
-   	  children:
-   	     tm.cycle.list: true
-   	     tm.cycle.add: true
-   	     tm.cycle.remove: true
-   	     tm.cycle.swap: true
+        description: Allows you to access all cycle commands.
+        default: op
+        children:
+           tm.cycle.list: true
+           tm.cycle.add: true
+           tm.cycle.remove: true
+           tm.cycle.swap: true
    tm.cycle.list:
       description: Allows you to see the turn cycle.
       default: op
