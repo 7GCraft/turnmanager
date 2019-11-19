@@ -38,10 +38,11 @@ public class Turn {
         }
 
         announceTurn();
+        stopTimer();
+        startTimer();
     }
 
     /**
-     * TODO: also check for AFK
      * Helper method to check whether player is currently available
      * A player is available if the player is online
      * 
