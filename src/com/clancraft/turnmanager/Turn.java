@@ -74,7 +74,9 @@ public class Turn {
     }
 
     public void stopTimer() {
-        timer.halt();
-        timer = null;
+        if (timer != null) {
+            timer.halt();
+            timer = null;
+        }
     }
 }
