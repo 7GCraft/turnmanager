@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 /**
  * A class to store String prompts for all other methods.
  */
-public class TMStrings {
+public class TMConstants {
     public static final String PLUGIN_PREFIX = ChatColor.DARK_RED + "[" + ChatColor.GOLD + "TurnManager" + ChatColor.DARK_RED + "]" + ChatColor.GOLD + " ";
 
     public static final String MISSING_ARGUMENT_ERROR = PLUGIN_PREFIX + "/tm requires an argument!\n" + 

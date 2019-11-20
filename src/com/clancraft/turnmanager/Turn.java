@@ -15,8 +15,8 @@ public class Turn {
         String currPlayer = TurnManager.cycle.currentPlayer();
         String turnSequence = TurnManager.cycle.toString();   
     
-        Bukkit.broadcastMessage(String.format(TMStrings.ANNOUNCE_CURRENT_PLAYER, currPlayer));
-        Bukkit.broadcastMessage(String.format(TMStrings.ANNOUNCE_SEQUENCE, turnSequence));
+        Bukkit.broadcastMessage(String.format(TMConstants.ANNOUNCE_CURRENT_PLAYER, currPlayer));
+        Bukkit.broadcastMessage(String.format(TMConstants.ANNOUNCE_SEQUENCE, turnSequence));
     }
     
     //TODO what does this do? Put the last person back in the queue?

@@ -32,12 +32,12 @@ public class TurnTimer extends Thread {
      */
     @Override
     public void run() {
-        Bukkit.broadcastMessage(String.format(TMStrings.TIMER_INITIAL, minutesRemaining));
+        Bukkit.broadcastMessage(String.format(TMConstants.TIMER_INITIAL, minutesRemaining));
         while (!terminateNow) {
             if (minutesRemaining > 0) {
-                Bukkit.broadcastMessage(String.format(TMStrings.TIMER_COUNTDOWN, minutesRemaining));
+                Bukkit.broadcastMessage(String.format(TMConstants.TIMER_COUNTDOWN, minutesRemaining));
             } else {
-                Bukkit.broadcastMessage(String.format(TMStrings.TIMER_TIMEUP, minutesRemaining));
+                Bukkit.broadcastMessage(String.format(TMConstants.TIMER_TIMEUP, minutesRemaining));
                 break;
             }
 
@@ -56,7 +56,7 @@ public class TurnTimer extends Thread {
         }
 
         while (!terminateNow && minutesRemaining < MAX_OVERTIME_MINS) {
-            Bukkit.broadcastMessage(String.format(TMStrings.TIMER_OVERTIME, minutesRemaining));
+            Bukkit.broadcastMessage(String.format(TMConstants.TIMER_OVERTIME, minutesRemaining));
             try {
                 Thread.sleep(OVERTIME_INTERVAL * MIN_TO_MS);
             } catch (Exception InterruptedException) {
