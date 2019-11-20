@@ -41,4 +41,8 @@ public class TMStrings {
     public static final String TURN_PERMISSION = "tm.turn";
     public static final String TURN_NEXT_PERMISSION = TURN_PERMISSION + ".next";
     public static final String TURN_ANNOUNCE_PERMISSION = TURN_PERMISSION + ".announce";
+    
+    public static final String TIMER_PERMISSION = "tm.timer";
+    public static final String TIMER_START_PERMISSION = TIMER_PERMISSION + ".start";
+    public static final String TIMER_STOP_PERMISSION = TIMER_PERMISSION + ".stop";
 }

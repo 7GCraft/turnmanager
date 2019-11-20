@@ -39,3 +39,15 @@ permissions:
    tm.turn.announce:
       description: Allows you to announce the current turn.
       default: op
+   tm.timer:
+      description: Allows you to access all turn  commands.
+      default: op
+      children:
+         tm.timer.start: true
+         tm.timer.stop: true
+   tm.timer.start:
+      description: Allows you to start the turn timer.
+      default: op
+   tm.timer.stop:
+      description: Allows you to stop the turn timer.
+      default: op

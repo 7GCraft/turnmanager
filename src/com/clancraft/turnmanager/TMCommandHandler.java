@@ -38,6 +38,8 @@ public class TMCommandHandler implements CommandExecutor {
     public void handleTimer(Player player, String[] args) {
         switch(args[1]) {
             case "start":
+            	// TO-DO:
+            	// add permission validation
                 if (args.length > 2) {
                     TurnManager.turn.startTimer(Integer.parseInt(args[2]));
                 } else {
@@ -45,7 +47,12 @@ public class TMCommandHandler implements CommandExecutor {
                 }
                 break;
             case "stop":
-                TurnManager.turn.stopTimer();
+            	if (player.hasPermission(TMStrings.TIMER_STOP_PERMISSION)) {
+            		TurnManager.turn.stopTimer();
+            	}
+            	else {
+            		player.sendMessage(TMStrings.NO_PERMISSION_ERROR);
+            	}
                 break;
             default:
                 player.sendMessage(TMStrings.INVALID_ARGUMENT_ERROR);
