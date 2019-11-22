@@ -12,24 +12,25 @@ public class TMCommandHandler implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            if (args.length > 0) {
-                switch (args[0]) {
-                    case "cycle":
-                        handleCycle(player, args);
-                        break;
-                    case "turn":
-                        handleTurn(player, args);
-                        break;
-                    case "timer":
-                        handleTimer(player, args);
-                        break;
-                    default:
-                        player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
-                        break;
-                }
-            } else {
+            if (args.length < 1) {
                 //tm has no argument
                 player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+                return true;
+            }
+
+            switch (args[0]) {
+            case "cycle":
+                handleCycle(player, args);
+                break;
+            case "turn":
+                handleTurn(player, args);
+                break;
+            case "timer":
+                handleTimer(player, args);
+                break;
+            default:
+                player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
+                break;
             }
         }
 
@@ -37,6 +38,13 @@ public class TMCommandHandler implements CommandExecutor {
     }
 
     public void handleTimer(Player player, String[] args) {
+        if (args.length < 2) {
+            // tm timer missing 1 argument
+            // TODO add a tm timer custom error message
+            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            return;
+        }
+
         switch(args[1]) {
             case "start":
             	// TO-DO:
@@ -62,6 +70,13 @@ public class TMCommandHandler implements CommandExecutor {
     }
 
     public void handleTurn(Player player, String[] args) {
+        if (args.length < 2) {
+            // tm turn missing 1 argument
+            // TODO add a tm turn custom error message
+            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            return;
+        }
+
         switch(args[1]) {
             case "next":
                 if (player.hasPermission(TMConstants.TURN_NEXT_PERMISSION)) {
@@ -83,6 +98,13 @@ public class TMCommandHandler implements CommandExecutor {
     }
 
     public void handleCycle(Player player, String[] args) {
+        if (args.length < 2) {
+            // tm cycle missing 1 argument
+            // TODO add a tm cycle custom error message
+            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            return;
+        }
+
         switch (args[1]) {
             case "list":
                 if (player.hasPermission(TMConstants.CYCLE_LIST_PERMISSION)) {
@@ -92,6 +114,13 @@ public class TMCommandHandler implements CommandExecutor {
                 }
                 break;
             case "add":
+                if (args.length < 3) {
+                    // tm cycle add missing 1 argument
+                    // TODO add a tm cycle add custom error message
+                    player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+                    return;
+                }
+
                 if (player.hasPermission(TMConstants.CYCLE_ADD_PERMISSION)) {
                 	if (TurnManager.cycle.addPlayer(args[2])) {
                         player.sendMessage(String.format(TMConstants.ADD_PLAYER_SUCCESS, args[2]));
@@ -103,6 +132,13 @@ public class TMCommandHandler implements CommandExecutor {
                 }
                 break;
             case "remove":
+                if (args.length < 3) {
+                    // tm cycle remove missing 1 argument
+                    // TODO add a tm cycle remove custom error message
+                    player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+                    return;
+                }
+
                 if (player.hasPermission(TMConstants.CYCLE_REMOVE_PERMISSION)) {
                 	if (TurnManager.cycle.removePlayer(args[2])) {
                         player.sendMessage(String.format(TMConstants.REMOVE_PLAYER_SUCCESS, args[2]));
@@ -114,6 +150,13 @@ public class TMCommandHandler implements CommandExecutor {
                 }
                 break;
             case "swap":
+                if (args.length < 4) {
+                    // tm cycle swap missing 1 or 2 arguments
+                    // TODO add a tm cycle swap custom error message
+                    player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+                    return;
+                }
+
                 if (player.hasPermission(TMConstants.CYCLE_SWAP_PERMISSION)) {
                 	if (TurnManager.cycle.swap(args[2], args[3])) {
                         player.sendMessage(String.format(TMConstants.SWAP_PLAYER_SUCCESS, args[2], args[3]));
