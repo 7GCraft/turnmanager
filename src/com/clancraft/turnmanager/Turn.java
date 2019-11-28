@@ -5,6 +5,10 @@ import java.util.Iterator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+/**
+ * Class to handle Cycle input and output
+ * TODO make class static
+ */
 public class Turn {
     private TurnTimer timer;
 
@@ -60,10 +64,18 @@ public class Turn {
         return false;
     }
 
+    /**
+     * Starts the timer with the default value of 15 minutes.
+     */
     public void startTimer() {
         startTimer(15);
     }
 
+    /**
+     * Starts the timer for the specified minute
+     * 
+     * @param minute minutes to be counted
+     */
     public void startTimer(int minute) {
         if (timer != null) {
             timer.halt();
@@ -73,6 +85,9 @@ public class Turn {
         timer.start();
     }
 
+    /**
+     * Stops the timer
+     */
     public void stopTimer() {
         if (timer != null) {
             timer.halt();
