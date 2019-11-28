@@ -1,6 +1,5 @@
 package com.clancraft.turnmanager;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,7 +36,7 @@ public class TMCommandHandler implements CommandExecutor {
         return true;
     }
 
-    public void handleTimer(Player player, String[] args) {
+    private void handleTimer(Player player, String[] args) {
         if (args.length < 2) {
             // tm timer missing 1 argument
             // TODO add a tm timer custom error message
@@ -69,7 +68,7 @@ public class TMCommandHandler implements CommandExecutor {
         }
     }
 
-    public void handleTurn(Player player, String[] args) {
+    private void handleTurn(Player player, String[] args) {
         if (args.length < 2) {
             // tm turn missing 1 argument
             // TODO add a tm turn custom error message
@@ -97,7 +96,7 @@ public class TMCommandHandler implements CommandExecutor {
         }
     }
 
-    public void handleCycle(Player player, String[] args) {
+    private void handleCycle(Player player, String[] args) {
         if (args.length < 2) {
             // tm cycle missing 1 argument
             // TODO add a tm cycle custom error message
