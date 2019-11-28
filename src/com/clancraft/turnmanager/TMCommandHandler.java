@@ -5,8 +5,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * Class to handle commands passed from Bukkit.
+ */
 public class TMCommandHandler implements CommandExecutor {
-	
+	/**
+     * Overridden from CommandExecutor. 
+     * TODO comprehensive explanation
+     */
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
@@ -36,6 +42,12 @@ public class TMCommandHandler implements CommandExecutor {
         return true;
     }
 
+    /**
+     * Helper method to handle /tm timer ... commands.
+     * 
+     * @param player player who executed the command
+     * @param args   argument of the command calls
+     */
     private void handleTimer(Player player, String[] args) {
         if (args.length < 2) {
             // tm timer missing 1 argument
@@ -68,6 +80,12 @@ public class TMCommandHandler implements CommandExecutor {
         }
     }
 
+    /**
+     * Helper method to handle /tm turn ... commands.
+     * 
+     * @param player player who executed the command
+     * @param args   argument of the command calls
+     */
     private void handleTurn(Player player, String[] args) {
         if (args.length < 2) {
             // tm turn missing 1 argument
@@ -96,6 +114,12 @@ public class TMCommandHandler implements CommandExecutor {
         }
     }
 
+    /**
+     * Helper method to handle /tm cycle ... commands.
+     * 
+     * @param player player who executed the command
+     * @param args   argument of the command calls
+     */
     private void handleCycle(Player player, String[] args) {
         if (args.length < 2) {
             // tm cycle missing 1 argument
