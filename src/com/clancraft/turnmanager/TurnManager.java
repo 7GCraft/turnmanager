@@ -5,6 +5,10 @@ import java.util.logging.Logger;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Main driver class of the TurnManager plugin
+ * TODO method Javadocs
+ */
 public class TurnManager extends JavaPlugin {
     protected static Cycle cycle;
     protected static Turn turn;
