@@ -4,13 +4,14 @@ import org.bukkit.Bukkit;
 
 /**
  * A class to create threads that function as a timer. The timer duration is
- * configurable, and will keep alerting users after time is over. Timer thread 
+ * configurable, and will keep alerting users after time is over. Timer thread
  * automatically stops (by default) 60 minutes after time is over.
  */
 public class TurnTimer extends Thread {
     private final int MAX_OVERTIME_MINS = 60;
     private final int NORMAL_INTERVAL = 5;
     private final int OVERTIME_INTERVAL = 1;
+    private final int TIMER_RESOLUTION_MINS = 1;
     private final int MIN_TO_MS = 60000;
 
     private int minutesRemaining;
@@ -18,6 +19,7 @@ public class TurnTimer extends Thread {
 
     /**
      * Default constructor that accepts the duration of the timer.
+     * 
      * @param minute duration of the timer
      */
     public TurnTimer(int minute) {
@@ -35,34 +37,33 @@ public class TurnTimer extends Thread {
         Bukkit.broadcastMessage(String.format(TMConstants.TIMER_INITIAL, minutesRemaining));
         while (!terminateNow) {
             if (minutesRemaining > 0) {
-                Bukkit.broadcastMessage(String.format(TMConstants.TIMER_COUNTDOWN, minutesRemaining));
+                if (minutesRemaining % NORMAL_INTERVAL == 0) {
+                    Bukkit.broadcastMessage(String.format(TMConstants.TIMER_COUNTDOWN, minutesRemaining));
+                }
             } else {
                 Bukkit.broadcastMessage(String.format(TMConstants.TIMER_TIMEUP, minutesRemaining));
                 break;
             }
 
             try {
-                if (minutesRemaining >= NORMAL_INTERVAL) {
-                    Thread.sleep(NORMAL_INTERVAL * MIN_TO_MS);
-                    minutesRemaining -= NORMAL_INTERVAL;
-                } else {
-                    Thread.sleep(minutesRemaining * MIN_TO_MS);
-                    minutesRemaining -= minutesRemaining;
-                }
-                
+                Thread.sleep(TIMER_RESOLUTION_MINS * MIN_TO_MS);
+                minutesRemaining -= TIMER_RESOLUTION_MINS;
+
             } catch (Exception InterruptedException) {
                 // TODO print error message to logger.
             }
         }
 
         while (!terminateNow && minutesRemaining < MAX_OVERTIME_MINS) {
-            Bukkit.broadcastMessage(String.format(TMConstants.TIMER_OVERTIME, minutesRemaining));
+            if (minutesRemaining % OVERTIME_INTERVAL == 0) {
+                Bukkit.broadcastMessage(String.format(TMConstants.TIMER_OVERTIME, minutesRemaining));
+            }
             try {
-                Thread.sleep(OVERTIME_INTERVAL * MIN_TO_MS);
+                Thread.sleep(TIMER_RESOLUTION_MINS * MIN_TO_MS);
             } catch (Exception InterruptedException) {
                 // TODO print error message to logger.
             }
-            minutesRemaining += OVERTIME_INTERVAL;
+            minutesRemaining += TIMER_RESOLUTION_MINS;
         }
     }
 
