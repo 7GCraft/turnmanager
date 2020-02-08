@@ -16,6 +16,7 @@ public class TurnTimer extends Thread {
 
     private int minutesRemaining;
     private volatile boolean terminateNow = false;
+    private volatile boolean isPaused = false;
 
     /**
      * Default constructor that accepts the duration of the timer.
@@ -52,6 +53,10 @@ public class TurnTimer extends Thread {
             } catch (Exception InterruptedException) {
                 // TODO print error message to logger.
             }
+
+            if (isPaused) {
+                trap();
+            }
         }
 
         while (!terminateNow && minutesRemaining < MAX_OVERTIME_MINS) {
@@ -70,7 +75,25 @@ public class TurnTimer extends Thread {
     /**
      * Method to stop the execution of the thread.
      */
-    public void halt() {
+    public void haltTimer() {
         terminateNow = true;
+    }
+
+    public void pauseTimer() {
+        isPaused = true;
+    }
+
+    public void resumeTimer() {
+        isPaused = false;
+    }
+
+    private void trap() {
+        while (isPaused) {
+            try {
+                Thread.sleep(TIMER_RESOLUTION_MINS * MIN_TO_MS);
+            } catch (InterruptedException e) {
+                // TODO print error message to logger.
+            }
+        }
     }
 }
