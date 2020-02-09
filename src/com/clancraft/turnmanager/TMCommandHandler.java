@@ -73,9 +73,19 @@ public class TMCommandHandler implements CommandExecutor {
             }
             break;
         case "pause":
-            TurnManager.turn.pauseTimer();
+            if (player.hasPermission(TMConstants.TIMER_PAUSE_PERMISSION) {
+                TurnManager.turn.pauseTimer();
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
+            break;
         case "resume":
-            TurnManager.turn.resumeTimer();
+        if (player.hasPermission(TMConstants.TIMER_RESUME_PERMISSION) {
+                TurnManager.turn.resumeTimer();
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
+            break;
         default:
             player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
             break;
