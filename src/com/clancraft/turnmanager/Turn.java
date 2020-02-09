@@ -6,8 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
- * Class to handle Cycle input and output
- * TODO make class static
+ * Class to handle Cycle input and output TODO make class static
  */
 public class Turn {
     private TurnTimer timer;
@@ -17,15 +16,15 @@ public class Turn {
      */
     public void announceTurn() {
         String currPlayer = TurnManager.cycle.currentPlayer();
-        String turnSequence = TurnManager.cycle.toString();   
-    
+        String turnSequence = TurnManager.cycle.toString();
+
         Bukkit.broadcastMessage(String.format(TMConstants.ANNOUNCE_CURRENT_PLAYER, currPlayer));
         Bukkit.broadcastMessage(String.format(TMConstants.ANNOUNCE_SEQUENCE, turnSequence));
     }
-    
-    //TODO what does this do? Put the last person back in the queue?
+
+    // TODO what does this do? Put the last person back in the queue?
     public boolean reinstatePlayer() {
-    	return false;
+        return false;
     }
 
     /**
@@ -47,8 +46,8 @@ public class Turn {
     }
 
     /**
-     * Helper method to check whether player is currently available
-     * A player is available if the player is online
+     * Helper method to check whether player is currently available A player is
+     * available if the player is online
      * 
      * @param input name of the player to be checked
      * @return whether player specified is available
@@ -93,5 +92,19 @@ public class Turn {
             timer.haltTimer();
             timer = null;
         }
+    }
+
+    /**
+     * Pauses the current timer, with up to TIMER_RESOLUTION_MINS loss of time
+     */
+    public void pauseTimer() {
+        timer.pauseTimer();
+    }
+
+    /**
+     * Resumes the timer, with up to TIMER_RESOLUTION_MINS delay in starting
+     */
+    public void resumeTimer() {
+        timer.resumeTimer();
     }
 }
