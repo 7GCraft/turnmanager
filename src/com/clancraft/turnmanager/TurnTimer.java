@@ -79,14 +79,23 @@ public class TurnTimer extends Thread {
         terminateNow = true;
     }
 
+    /**
+     * Pauses the current timer, with up to TIMER_RESOLUTION_MINS loss of time
+     */
     public void pauseTimer() {
         isPaused = true;
     }
 
+    /**
+     * Resumes the timer, with up to TIMER_RESOLUTION_MINS delay in starting
+     */
     public void resumeTimer() {
         isPaused = false;
     }
 
+    /**
+     * Helper method to trap computation during timer pause
+     */
     private void trap() {
         while (isPaused) {
             try {
