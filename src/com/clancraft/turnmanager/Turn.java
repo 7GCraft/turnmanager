@@ -78,7 +78,7 @@ public class Turn {
      */
     public void startTimer(int minute) {
         if (timer != null) {
-            timer.halt();
+            timer.haltTimer();
         }
 
         timer = new TurnTimer(minute);
@@ -90,7 +90,7 @@ public class Turn {
      */
     public void stopTimer() {
         if (timer != null) {
-            timer.halt();
+            timer.haltTimer();
             timer = null;
         }
     }
