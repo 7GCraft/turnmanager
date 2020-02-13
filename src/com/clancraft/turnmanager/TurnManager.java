@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class TurnManager extends JavaPlugin {
     protected static Cycle cycle;
     protected static Turn turn;
+    protected static Teleport teleport;
 	
     public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
@@ -21,6 +22,7 @@ public class TurnManager extends JavaPlugin {
         
         cycle = new Cycle();
         turn = new Turn();
+        teleport = new Teleport();
 
         logger.info(pdfFile.getName() + " has been enabled! (v." + pdfFile.getVersion() + ")");
     }

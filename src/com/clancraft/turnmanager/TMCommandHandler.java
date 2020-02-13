@@ -32,6 +32,9 @@ public class TMCommandHandler implements CommandExecutor {
             case "timer":
                 handleTimer(player, args);
                 break;
+            case "teleport":
+            	TurnManager.teleport.teleport(player);
+            	break;
             default:
                 player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
                 break;
