@@ -33,7 +33,12 @@ public class TMCommandHandler implements CommandExecutor {
                 handleTimer(player, args);
                 break;
             case "teleport":
+            	// TODO add permission validation
+            	// TODO add shield validation
             	TurnManager.teleport.teleport(player);
+            	break;
+            case "shield":
+            	handleShield(player, args);
             	break;
             default:
                 player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
@@ -113,6 +118,8 @@ public class TMCommandHandler implements CommandExecutor {
         case "next":
             if (player.hasPermission(TMConstants.TURN_NEXT_PERMISSION)) {
                 TurnManager.turn.nextTurn();
+                // TODO this is supposed to be a callback, call it inside Turn?
+                TurnManager.shield.clearShield();
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
@@ -209,5 +216,45 @@ public class TMCommandHandler implements CommandExecutor {
             player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
             break;
         }
+    }
+    
+    /**
+     * Helper method to handle /tm shield ... commands.
+     * 
+     * @param player player who executed the command
+     * @param args   argument of the command calls
+     */
+    private void handleShield(Player player, String[] args) {
+    	if (args.length < 2) {
+            // tm shield missing 1 argument
+            // TODO add a tm shield custom error message
+            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            return;
+        }
+    	
+    	// TODO add permission validation
+    	switch (args[1]) {
+    	case "add":
+    		TurnManager.shield.addPlayer(args[2]);
+    		break;
+    	case "remove":
+    		TurnManager.shield.removePlayer(args[2]);
+    		break;
+    	case "all":
+    		TurnManager.shield.addAllPlayers();
+    		break;
+    	case "clear":
+    		TurnManager.shield.clearShield();
+    		break;
+    	case "list":
+    		player.sendMessage(TurnManager.shield.toString());
+    		break;
+    	case "on":
+    		TurnManager.shield.setIsToggled(true);
+    		break;
+    	case "off":
+    		TurnManager.shield.setIsToggled(false);
+    		break;
+    	}
     }
 }

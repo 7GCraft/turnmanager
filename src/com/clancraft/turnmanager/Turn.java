@@ -6,7 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
- * Class to handle Cycle input and output TODO make class static
+ * Class to handle Cycle input and output
+ * TODO make class static
  */
 public class Turn {
     private TurnTimer timer;

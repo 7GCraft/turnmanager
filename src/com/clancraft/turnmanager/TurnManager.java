@@ -13,6 +13,7 @@ public class TurnManager extends JavaPlugin {
     protected static Cycle cycle;
     protected static Turn turn;
     protected static Teleport teleport;
+    protected static Shield shield;
 	
     public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
