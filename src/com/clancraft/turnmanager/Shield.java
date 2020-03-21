@@ -1,6 +1,8 @@
 package com.clancraft.turnmanager;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.bukkit.Bukkit;
@@ -11,14 +13,14 @@ import org.bukkit.entity.Player;
  */
 public class Shield {
 	
-	private ArrayList<String> shieldList;
+	private HashMap<String, ArrayList<String>> shieldHashMap;
 	private boolean isToggled;
 	
 	/**
      * Default constructor. Initialises the fields.
      */
 	public Shield() {
-		shieldList = new ArrayList<String>();
+		// TODO load hash map from file
 		isToggled = false;
 	}
 	
@@ -28,6 +30,7 @@ public class Shield {
 	 * @return true if successful, false if unsuccessful
 	 */
 	public boolean addPlayer(String playerName) {
+		ArrayList<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer());
 		// checks whether player already exists inside the list
         for (String s : shieldList) {
             if (s.toLowerCase().equals(playerName.toLowerCase())) {
@@ -44,6 +47,9 @@ public class Shield {
 	 * TODO use addPlayer method here?
 	 */
 	public void addAllPlayers() {
+		clearShield();
+		
+		ArrayList<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer());
 		Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
         while (playerIter.hasNext()) {
             shieldList.add(playerIter.next().getName());
@@ -56,6 +62,7 @@ public class Shield {
 	 * @return true if successful, false if unsuccessful
 	 */
 	public boolean removePlayer(String playerName) {
+		ArrayList<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer());
 		for (int i = 0; i < shieldList.size(); i++) {
             if (shieldList.get(i).toLowerCase().equals(playerName.toLowerCase())) {
                 shieldList.remove(i);
@@ -69,7 +76,7 @@ public class Shield {
 	 * Empties the shield list.
 	 */
 	public void clearShield() {
-		shieldList.clear();
+		shieldHashMap.get(TurnManager.cycle.currentPlayer()).clear();
 	}
 	
 	/**
@@ -78,6 +85,7 @@ public class Shield {
      * TODO improve string format?
      */
     public String toString() {
+    	ArrayList<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer());
     	StringBuilder turnSequence = new StringBuilder();
         turnSequence.append(shieldList.get(0)); // guaranteed to have index 0
         
