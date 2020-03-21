@@ -1,6 +1,7 @@
 package com.clancraft.turnmanager;
 
 import java.io.File;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -147,5 +148,22 @@ public class Shield {
      */
     public void toggle(String playerName, boolean isToggled) {
         shieldHashMap.get(playerName).setIsToggled(isToggled);
+    }
+
+    public void writeShieldData(JavaPlugin plugin) {
+        List<String> playerList = new ArrayList<String>();
+        shieldHashMap.forEach((playerName, playerShieldData) -> {
+            playerList.add(playerName);
+
+            List<String> shieldList = new ArrayList<String>();
+            playerShieldData.getShieldList().forEach(k -> {
+                shieldList.add(k);
+            });
+
+            plugin.getConfig().set("shields." + playerName + ".toggle", playerShieldData.isToggled());
+            plugin.getConfig().set("shields." + playerName + ".list", shieldList);
+        });
+
+        plugin.getConfig().set("playerlist", playerList);
     }
 }
