@@ -235,25 +235,49 @@ public class TMCommandHandler implements CommandExecutor {
     	// TODO add permission validation
     	switch (args[1]) {
     	case "add":
-    		TurnManager.shield.addPlayer(args[2]);
+    		if (args.length == 4) {
+    			TurnManager.shield.addPlayer(args[2], args[3]);
+    		} else {
+    			TurnManager.shield.addPlayer(args[2]);
+    		}
     		break;
     	case "remove":
-    		TurnManager.shield.removePlayer(args[2]);
+    		if (args.length == 4) {
+    			TurnManager.shield.removePlayer(args[2], args[3]);
+    		} else {
+    			TurnManager.shield.removePlayer(args[2]);
+    		}
     		break;
     	case "all":
-    		TurnManager.shield.addAllPlayers();
+    		if (args.length == 3) {
+    			TurnManager.shield.addAllPlayers(args[2]);
+    		} else {
+    			TurnManager.shield.addAllPlayers();
+    		}
     		break;
     	case "clear":
-    		TurnManager.shield.clearShield();
+    		if (args.length == 3) {
+    			TurnManager.shield.clearShield(args[2]);
+    		} else {
+    			TurnManager.shield.clearShield();
+    		}
     		break;
     	case "list":
     		player.sendMessage(TurnManager.shield.toString());
     		break;
     	case "on":
-    		TurnManager.shield.setIsToggled(true);
+    		if (args.length == 4) {
+    			TurnManager.shield.toggle(args[2], true);
+    		} else {
+    			TurnManager.shield.toggle(true);
+    		}
     		break;
     	case "off":
-    		TurnManager.shield.setIsToggled(false);
+    		if (args.length == 4) {
+    			TurnManager.shield.toggle(args[2], false);
+    		} else {
+    			TurnManager.shield.toggle(false);
+    		}
     		break;
     	}
     }

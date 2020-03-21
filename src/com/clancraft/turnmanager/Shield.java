@@ -13,56 +13,82 @@ import org.bukkit.entity.Player;
  */
 public class Shield {
 	
-	private HashMap<String, ArrayList<String>> shieldHashMap;
-	private boolean isToggled;
+	private HashMap<String, ShieldData> shieldHashMap;
 	
 	/**
      * Default constructor. Initialises the fields.
      */
 	public Shield() {
-		// TODO load hash map from file
-		isToggled = false;
+		
 	}
 	
 	/**
-	 * Adds a player to the shield list.
+	 * Adds a player to the current player's shield list.
 	 * @param playerName player to be added to the shield list
 	 * @return true if successful, false if unsuccessful
 	 */
 	public boolean addPlayer(String playerName) {
-		ArrayList<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer());
+		return addPlayer(TurnManager.cycle.currentPlayer(), playerName);
+	}
+	
+	/**
+	 * Adds a player to a specified player's shield list.
+	 * @param shieldPlayerName player whose shield list is being added to
+	 * @param playerToAddName player to be added to the shield list
+	 * @param true if successful, false if unsuccessful
+	 */
+	public boolean addPlayer(String shieldPlayerName, String playerToAddName) {
+		ArrayList<String> shieldList = shieldHashMap.get(shieldPlayerName).getShieldList();
 		// checks whether player already exists inside the list
         for (String s : shieldList) {
-            if (s.toLowerCase().equals(playerName.toLowerCase())) {
+            if (s.toLowerCase().equals(playerToAddName.toLowerCase())) {
                 return false;
             }
         }
         
-        shieldList.add(playerName);
+        shieldList.add(playerToAddName);
         return true;
 	}
 	
 	/**
-	 * Adds all online players to the shield list.
-	 * TODO use addPlayer method here?
+	 * Adds all online players to the current player's shield list.
 	 */
 	public void addAllPlayers() {
-		clearShield();
+		addAllPlayers(TurnManager.cycle.currentPlayer());
+	}
+	
+	/**
+	 * Adds all online players to a specified player's shield list.
+	 * @param playerName player whose shield list is added all players to
+	 * TODO shorten the param description
+	 */
+	public void addAllPlayers(String playerName) {
+		clearShield(playerName);
 		
-		ArrayList<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer());
+		ArrayList<String> shieldList = shieldHashMap.get(playerName).getShieldList();
 		Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
         while (playerIter.hasNext()) {
-            shieldList.add(playerIter.next().getName());
+            addPlayer(playerName, playerIter.next().getName());
         }
 	}
 	
 	/**
-	 * Removes a player from the shield list.
+	 * Removes a player from the current player's shield list.
 	 * @param playerName player to be removed from the list
 	 * @return true if successful, false if unsuccessful
 	 */
 	public boolean removePlayer(String playerName) {
-		ArrayList<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer());
+		return removePlayer(TurnManager.cycle.currentPlayer(), playerName);
+	}
+	
+	/**
+	 * Removes a player from a specified player's shield list.
+	 * @param shieldPlayerName player whose shield list is being removed from
+	 * @param playerName player to be removed from the list
+	 * @return true if successful, false if unsuccessful
+	 */
+	public boolean removePlayer(String shieldPlayerName, String playerName) {
+		ArrayList<String> shieldList = shieldHashMap.get(shieldPlayerName).getShieldList();
 		for (int i = 0; i < shieldList.size(); i++) {
             if (shieldList.get(i).toLowerCase().equals(playerName.toLowerCase())) {
                 shieldList.remove(i);
@@ -73,10 +99,18 @@ public class Shield {
 	}
 	
 	/**
-	 * Empties the shield list.
+	 * Empties the current player's shield list.
 	 */
 	public void clearShield() {
-		shieldHashMap.get(TurnManager.cycle.currentPlayer()).clear();
+		clearShield(TurnManager.cycle.currentPlayer());
+	}
+	
+	/**
+	 * Empties a specified player's shield list.
+	 * @param playerName player whose shield list is to be cleared
+	 */
+	public void clearShield(String playerName) {
+		shieldHashMap.get(playerName).getShieldList().clear();
 	}
 	
 	/**
@@ -85,7 +119,7 @@ public class Shield {
      * TODO improve string format?
      */
     public String toString() {
-    	ArrayList<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer());
+    	ArrayList<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer()).getShieldList();
     	StringBuilder turnSequence = new StringBuilder();
         turnSequence.append(shieldList.get(0)); // guaranteed to have index 0
         
@@ -95,21 +129,31 @@ public class Shield {
         
         return turnSequence.toString();
     }
-	
-	/**
-	 * Getter for whether the shield is toggled on or not.
-	 * @return true if toggled on, false if toggled off.
-	 */
-	public boolean getIsToggled() {
-		return isToggled;
-	}
-	
-	/**
-	 * Setter to toggle the shield on or off.
-	 * @param isToggled on or off.
-	 */
-	public void setIsToggled(boolean isToggled) {
-		this.isToggled = isToggled;
-	}
-
+    
+    /**
+     * Toggles the current player's shield on or off.
+     * @param isToggled shield on or off
+     */
+    public void toggle(boolean isToggled) {
+    	toggle(TurnManager.cycle.currentPlayer(), isToggled);
+    }
+    
+    /**
+     * Toggles a specified player's shield on or off.
+     * @param playerName player whose shield is being toggled
+     * @param isToggled shield on or off
+     */
+    public void toggle(String playerName, boolean isToggled) {
+    	shieldHashMap.get(playerName).setIsToggled(isToggled);
+    }
+    
+    private HashMap<String, ArrayList<String>> readConfigFile(File file) {
+    	HashMap<String, ArrayList<String>> shields = new HashMap<String, ArrayList<String>>();
+    	
+    	
+    	
+    	return shields;
+    }
+    
+    
 }

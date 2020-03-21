@@ -35,6 +35,8 @@ public class TMConstants {
     public static final String TIMER_COUNTDOWN = "%d minutes remaining in this turn.";
     public static final String TIMER_TIMEUP = "The time for this turn is up!";
     public static final String TIMER_OVERTIME = "This turn is %d minutes over time!";
+    
+    public static final String SHIELDS_CONFIG_FILE_NAME = "shields.yml";
 
     // PERMISSIONS
     // TO-DO: make separate class?
@@ -53,4 +55,6 @@ public class TMConstants {
     public static final String TIMER_STOP_PERMISSION = TIMER_PERMISSION + ".stop";
     public static final String TIMER_PAUSE_PERMISSION = TIMER_PERMISSION + ".pause";
     public static final String TIMER_RESUME_PERMISSION = TIMER_PERMISSION + ".resume";
+    
+    
 }
