@@ -21,7 +21,7 @@ public class Shield {
      * Default constructor. Initialises the fields.
      */
     public Shield() {
-
+        shieldHashMap = new HashMap<>();
     }
 
     /**
@@ -117,8 +117,9 @@ public class Shield {
     /**
      * Returns a string representation of the shield list.
      * 
-     * @return players in the shield list TODO improve string format?
+     * @return players in the shield list
      */
+    // TODO improve string format?
     public String toString() {
         HashSet<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer()).getShieldList();
         StringBuilder turnSequence = new StringBuilder();
@@ -148,6 +149,22 @@ public class Shield {
      */
     public void toggle(String playerName, boolean isToggled) {
         shieldHashMap.get(playerName).setIsToggled(isToggled);
+    }
+
+    public void loadShieldData(JavaPlugin plugin) {
+        List<String> playerList = plugin.getConfig().getStringList("playerlist");
+        playerList.forEach(playerName -> {
+            boolean isToggled = plugin.getConfig().getBoolean("shields." + playerName + ".toggle");
+
+            HashSet<String> shieldList = new HashSet<>();
+            List<String> list = plugin.getConfig().getStringList("shields." + playerName + ".list");
+            list.forEach(shieldName -> {
+                shieldList.add(shieldName);
+            });
+
+            ShieldData data = new ShieldData(isToggled, shieldList);
+            shieldHashMap.put(playerName, data);
+        });
     }
 
     public void writeShieldData(JavaPlugin plugin) {
