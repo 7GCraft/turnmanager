@@ -3,6 +3,7 @@ package com.clancraft.turnmanager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.bukkit.Bukkit;
@@ -38,12 +39,10 @@ public class Shield {
 	 * @param true if successful, false if unsuccessful
 	 */
 	public boolean addPlayer(String shieldPlayerName, String playerToAddName) {
-		ArrayList<String> shieldList = shieldHashMap.get(shieldPlayerName).getShieldList();
+		HashSet<String> shieldList = shieldHashMap.get(shieldPlayerName).getShieldList();
 		// checks whether player already exists inside the list
-        for (String s : shieldList) {
-            if (s.toLowerCase().equals(playerToAddName.toLowerCase())) {
-                return false;
-            }
+        if (shieldList.contains(playerToAddName)) {
+        	return false;
         }
         
         shieldList.add(playerToAddName);
@@ -65,7 +64,7 @@ public class Shield {
 	public void addAllPlayers(String playerName) {
 		clearShield(playerName);
 		
-		ArrayList<String> shieldList = shieldHashMap.get(playerName).getShieldList();
+		HashSet<String> shieldList = shieldHashMap.get(playerName).getShieldList();
 		Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
         while (playerIter.hasNext()) {
             addPlayer(playerName, playerIter.next().getName());
@@ -88,13 +87,8 @@ public class Shield {
 	 * @return true if successful, false if unsuccessful
 	 */
 	public boolean removePlayer(String shieldPlayerName, String playerName) {
-		ArrayList<String> shieldList = shieldHashMap.get(shieldPlayerName).getShieldList();
-		for (int i = 0; i < shieldList.size(); i++) {
-            if (shieldList.get(i).toLowerCase().equals(playerName.toLowerCase())) {
-                shieldList.remove(i);
-                return true;
-            }
-        }
+		HashSet<String> shieldList = shieldHashMap.get(shieldPlayerName).getShieldList();
+		shieldList.remove("playerName");
         return false;
 	}
 	
@@ -119,12 +113,12 @@ public class Shield {
      * TODO improve string format?
      */
     public String toString() {
-    	ArrayList<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer()).getShieldList();
+    	HashSet<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer()).getShieldList();
     	StringBuilder turnSequence = new StringBuilder();
-        turnSequence.append(shieldList.get(0)); // guaranteed to have index 0
+        // turnSequence.append(shieldList.get(0)); // guaranteed to have index 0
         
         for (int i = 1; i < shieldList.size(); i++) {
-            turnSequence.append(", " + shieldList.get(i));
+            // turnSequence.append(", " + shieldList.get(i));
         }
         
         return turnSequence.toString();
@@ -146,14 +140,4 @@ public class Shield {
     public void toggle(String playerName, boolean isToggled) {
     	shieldHashMap.get(playerName).setIsToggled(isToggled);
     }
-    
-    private HashMap<String, ArrayList<String>> readConfigFile(File file) {
-    	HashMap<String, ArrayList<String>> shields = new HashMap<String, ArrayList<String>>();
-    	
-    	
-    	
-    	return shields;
-    }
-    
-    
 }

@@ -1,12 +1,12 @@
 package com.clancraft.turnmanager;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ShieldData {
 	private boolean isToggled;
-	private ArrayList<String> shieldList;
+	private HashSet<String> shieldList;
 	
-	public ShieldData(boolean isToggled, ArrayList<String> shieldList) {
+	public ShieldData(boolean isToggled, HashSet<String> shieldList) {
 		this.isToggled = isToggled;
 		this.shieldList = shieldList;
 	}
@@ -19,7 +19,7 @@ public class ShieldData {
 		this.isToggled = isToggled;
 	}
 	
-	public ArrayList<String> getShieldList() {
+	public HashSet<String> getShieldList() {
 		return shieldList;
 	}
 }
