@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * A class to handle shield functionality.
@@ -113,6 +114,14 @@ public class Shield {
     public void clearShield(String playerName) {
         shieldHashMap.get(playerName).getShieldList().clear();
     }
+    
+    public boolean isInShield(String playerName) {
+		return isInShield(TurnManager.cycle.currentPlayer(), playerName);
+	}
+	
+	public boolean isInShield(String playerShieldList, String playerName) {
+		return shieldHashMap.get(playerShieldList).getShieldList().contains(playerName);
+	}
 
     /**
      * Returns a string representation of the shield list.
