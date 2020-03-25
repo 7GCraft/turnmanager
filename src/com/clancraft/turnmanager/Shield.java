@@ -1,6 +1,5 @@
 package com.clancraft.turnmanager;
 
-import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +68,6 @@ public class Shield {
     public void addAllPlayers(String playerName) {
         clearShield(playerName);
 
-        HashSet<String> shieldList = shieldHashMap.get(playerName).getShieldList();
         Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
         while (playerIter.hasNext()) {
             addPlayer(playerName, playerIter.next().getName());
