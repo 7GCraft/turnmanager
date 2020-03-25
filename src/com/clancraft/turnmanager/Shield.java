@@ -130,11 +130,11 @@ public class Shield {
     public String toString() {
         HashSet<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer()).getShieldList();
         StringBuilder turnSequence = new StringBuilder();
-        // turnSequence.append(shieldList.get(0)); // guaranteed to have index 0
+        turnSequence.append(shieldList.toString());
 
-        for (int i = 1; i < shieldList.size(); i++) {
-            // turnSequence.append(", " + shieldList.get(i));
-        }
+        // for (int i = 1; i < shieldList.size(); i++) {
+        //    turnSequence.append(", " + shieldList.get(i));
+        // }
 
         return turnSequence.toString();
     }
