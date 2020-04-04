@@ -112,16 +112,16 @@ public class Shield {
     public void clearShield(String playerName) {
         shieldHashMap.get(playerName).getShieldList().clear();
     }
-    
+
     public boolean isInShield(String playerName) {
-		return isInShield(TurnManager.cycle.currentPlayer(), playerName);
-	}
-	
-	public boolean isInShield(String playerShieldList, String playerName) {
-		return shieldHashMap.get(playerShieldList).getShieldList().contains(playerName);
-	}
-	
-	/**
+        return isInShield(TurnManager.cycle.currentPlayer(), playerName);
+    }
+
+    public boolean isInShield(String playerShieldList, String playerName) {
+        return shieldHashMap.get(playerShieldList).getShieldList().contains(playerName);
+    }
+
+    /**
      * Returns a string representation of the shield list.
      * 
      * @return players in the shield list
@@ -193,11 +193,15 @@ public class Shield {
                 shieldList.add(k);
             });
             Bukkit.getLogger().info("shieldList: " + shieldList);
-            
-            plugin.getConfig().set("shields." + playerName + ".toggle", playerShieldData.isToggled());
-            plugin.getConfig().set("shields." + playerName + ".list", shieldList);
+
+            // plugin.getConfig().set("shields." + playerName + ".toggle",
+            // playerShieldData.isToggled());
+            // plugin.getConfig().set("shields." + playerName + ".list", shieldList);
+            plugin.getConfig().set(Long.toString(System.currentTimeMillis()), playerName);
+            plugin.getConfig().set(playerName + " toggle", playerShieldData.isToggled());
+            plugin.getConfig().set(playerName + " shield list", shieldList);
         });
 
-        plugin.getConfig().set("playerlist", playerList);
+        // plugin.getConfig().set("playerlist", playerList);
     }
 }
