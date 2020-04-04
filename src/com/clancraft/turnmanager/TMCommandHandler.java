@@ -119,7 +119,7 @@ public class TMCommandHandler implements CommandExecutor {
             if (player.hasPermission(TMConstants.TURN_NEXT_PERMISSION)) {
                 TurnManager.turn.nextTurn();
                 // TODO this is supposed to be a callback, call it inside Turn?
-                TurnManager.shield.clearShield();
+                // TurnManager.shield.clearShield();
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
@@ -263,7 +263,11 @@ public class TMCommandHandler implements CommandExecutor {
     		}
     		break;
     	case "list":
-    		player.sendMessage(TurnManager.shield.toString());
+    		if (args.length == 3) {
+    			player.sendMessage(TurnManager.shield.toString(args[2]));
+    		} else {
+    			player.sendMessage(TurnManager.shield.toString());
+    		}
     		break;
     	case "on":
     		if (args.length == 4) {

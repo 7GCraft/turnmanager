@@ -120,6 +120,17 @@ public class Shield {
 	public boolean isInShield(String playerShieldList, String playerName) {
 		return shieldHashMap.get(playerShieldList).getShieldList().contains(playerName);
 	}
+	
+	/**
+     * Returns a string representation of the shield list.
+     * 
+     * @return players in the shield list
+     */
+    // TODO improve string format?
+    public String toString(String playerName) {
+        HashSet<String> shieldList = shieldHashMap.get(playerName).getShieldList();
+        return shieldList.toString();
+    }
 
     /**
      * Returns a string representation of the shield list.
@@ -128,15 +139,7 @@ public class Shield {
      */
     // TODO improve string format?
     public String toString() {
-        HashSet<String> shieldList = shieldHashMap.get(TurnManager.cycle.currentPlayer()).getShieldList();
-        StringBuilder turnSequence = new StringBuilder();
-        turnSequence.append(shieldList.toString());
-
-        // for (int i = 1; i < shieldList.size(); i++) {
-        //    turnSequence.append(", " + shieldList.get(i));
-        // }
-
-        return turnSequence.toString();
+        return toString(TurnManager.cycle.currentPlayer());
     }
 
     /**
@@ -160,17 +163,22 @@ public class Shield {
 
     public void loadShieldData(JavaPlugin plugin) {
         List<String> playerList = plugin.getConfig().getStringList("playerlist");
+        Bukkit.getLogger().info("playerList: " + playerList);
         playerList.forEach(playerName -> {
             boolean isToggled = plugin.getConfig().getBoolean("shields." + playerName + ".toggle");
+            Bukkit.getLogger().info("isToggled: " + isToggled);
 
             HashSet<String> shieldList = new HashSet<>();
             List<String> list = plugin.getConfig().getStringList("shields." + playerName + ".list");
+            Bukkit.getLogger().info("list: " + list);
             list.forEach(shieldName -> {
                 shieldList.add(shieldName);
             });
+            Bukkit.getLogger().info("shieldList: " + shieldList);
 
             ShieldData data = new ShieldData(isToggled, shieldList);
             shieldHashMap.put(playerName, data);
+            Bukkit.getLogger().info(shieldHashMap.get(playerName).getShieldList().toString());
         });
     }
 
@@ -178,12 +186,14 @@ public class Shield {
         List<String> playerList = new ArrayList<String>();
         shieldHashMap.forEach((playerName, playerShieldData) -> {
             playerList.add(playerName);
+            Bukkit.getLogger().info("playerList: " + playerList);
 
             List<String> shieldList = new ArrayList<String>();
             playerShieldData.getShieldList().forEach(k -> {
                 shieldList.add(k);
             });
-
+            Bukkit.getLogger().info("shieldList: " + shieldList);
+            
             plugin.getConfig().set("shields." + playerName + ".toggle", playerShieldData.isToggled());
             plugin.getConfig().set("shields." + playerName + ".list", shieldList);
         });
