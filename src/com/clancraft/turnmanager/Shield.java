@@ -208,9 +208,10 @@ public class Shield {
             this.getShieldConfig().set("shields." + playerName + ".toggle", playerShieldData.isToggled());
             this.getShieldConfig().set("shields." + playerName + ".list", shieldList);
 
-            this.saveShieldConfig();
             Bukkit.getLogger().info("getConfig().set() calls executed.");
         });
+        
+        this.saveShieldConfig();
     }
 
     private FileConfiguration getShieldConfig() {
