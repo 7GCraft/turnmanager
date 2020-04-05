@@ -6,7 +6,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,11 +22,17 @@ public class Shield {
 
     private HashMap<String, ShieldData> shieldHashMap;
 
+    private File shieldConfigFile;
+    private FileConfiguration shieldConfig;
+
     /**
      * Default constructor. Initialises the fields.
      */
-    public Shield() {
+    public Shield(JavaPlugin plugin) {
         shieldHashMap = new HashMap<>();
+
+        shieldConfigFile = new File(plugin.getDataFolder(), TMConstants.SHIELDS_CONFIG_FILE_NAME);
+        shieldConfig = YamlConfiguration.loadConfiguration(shieldConfigFile);
     }
 
     /**
@@ -161,15 +172,15 @@ public class Shield {
         shieldHashMap.get(playerName).setIsToggled(isToggled);
     }
 
-    public void loadShieldData(JavaPlugin plugin) {
-        List<String> playerList = plugin.getConfig().getStringList("playerlist");
+    public void loadShieldData() {
+        List<String> playerList = this.getShieldConfig().getStringList("playerlist");
         Bukkit.getLogger().info("playerList: " + playerList);
         playerList.forEach(playerName -> {
-            boolean isToggled = plugin.getConfig().getBoolean("shields." + playerName + ".toggle");
+            boolean isToggled = this.getShieldConfig().getBoolean("shields." + playerName + ".toggle");
             Bukkit.getLogger().info("isToggled: " + isToggled);
 
             HashSet<String> shieldList = new HashSet<>();
-            List<String> list = plugin.getConfig().getStringList("shields." + playerName + ".list");
+            List<String> list = this.getShieldConfig().getStringList("shields." + playerName + ".list");
             Bukkit.getLogger().info("list: " + list);
             list.forEach(shieldName -> {
                 shieldList.add(shieldName);
@@ -182,7 +193,7 @@ public class Shield {
         });
     }
 
-    public void writeShieldData(JavaPlugin plugin) {
+    public void writeShieldData() {
         List<String> playerList = new ArrayList<String>();
         shieldHashMap.forEach((playerName, playerShieldData) -> {
             playerList.add(playerName);
@@ -194,11 +205,23 @@ public class Shield {
             });
             Bukkit.getLogger().info("shieldList: " + shieldList);
 
-            plugin.getConfig().set("shields." + playerName + ".toggle", playerShieldData.isToggled());
-            plugin.getConfig().set("shields." + playerName + ".list", shieldList);
+            this.getShieldConfig().set("shields." + playerName + ".toggle", playerShieldData.isToggled());
+            this.getShieldConfig().set("shields." + playerName + ".list", shieldList);
 
-            plugin.saveConfig();
+            this.saveShieldConfig();
             Bukkit.getLogger().info("getConfig().set() calls executed.");
         });
+    }
+
+    private FileConfiguration getShieldConfig() {
+        return this.shieldConfig;
+    }
+
+    private void saveShieldConfig() {
+        try {
+            this.shieldConfig.save(shieldConfigFile);
+        } catch (IOException e) {
+            Bukkit.getLogger().warning("Unable to save shield data!");
+        }
     }
 }
