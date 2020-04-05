@@ -196,12 +196,9 @@ public class Shield {
 
             plugin.getConfig().set("shields." + playerName + ".toggle", playerShieldData.isToggled());
             plugin.getConfig().set("shields." + playerName + ".list", shieldList);
+
+            plugin.saveConfig();
             Bukkit.getLogger().info("getConfig().set() calls executed.");
         });
-        
-        // plugin.getConfig().set("shields." + "Dummy" + ".toggle", false);
-        // plugin.getConfig().set("shields." + "Dummy" + ".list", null);
-
-        // plugin.getConfig().set("playerlist", playerList);
     }
 }
