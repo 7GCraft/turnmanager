@@ -47,6 +47,7 @@ public class TurnManager extends JavaPlugin {
         Logger logger = getLogger();
 
         shield.writeShieldData(this);
+        saveConfig();
 
         logger.info(pdfFile.getName() + " has been disabled! (v." + pdfFile.getVersion() + ")");
     }

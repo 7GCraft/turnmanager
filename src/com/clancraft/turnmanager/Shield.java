@@ -194,13 +194,13 @@ public class Shield {
             });
             Bukkit.getLogger().info("shieldList: " + shieldList);
 
-            // plugin.getConfig().set("shields." + playerName + ".toggle",
-            // playerShieldData.isToggled());
-            // plugin.getConfig().set("shields." + playerName + ".list", shieldList);
-            plugin.getConfig().set(Long.toString(System.currentTimeMillis()), playerName);
-            plugin.getConfig().set(playerName + " toggle", playerShieldData.isToggled());
-            plugin.getConfig().set(playerName + " shield list", shieldList);
+            plugin.getConfig().set("shields." + playerName + ".toggle", playerShieldData.isToggled());
+            plugin.getConfig().set("shields." + playerName + ".list", shieldList);
+            Bukkit.getLogger().info("getConfig().set() calls executed.");
         });
+        
+        // plugin.getConfig().set("shields." + "Dummy" + ".toggle", false);
+        // plugin.getConfig().set("shields." + "Dummy" + ".list", null);
 
         // plugin.getConfig().set("playerlist", playerList);
     }
