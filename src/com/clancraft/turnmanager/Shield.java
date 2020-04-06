@@ -32,6 +32,12 @@ public class Shield {
         shieldHashMap = new HashMap<>();
 
         shieldConfigFile = new File(plugin.getDataFolder(), TMConstants.SHIELDS_CONFIG_FILE_NAME);
+        
+        if (!shieldConfigFile.exists()) {
+        	shieldConfigFile.getParentFile().mkdirs();
+        	plugin.saveResource("shields.yml", false);
+        }
+        
         shieldConfig = YamlConfiguration.loadConfiguration(shieldConfigFile);
     }
 
