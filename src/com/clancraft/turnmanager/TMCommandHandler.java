@@ -65,12 +65,14 @@ public class TMCommandHandler implements CommandExecutor {
 
         switch (args[1]) {
         case "start":
-            // TO-DO:
-            // add permission validation
-            if (args.length > 2) {
-                TurnManager.turn.startTimer(Integer.parseInt(args[2]));
+            if (player.hasPermission(TMConstants.TIMER_START_PERMISSION)) {
+            	if (args.length > 2) {
+                    TurnManager.turn.startTimer(Integer.parseInt(args[2]));
+                } else {
+                    TurnManager.turn.startTimer();
+                }
             } else {
-                TurnManager.turn.startTimer();
+            	player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
             break;
         case "stop":
