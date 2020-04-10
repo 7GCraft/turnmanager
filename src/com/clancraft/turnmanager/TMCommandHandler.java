@@ -120,8 +120,6 @@ public class TMCommandHandler implements CommandExecutor {
         case "next":
             if (player.hasPermission(TMConstants.TURN_NEXT_PERMISSION)) {
                 TurnManager.turn.nextTurn();
-                // TODO this is supposed to be a callback, call it inside Turn?
-                // TurnManager.shield.clearShield();
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
@@ -237,52 +235,80 @@ public class TMCommandHandler implements CommandExecutor {
     	// TODO add permission validation
     	switch (args[1]) {
     	case "add":
-    		if (args.length == 4) {
-    			TurnManager.shield.addPlayer(args[2], args[3]);
+    		if (player.hasPermission(TMConstants.SHIELD_ADD_PERMISSION)) {
+    			if (args.length == 4) {
+        			TurnManager.shield.addPlayer(args[2], args[3]);
+        		} else {
+        			TurnManager.shield.addPlayer(args[2]);
+        		}
     		} else {
-    			TurnManager.shield.addPlayer(args[2]);
+    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
     		}
     		break;
     	case "remove":
-    		if (args.length == 4) {
-    			TurnManager.shield.removePlayer(args[2], args[3]);
+    		if (player.hasPermission(TMConstants.SHIELD_REMOVE_PERMISSION)) {
+    			if (args.length == 4) {
+        			TurnManager.shield.removePlayer(args[2], args[3]);
+        		} else {
+        			TurnManager.shield.removePlayer(args[2]);
+        		}
     		} else {
-    			TurnManager.shield.removePlayer(args[2]);
+    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
     		}
     		break;
     	case "all":
-    		if (args.length == 3) {
-    			TurnManager.shield.addAllPlayers(args[2]);
+    		if (player.hasPermission(TMConstants.SHIELD_ALL_PERMISSION)) {
+    			if (args.length == 3) {
+        			TurnManager.shield.addAllPlayers(args[2]);
+        		} else {
+        			TurnManager.shield.addAllPlayers();
+        		}
     		} else {
-    			TurnManager.shield.addAllPlayers();
+    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
     		}
     		break;
     	case "clear":
-    		if (args.length == 3) {
-    			TurnManager.shield.clearShield(args[2]);
+    		if (player.hasPermission(TMConstants.SHIELD_CLEAR_PERMISSION)) {
+    			if (args.length == 3) {
+        			TurnManager.shield.clearShield(args[2]);
+        		} else {
+        			TurnManager.shield.clearShield();
+        		}
     		} else {
-    			TurnManager.shield.clearShield();
+    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
     		}
     		break;
     	case "list":
-    		if (args.length == 3) {
-    			player.sendMessage(TurnManager.shield.toString(args[2]));
+    		if (player.hasPermission(TMConstants.SHIELD_LIST_PERMISSION)) {
+    			if (args.length == 3) {
+        			player.sendMessage(TurnManager.shield.toString(args[2]));
+        		} else {
+        			player.sendMessage(TurnManager.shield.toString());
+        		}
     		} else {
-    			player.sendMessage(TurnManager.shield.toString());
+    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
     		}
     		break;
     	case "on":
-    		if (args.length == 4) {
-    			TurnManager.shield.toggle(args[2], true);
+    		if (player.hasPermission(TMConstants.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMConstants.SHIELD_ON_PERMISSION)) {
+    			if (args.length == 4) {
+        			TurnManager.shield.toggle(args[2], true);
+        		} else {
+        			TurnManager.shield.toggle(true);
+        		}
     		} else {
-    			TurnManager.shield.toggle(true);
+    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
     		}
     		break;
     	case "off":
-    		if (args.length == 4) {
-    			TurnManager.shield.toggle(args[2], false);
+    		if (player.hasPermission(TMConstants.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMConstants.SHIELD_OFF_PERMISSION)) {
+    			if (args.length == 4) {
+        			TurnManager.shield.toggle(args[2], false);
+        		} else {
+        			TurnManager.shield.toggle(false);
+        		}
     		} else {
-    			TurnManager.shield.toggle(false);
+    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
     		}
     		break;
     	}
