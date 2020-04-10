@@ -19,9 +19,6 @@ public class TurnManager extends JavaPlugin {
         PluginDescriptionFile pdfFile = getDescription();
         Logger logger = getLogger();
 
-        saveDefaultConfig();
-        // createShieldsConfig();
-
         registerCommands();
 
         cycle = new Cycle();
