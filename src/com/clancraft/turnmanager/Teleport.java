@@ -15,7 +15,13 @@ public class Teleport {
 	 * Sets gamemode to SPECTATOR and teleports player to the current player.
 	 * @param player player who executed the command
 	 */
-	public void teleport(Player player) {
+	public boolean teleport(Player player) {
+		// disallow teleportation if player is in the current player's shield list
+        if (TurnManager.shield.isInShield(player.getName())) {
+			// TODO send player message that they are shielded
+			return false;
+		}
+		
 		String currPlayerName = TurnManager.cycle.currentPlayer();
 		Player currPlayer = null;
 	
@@ -31,11 +37,17 @@ public class Teleport {
         		currPlayer = tempPlayer;
         		break;
         	}
-        }
+		}
+		
+		if (currPlayer == null) {
+			// TODO send player message that the current turn's player could not be found
+			return false;
+		}
 		
         // set player gamemode to SPECTATOR before teleporting
         player.setGameMode(GameMode.SPECTATOR);
-        player.teleport(currPlayer);
+		player.teleport(currPlayer);
+		return true;
 	}
 	
 }
