@@ -2,6 +2,7 @@ package com.clancraft.turnmanager;
 
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,6 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 // TODO method Javadocs
 public class TurnManager extends JavaPlugin {
+    public static final int TICKS_IN_SECOND = 20;
+    public static final int POSITION_CHECKER_INTERVAL = 5;
+
     protected static Cycle cycle;
     protected static Turn turn;
     protected static Teleport teleport;
@@ -25,6 +29,9 @@ public class TurnManager extends JavaPlugin {
         turn = new Turn();
         teleport = new Teleport();
         shield = new Shield(this);
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new PositionChecker(), TICKS_IN_SECOND,
+                POSITION_CHECKER_INTERVAL * TICKS_IN_SECOND);
 
         shield.loadShieldData();
 

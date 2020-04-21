@@ -42,7 +42,6 @@ public class PositionChecker implements Runnable {
                 coordinateMap.put(player.getName(), new PlayerCoordinate(loc.getX(), loc.getY(), loc.getZ()));
             }
         });
-        // TODO make sure the scheduler repeats the task every 5 seconds
     }
 
     class PlayerCoordinate {
