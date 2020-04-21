@@ -9,21 +9,15 @@ import org.bukkit.entity.Player;
 public class PositionChecker implements Runnable {
     public final Double SHIELD_RADIUS = 65.00;
 
-    Cycle cycle; // to get current player
     HashMap<String, PlayerCoordinate> coordinateMap;
 
-    public PositionChecker(Cycle cycle) {
-        this.setCycle(cycle);
+    public PositionChecker() {
         coordinateMap = new HashMap<>();
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             Location loc = player.getLocation();
             coordinateMap.put(player.getName(), new PlayerCoordinate(loc.getX(), loc.getY(), loc.getZ()));
         });
-    }
-
-    public void setCycle(Cycle cycle) {
-        this.cycle = cycle;
     }
 
     /**
@@ -33,7 +27,7 @@ public class PositionChecker implements Runnable {
      */
     @Override
     public void run() {
-        Player currPlayer = Bukkit.getPlayer(cycle.currentPlayer()); // TODO deprecated method
+        Player currPlayer = Bukkit.getPlayer(TurnManager.cycle.currentPlayer()); // TODO deprecated method
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             Location loc = player.getLocation();
