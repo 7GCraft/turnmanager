@@ -18,6 +18,7 @@ public class TurnManager extends JavaPlugin {
     protected static Turn turn;
     protected static Teleport teleport;
     protected static Shield shield;
+    protected static Calendar calendar;
 
     public void onEnable() {
         PluginDescriptionFile pdfFile = getDescription();
@@ -29,11 +30,13 @@ public class TurnManager extends JavaPlugin {
         turn = new Turn();
         teleport = new Teleport();
         shield = new Shield(this);
+        calendar = new Calendar(this);
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new PositionChecker(), TICKS_IN_SECOND,
                 POSITION_CHECKER_INTERVAL * TICKS_IN_SECOND);
 
         shield.loadShieldData();
+        calendar.loadCalendarData();
 
         logger.info(pdfFile.getName() + " has been enabled! (v." + pdfFile.getVersion() + ")");
     }

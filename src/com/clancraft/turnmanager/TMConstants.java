@@ -37,6 +37,8 @@ public class TMConstants {
     public static final String TIMER_OVERTIME = "This turn is %d minutes over time!";
     
     public static final String SHIELDS_CONFIG_FILE_NAME = "shields.yml";
+    
+    public static final String CALENDAR_CONFIG_FILE_NAME = "calendar.yml";
 
     // PERMISSIONS
     // TODO make separate class?
