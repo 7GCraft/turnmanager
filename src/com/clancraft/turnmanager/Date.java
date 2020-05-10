@@ -1,9 +1,22 @@
 package com.clancraft.turnmanager;
 
 public class Date {
-    public int[] days = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-    public static String[] months = { "", "January", "February", "March", "April", "May", "June", "July", "August",
-            "September", "October", "November", "December" };
+    public enum Month {
+        JANUARY("January", 1, 31), FEBRUARY("February", 2, 28), MARCH("March", 3, 31), APRIL("April", 4, 30),
+        MAY("May", 5, 31), JUNE("June", 6, 30), JULY("July", 7, 31), AUGUST("August", 8, 31),
+        SEPTEMBER("September", 9, 30), OCTOBER("October", 10, 31), NOVEMBER("November", 11, 30),
+        DECEMBER("December", 12, 31);
+
+        Month(String monthName, int monthNum, int numDays) {
+            this.monthName = monthName;
+            this.monthNum = monthNum;
+            this.numDays = numDays;
+        }
+
+        public final String monthName;
+        public final int monthNum;
+        public final int numDays;
+    }
 
     private int day;
     private int month;
