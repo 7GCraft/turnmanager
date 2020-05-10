@@ -2,9 +2,17 @@ package com.clancraft.turnmanager;
 
 public class Date {
     public enum Month {
-        JANUARY("January", 1, 31), FEBRUARY("February", 2, 28), MARCH("March", 3, 31), APRIL("April", 4, 30),
-        MAY("May", 5, 31), JUNE("June", 6, 30), JULY("July", 7, 31), AUGUST("August", 8, 31),
-        SEPTEMBER("September", 9, 30), OCTOBER("October", 10, 31), NOVEMBER("November", 11, 30),
+        JANUARY("January", 1, 31), 
+        FEBRUARY("February", 2, 28), 
+        MARCH("March", 3, 31), 
+        APRIL("April", 4, 30),
+        MAY("May", 5, 31), 
+        JUNE("June", 6, 30), 
+        JULY("July", 7, 31), 
+        AUGUST("August", 8, 31),
+        SEPTEMBER("September", 9, 30), 
+        OCTOBER("October", 10, 31), 
+        NOVEMBER("November", 11, 30),
         DECEMBER("December", 12, 31);
 
         Month(String monthName, int monthNum, int numDays) {
