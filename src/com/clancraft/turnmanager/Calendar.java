@@ -2,10 +2,8 @@ package com.clancraft.turnmanager;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,7 +40,7 @@ public class Calendar {
 	    String worldDateString = this.getCalendarConfig().getString("world-date");
 	    String[] worldDateStringParts = worldDateString.split("-");
 	    int worldDay = Integer.parseInt(worldDateStringParts[0]);
-        int worldMonth = Integer.parseInt(worldDateStringParts[1]);
+        Date.Month worldMonth = Date.Month.values()[Integer.parseInt(worldDateStringParts[1])];
         int worldYear = Integer.parseInt(worldDateStringParts[2]);
         
         worldDate = new Date(worldDay, worldMonth, worldYear);
@@ -53,7 +51,7 @@ public class Calendar {
             String dateString = this.getCalendarConfig().getString("dates." + playerName + ".date");
             String[] dateStringParts = dateString.split("-");
             int day = Integer.parseInt(dateStringParts[0]);
-            int month = Integer.parseInt(dateStringParts[1]);
+            Date.Month month = Date.Month.values()[Integer.parseInt(dateStringParts[1])];
             int year = Integer.parseInt(dateStringParts[2]);
             
             Date date = new Date(day, month, year);
