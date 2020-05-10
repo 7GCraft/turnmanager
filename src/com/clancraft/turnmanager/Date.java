@@ -27,7 +27,7 @@ public class Date {
     }
 
     private int day;
-    private int month;
+    private Month month;
     private int year;
 
     /**
@@ -35,7 +35,7 @@ public class Date {
      */
     public Date() {
         // default date: 1-1-401
-        setDate(1, 1, 401);
+        setDate(1, Month.JANUARY, 401);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Date {
      * @param month date month
      * @param year  date year
      */
-    public Date(int day, int month, int year) {
+    public Date(int day, Month month, int year) {
         setDate(day, month, year);
     }
 
@@ -63,7 +63,7 @@ public class Date {
      * @return formatted date
      */
     public String getDate() {
-        return getDay() + getMonthName() + getYear();
+        return String.format("%s %s %s", getDay(), getMonthName(), getYear());
     }
 
     /**
@@ -81,7 +81,7 @@ public class Date {
      * @return name of the month
      */
     public String getMonthName() {
-        return months[month];
+        return month.monthName;
     }
 
     /**
@@ -99,7 +99,7 @@ public class Date {
      * @param month
      * @param year
      */
-    public void setDate(int day, int month, int year) {
+    public void setDate(int day, Month month, int year) {
         setYear(year);
         setMonth(month);
         setDay(day);
@@ -111,8 +111,8 @@ public class Date {
      * @param newDay new day
      */
     public void setDay(int newDay) {
-        int maxDay = days[month];
-        if (month == 2 && isLeapYear()) {
+        int maxDay = month.numDays;
+        if (month == Month.FEBRUARY && isLeapYear()) {
             maxDay = 29;
         }
 
@@ -130,14 +130,8 @@ public class Date {
      * 
      * @param newMonth new month
      */
-    public void setMonth(int newMonth) {
-        if (newMonth < 1) {
-            month = 1;
-        } else if (newMonth > 12) {
-            month = 12;
-        } else {
-            month = newMonth;
-        }
+    public void setMonth(Month newMonth) {
+        month = newMonth;
     }
 
     /**
