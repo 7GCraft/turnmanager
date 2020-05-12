@@ -13,12 +13,21 @@ public class Date {
         SEPTEMBER("September", 9, 30), 
         OCTOBER("October", 10, 31), 
         NOVEMBER("November", 11, 30),
-        DECEMBER("December", 12, 31);
+        DECEMBER("December", 12, 31) {
+            @Override
+            public Month next() {
+                return values()[0];
+            }
+        };
 
         Month(String monthName, int monthNum, int numDays) {
             this.monthName = monthName;
             this.monthNum = monthNum;
             this.numDays = numDays;
+        }
+        
+        public Month next() {
+            return values()[ordinal() + 1];
         }
 
         public final String monthName;
@@ -29,6 +38,7 @@ public class Date {
     private int day;
     private Month month;
     private int year;
+    private boolean isSynced;
 
     /**
      * Default constructor. Initialises fields.
@@ -36,6 +46,7 @@ public class Date {
     public Date() {
         // default date: 1-1-401
         setDate(1, Month.JANUARY, 401);
+        setIsSynced(true);
     }
 
     /**
@@ -48,8 +59,69 @@ public class Date {
     public Date(int day, Month month, int year) {
         setDate(day, month, year);
     }
+    
+    /**
+     * Constructor overload. Initialises fields according to args.
+     * 
+     * @param day       date day
+     * @param month     date month
+     * @param year      date year
+     * @param isSynced  sync with world date
+     */
+    public Date(int day, Month month, int year, boolean isSynced) {
+        setDate(day, month, year);
+        setIsSynced(isSynced);
+    }
+    
+    /**
+     * Advances date by specified number of days.
+     * @param daysToAdd days to advance
+     * @return
+     */
+    public void add(int daysToAdd) {
+        int tempDay = getDay() + daysToAdd;
+        Month tempMonth = getMonth();
+        int tempYear = getYear();
+        
+        int maxDays = month.numDays;
+        if (tempMonth == Month.FEBRUARY && isLeapYear(tempYear)) {
+            maxDays = 29;
+        }
+        
+        while (tempDay > maxDays) {
+            tempDay -= maxDays;
+            tempMonth = tempMonth.next();
+            if (tempMonth.monthNum == 1) {
+                tempYear++;
+            }
+            
+            maxDays = month.numDays;
+            if (tempMonth == Month.FEBRUARY && isLeapYear(tempYear)) {
+                maxDays = 29;
+            }
+        }
+        
+        setDate(tempDay, tempMonth, tempYear);
+    }
 
+    /**
+     * Checks if current year is a leap year.
+     * @return
+     */
     private boolean isLeapYear() {
+        if ((year % 4 == 0) && (year % 100 != 0))
+            return true;
+        if (year % 400 == 0)
+            return true;
+        return false;
+    }
+    
+    /**
+     * Checks if specified year is a leap year.
+     * @param year  year to check
+     * @return
+     */
+    private boolean isLeapYear(int year) {
         if ((year % 4 == 0) && (year % 100 != 0))
             return true;
         if (year % 400 == 0)
@@ -74,6 +146,15 @@ public class Date {
     public int getDay() {
         return day;
     }
+    
+    /**
+     * Gets month.
+     * 
+     * @return
+     */
+    public Month getMonth() {
+        return month;
+    }
 
     /**
      * Gets month name.
@@ -91,6 +172,15 @@ public class Date {
      */
     public int getYear() {
         return year;
+    }
+    
+    /**
+     * Checks whether the date is synced to world date or not.
+     * 
+     * @return
+     */
+    public boolean getIsSynced() {
+        return isSynced;
     }
 
     /**
@@ -141,5 +231,14 @@ public class Date {
      */
     public void setYear(int newYear) {
         year = newYear;
+    }
+    
+    /**
+     * Sets date to sync with world date or not.
+     * 
+     * @param isSynced
+     */
+    public void setIsSynced(boolean isSynced) {
+        this.isSynced = isSynced;
     }
 }

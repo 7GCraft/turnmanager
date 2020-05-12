@@ -1,9 +1,11 @@
 package com.clancraft.turnmanager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,7 +45,7 @@ public class Calendar {
         Date.Month worldMonth = Date.Month.values()[Integer.parseInt(worldDateStringParts[1])];
         int worldYear = Integer.parseInt(worldDateStringParts[2]);
         
-        worldDate = new Date(worldDay, worldMonth, worldYear);
+        worldDate = new Date(worldDay, worldMonth, worldYear, false);
 	    
 	    List<String> playerList = this.getCalendarConfig().getStringList("playerlist");
         
@@ -58,6 +60,43 @@ public class Calendar {
 
             playerDates.put(playerName, date);
         });
+	}
+	
+	/**
+	 * Advances player's date by specified number of days.
+	 * 
+	 * @param playerName   player's date to be advanced
+	 * @param daysToAdd    days to advance
+	 * @return
+	 */
+	public boolean addDate(String playerName, int daysToAdd) {
+	    Date playerDate = playerDates.get(playerName);
+	    
+	    if (playerDate.getIsSynced()) {
+	        return false;
+	    }
+	    
+	    playerDate.add(daysToAdd);
+	    
+	    return true;
+	}
+	
+	/**
+	 * Advances world date and all synced dates.
+	 * @param daysToAdd    days to advance
+	 * @return
+	 */
+	public boolean addWorldDate(int daysToAdd) {
+	    worldDate.add(daysToAdd);
+	    
+	    // advance all synced player dates
+	    playerDates.forEach((playerName, playerDate) -> {
+	        if (playerDate.getIsSynced()) {
+	            playerDate.setDate(worldDate.getDay(), worldDate.getMonth(), worldDate.getYear());
+	        }
+	    });
+	    
+	    return true;
 	}
 	
 	private FileConfiguration getCalendarConfig() {
