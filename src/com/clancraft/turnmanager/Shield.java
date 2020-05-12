@@ -28,7 +28,9 @@ public class Shield {
     /**
      * Default constructor. Initialises the fields.
      */
-    public Shield(JavaPlugin plugin) {
+    public Shield() {
+        JavaPlugin plugin = TurnManager.plugin;
+        
         shieldHashMap = new HashMap<>();
 
         shieldConfigFile = new File(plugin.getDataFolder(), TMConstants.SHIELDS_CONFIG_FILE_NAME);

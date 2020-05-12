@@ -14,6 +14,7 @@ public class TurnManager extends JavaPlugin {
     public static final int TICKS_IN_SECOND = 20;
     public static final int POSITION_CHECKER_INTERVAL = 5;
 
+    protected static JavaPlugin plugin;
     protected static Cycle cycle;
     protected static Turn turn;
     protected static Teleport teleport;
@@ -25,10 +26,11 @@ public class TurnManager extends JavaPlugin {
 
         registerCommands();
 
+        plugin = this;
         cycle = new Cycle();
         turn = new Turn();
         teleport = new Teleport();
-        shield = new Shield(this);
+        shield = new Shield();
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new PositionChecker(), TICKS_IN_SECOND,
                 POSITION_CHECKER_INTERVAL * TICKS_IN_SECOND);
