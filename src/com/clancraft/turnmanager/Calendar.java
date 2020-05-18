@@ -13,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 /**
  * A class to handle Date functionality.
  */
-public class Calendar {
+public class Calendar implements TurnObserver{
     
     private HashMap<String, Date> playerDates;
     private Date worldDate;
@@ -36,6 +36,8 @@ public class Calendar {
         }
         
         calendarConfig = YamlConfiguration.loadConfiguration(calendarConfigFile);
+
+        TurnManager.plugin.turn.registerTurnObserver(this);
     }
     
     public void loadCalendarData() {
@@ -196,5 +198,10 @@ public class Calendar {
     
     private FileConfiguration getCalendarConfig() {
         return calendarConfig;
+    }
+
+    @Override
+    public void updateTurnIncrement() {
+        advanceWorldDate();
     }
 }

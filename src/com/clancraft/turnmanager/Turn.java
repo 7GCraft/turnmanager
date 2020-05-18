@@ -1,5 +1,6 @@
 package com.clancraft.turnmanager;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.bukkit.Bukkit;
@@ -9,8 +10,13 @@ import org.bukkit.entity.Player;
  * Class to handle Cycle input and output
  * TODO make class static
  */
-public class Turn {
+public class Turn implements TurnObservable {
     private TurnTimer timer;
+    private ArrayList<TurnObserver> observerList;
+
+    public Turn() {
+        observerList = new ArrayList<>();
+    }
 
     /**
      * Announces the current player's turn along with the entire sequence.
@@ -62,6 +68,23 @@ public class Turn {
             }
         }
         return false;
+    }
+
+    @Override
+    public void registerTurnObserver(TurnObserver obs){
+        observerList.add(obs);
+    }
+
+    @Override
+    public boolean removeTurnObserver(TurnObserver obs){
+        return observerList.remove(obs);
+    }
+
+    @Override
+    public void notifyTurnIncrement(){
+        observerList.forEach(observer -> {
+            observer.updateTurnIncrement();
+        });
     }
 
     /**
