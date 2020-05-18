@@ -177,6 +177,13 @@ public class Calendar {
     }
 
     /**
+     * Advances the world date and all synced player dates by one day.
+     */
+    public void advanceWorldDate() {
+        addWorldDate(1);
+    }
+
+    /**
      * Syncs all synced player dates to the world date.
      */
     private void syncPlayerDates() {

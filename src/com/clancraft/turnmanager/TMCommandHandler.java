@@ -33,13 +33,16 @@ public class TMCommandHandler implements CommandExecutor {
                 handleTimer(player, args);
                 break;
             case "teleport":
-            	// TODO add permission validation
-            	// TODO add shield validation
-            	TurnManager.teleport.teleport(player);
-            	break;
+                // TODO add permission validation
+                // TODO add shield validation
+                TurnManager.teleport.teleport(player);
+                break;
             case "shield":
-            	handleShield(player, args);
-            	break;
+                handleShield(player, args);
+                break;
+            case "date":
+                handleDate(player, args);
+                break;
             default:
                 player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
                 break;
@@ -66,13 +69,13 @@ public class TMCommandHandler implements CommandExecutor {
         switch (args[1]) {
         case "start":
             if (player.hasPermission(TMConstants.TIMER_START_PERMISSION)) {
-            	if (args.length > 2) {
+                if (args.length > 2) {
                     TurnManager.turn.startTimer(Integer.parseInt(args[2]));
                 } else {
                     TurnManager.turn.startTimer();
                 }
             } else {
-            	player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
             break;
         case "stop":
@@ -225,92 +228,138 @@ public class TMCommandHandler implements CommandExecutor {
      * @param args   argument of the command calls
      */
     private void handleShield(Player player, String[] args) {
-    	if (args.length < 2) {
+        if (args.length < 2) {
             // tm shield missing 1 argument
             // TODO add a tm shield custom error message
             player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
             return;
         }
-    	
-    	// TODO add permission validation
-    	switch (args[1]) {
-    	case "add":
-    		if (player.hasPermission(TMConstants.SHIELD_ADD_PERMISSION)) {
-    			if (args.length == 4) {
-        			TurnManager.shield.addPlayer(args[2], args[3]);
-        		} else {
-        			TurnManager.shield.addPlayer(args[2]);
-        		}
-    		} else {
-    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-    		}
-    		break;
-    	case "remove":
-    		if (player.hasPermission(TMConstants.SHIELD_REMOVE_PERMISSION)) {
-    			if (args.length == 4) {
-        			TurnManager.shield.removePlayer(args[2], args[3]);
-        		} else {
-        			TurnManager.shield.removePlayer(args[2]);
-        		}
-    		} else {
-    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-    		}
-    		break;
-    	case "all":
-    		if (player.hasPermission(TMConstants.SHIELD_ALL_PERMISSION)) {
-    			if (args.length == 3) {
-        			TurnManager.shield.addAllPlayers(args[2]);
-        		} else {
-        			TurnManager.shield.addAllPlayers();
-        		}
-    		} else {
-    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-    		}
-    		break;
-    	case "clear":
-    		if (player.hasPermission(TMConstants.SHIELD_CLEAR_PERMISSION)) {
-    			if (args.length == 3) {
-        			TurnManager.shield.clearShield(args[2]);
-        		} else {
-        			TurnManager.shield.clearShield();
-        		}
-    		} else {
-    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-    		}
-    		break;
-    	case "list":
-    		if (player.hasPermission(TMConstants.SHIELD_LIST_PERMISSION)) {
-    			if (args.length == 3) {
-        			player.sendMessage(TurnManager.shield.toString(args[2]));
-        		} else {
-        			player.sendMessage(TurnManager.shield.toString());
-        		}
-    		} else {
-    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-    		}
-    		break;
-    	case "on":
-    		if (player.hasPermission(TMConstants.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMConstants.SHIELD_ON_PERMISSION)) {
-    			if (args.length == 4) {
-        			TurnManager.shield.toggle(args[2], true);
-        		} else {
-        			TurnManager.shield.toggle(true);
-        		}
-    		} else {
-    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-    		}
-    		break;
-    	case "off":
-    		if (player.hasPermission(TMConstants.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMConstants.SHIELD_OFF_PERMISSION)) {
-    			if (args.length == 4) {
-        			TurnManager.shield.toggle(args[2], false);
-        		} else {
-        			TurnManager.shield.toggle(false);
-        		}
-    		} else {
-    			player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-    		}
-    		break;
-    	}
+        
+        // TODO add permission validation
+        switch (args[1]) {
+        case "add":
+            if (player.hasPermission(TMConstants.SHIELD_ADD_PERMISSION)) {
+                if (args.length == 4) {
+                    TurnManager.shield.addPlayer(args[2], args[3]);
+                } else {
+                    TurnManager.shield.addPlayer(args[2]);
+                }
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
+            break;
+        case "remove":
+            if (player.hasPermission(TMConstants.SHIELD_REMOVE_PERMISSION)) {
+                if (args.length == 4) {
+                    TurnManager.shield.removePlayer(args[2], args[3]);
+                } else {
+                    TurnManager.shield.removePlayer(args[2]);
+                }
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
+            break;
+        case "all":
+            if (player.hasPermission(TMConstants.SHIELD_ALL_PERMISSION)) {
+                if (args.length == 3) {
+                    TurnManager.shield.addAllPlayers(args[2]);
+                } else {
+                    TurnManager.shield.addAllPlayers();
+                }
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
+            break;
+        case "clear":
+            if (player.hasPermission(TMConstants.SHIELD_CLEAR_PERMISSION)) {
+                if (args.length == 3) {
+                    TurnManager.shield.clearShield(args[2]);
+                } else {
+                    TurnManager.shield.clearShield();
+                }
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
+            break;
+        case "list":
+            if (player.hasPermission(TMConstants.SHIELD_LIST_PERMISSION)) {
+                if (args.length == 3) {
+                    player.sendMessage(TurnManager.shield.toString(args[2]));
+                } else {
+                    player.sendMessage(TurnManager.shield.toString());
+                }
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
+            break;
+        case "on":
+            if (player.hasPermission(TMConstants.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMConstants.SHIELD_ON_PERMISSION)) {
+                if (args.length == 4) {
+                    TurnManager.shield.toggle(args[2], true);
+                } else {
+                    TurnManager.shield.toggle(true);
+                }
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
+            break;
+        case "off":
+            if (player.hasPermission(TMConstants.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMConstants.SHIELD_OFF_PERMISSION)) {
+                if (args.length == 4) {
+                    TurnManager.shield.toggle(args[2], false);
+                } else {
+                    TurnManager.shield.toggle(false);
+                }
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
+            break;
+        }
+    }
+
+    /**
+     * Helper method to handle /tm date ... commands.
+     * 
+     * @param player player who executed the command
+     * @param args   argument of the command calls
+     */
+    private void handleDate(Player player, String[] args) {
+        if (args.length < 2) {
+            // tm shield missing 1 argument
+            // TODO add a tm date custom error message
+            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            return;
+        }
+
+        switch(args[1]) {
+            case "add":
+                if (args.length == 4) {
+                    TurnManager.calendar.addPlayerDate(args[2], Integer.parseInt(args[3]));
+                } else if (args.length == 3) {
+                    TurnManager.calendar.addWorldDate(Integer.parseInt(args[2]));
+                }
+                break;
+            case "set":
+                if (args.length == 7) {
+                    TurnManager.calendar.setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+                } else if (args.length == 6) {
+                    TurnManager.calendar.setWorldDate(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+                }
+                break;
+            case "sync":
+                TurnManager.calendar.sync(args[2]);
+                break;
+            case "unsync":
+                TurnManager.calendar.unsync(args[2]);
+                break;
+            case "today":
+                if (args.length == 3 && args[2].equalsIgnoreCase("world")) {
+                    player.sendMessage(TurnManager.calendar.getWorldDate());
+                } else if (args.length == 2) {
+                    player.sendMessage(TurnManager.calendar.getPlayerDate(player.getName()));
+                } else if (args.length == 3) {
+                    player.sendMessage(TurnManager.calendar.getPlayerDate(args[2]));
+                }
+        }
     }
 }
