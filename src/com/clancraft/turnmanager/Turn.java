@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 
 /**
  * Class to handle Cycle input and output
- * TODO make class static
  */
 public class Turn implements TurnObservable {
     private TurnTimer timer;
@@ -29,11 +28,6 @@ public class Turn implements TurnObservable {
         Bukkit.broadcastMessage(String.format(TMConstants.ANNOUNCE_SEQUENCE, turnSequence));
     }
 
-    // TODO what does this do? Put the last person back in the queue?
-    public boolean reinstatePlayer() {
-        return false;
-    }
-
     /**
      * Advances Cycle until it finds an available player. Then, automatically
      * announce that player's turn.
@@ -48,8 +42,45 @@ public class Turn implements TurnObservable {
         }
 
         announceTurn();
-        stopTimer();
-        startTimer();
+        Player currPlayer = null;
+        Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
+        while (playerIter.hasNext()) {
+            Player p = playerIter.next();
+            if (p.getName().equals(TurnManager.cycle.currentPlayer())) {
+                currPlayer = p;
+            }
+        }
+
+        if (currPlayer == null) {
+            // TODO send Bukkit error log
+            // Log.e("Fatal error! Current Player object can't be found!");
+            return;
+        } 
+
+        currPlayer.sendMessage("Please accept the turn by /tm turn accept, or reject the turn by /tm turn reject.");
+    }
+
+    public void acceptTurn(Player sender) {
+        if (sender.getName().equals(TurnManager.cycle.currentPlayer())) {
+            stopTimer();
+            startTimer();
+            notifyTurnIncrement();
+        } else {
+            sender.sendMessage("You can't accept or reject other people's turns!");
+        }
+    }
+
+    public void rejectTurn(Player sender) {
+        if (sender.getName().equals(TurnManager.cycle.currentPlayer())) {
+            rejectTurn();
+        } else {
+            sender.sendMessage("You can't accept or reject other people's turns!");
+        }
+    }
+
+    public void rejectTurn() {
+        Bukkit.broadcastMessage("Player " + TurnManager.cycle.currentPlayer() + " declined the turn.");
+        nextTurn();
     }
 
     /**
