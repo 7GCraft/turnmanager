@@ -143,6 +143,25 @@ public class Shield {
         return shieldHashMap.get(playerShieldList).getShieldList().contains(playerName);
     }
 
+    public boolean registerPlayer(String playerName) {
+        if (shieldHashMap.containsKey(playerName)) {
+            return false;
+        }
+
+        ShieldData data = new ShieldData(true, new HashSet<String>());
+        shieldHashMap.put(playerName, data);
+        return true;
+    }
+
+    public boolean unregisterPlayer(String playerName) {
+        if (!shieldHashMap.containsKey(playerName)) {
+            return false;
+        }
+
+        shieldHashMap.remove(playerName);
+        return true;
+    }
+
     /**
      * Returns a string representation of the shield list.
      * 
@@ -221,6 +240,8 @@ public class Shield {
 
             Bukkit.getLogger().info("getConfig().set() calls executed.");
         });
+
+        this.getShieldConfig().set("playerlist", playerList); 
         
         this.saveShieldConfig();
     }
@@ -236,4 +257,27 @@ public class Shield {
             Bukkit.getLogger().warning("Unable to save shield data!");
         }
     }
+
+    class ShieldData {
+        private boolean isToggled;
+        private HashSet<String> shieldList;
+
+        public ShieldData(boolean isToggled, HashSet<String> shieldList) {
+            this.isToggled = isToggled;
+            this.shieldList = shieldList;
+        }
+
+        public boolean isToggled() {
+            return isToggled;
+        }
+
+        public void setIsToggled(boolean isToggled) {
+            this.isToggled = isToggled;
+        }
+
+        public HashSet<String> getShieldList() {
+            return shieldList;
+        }
+    }
+
 }
