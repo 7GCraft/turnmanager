@@ -241,7 +241,7 @@ public class Shield {
             Bukkit.getLogger().info("getConfig().set() calls executed.");
         });
 
-        this.getShieldConfig().set("playerlist", playerList);Yeah 
+        this.getShieldConfig().set("playerlist", playerList); 
         
         this.saveShieldConfig();
     }
