@@ -17,6 +17,7 @@ public class Calendar implements TurnObserver{
     
     private HashMap<String, Date> playerDates;
     private Date worldDate;
+    private boolean isAuto;
     
     private File calendarConfigFile;
     private FileConfiguration calendarConfig;
@@ -37,7 +38,7 @@ public class Calendar implements TurnObserver{
         
         calendarConfig = YamlConfiguration.loadConfiguration(calendarConfigFile);
 
-        TurnManager.plugin.turn.registerTurnObserver(this);
+        TurnManager.turn.registerTurnObserver(this);
     }
     
     public void loadCalendarData() {
@@ -49,6 +50,8 @@ public class Calendar implements TurnObserver{
         
         worldDate = new Date(worldDay, worldMonth, worldYear, false);
         
+        isAuto = this.getCalendarConfig().getBoolean("auto");
+        
         List<String> playerList = this.getCalendarConfig().getStringList("playerlist");
         
         playerList.forEach(playerName -> {
@@ -58,9 +61,30 @@ public class Calendar implements TurnObserver{
             Date.Month month = Date.Month.values()[Integer.parseInt(dateStringParts[1])];
             int year = Integer.parseInt(dateStringParts[2]);
             
-            Date date = new Date(day, month, year);
+            boolean isSynced = this.getCalendarConfig().getBoolean("dates." + playerName + ".sync");
+            
+            Date date = new Date(day, month, year, isSynced);
 
             playerDates.put(playerName, date);
+        });
+    }
+    
+    public void writeCalendarData() {
+        this.getCalendarConfig().set("world-date", worldDate.getDay() + "-" + worldDate.getMonth().monthNum + "-" + worldDate.getYear());
+        
+        this.getCalendarConfig().set("auto", isAuto);
+        
+        List<String> playerList = new ArrayList<String>();
+        
+        for (String playerName : playerDates.keySet()) {
+            playerList.add(playerName);
+        }
+        
+        this.getCalendarConfig().set("playerList", playerList);
+        
+        playerDates.forEach((playerName, playerDate) -> {
+            this.getCalendarConfig().set("dates." + playerName + ".date", playerDate.getDay() + "-" + playerDate.getMonth().monthNum + "-" + playerDate.getYear());
+            this.getCalendarConfig().set("dates." + playerName + ".sync", playerDate.getIsSynced());
         });
     }
     
@@ -184,6 +208,10 @@ public class Calendar implements TurnObserver{
     public void advanceWorldDate() {
         addWorldDate(1);
     }
+    
+    public void setIsAuto(boolean isAuto) {
+        this.isAuto = isAuto;
+    }
 
     /**
      * Syncs all synced player dates to the world date.
@@ -202,6 +230,8 @@ public class Calendar implements TurnObserver{
 
     @Override
     public void updateTurnIncrement() {
-        advanceWorldDate();
+        if (isAuto) {
+            advanceWorldDate();
+        }
     }
 }

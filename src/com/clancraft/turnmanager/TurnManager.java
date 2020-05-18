@@ -28,11 +28,11 @@ public class TurnManager extends JavaPlugin {
         cycle = new Cycle();
         turn = new Turn();
         teleport = new Teleport();
-        shield = new Shield(this);
+        shield = new Shield();
         calendar = new Calendar(this);
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new PositionChecker(), TICKS_IN_SECOND,
-                POSITION_CHECKER_INTERVAL * TICKS_IN_SECOND);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new PositionChecker(), TMConstants.TICKS_IN_SECOND,
+                TMConstants.POSITION_CHECKER_INTERVAL_SECONDS * TMConstants.TICKS_IN_SECOND);
 
         shield.loadShieldData();
         calendar.loadCalendarData();

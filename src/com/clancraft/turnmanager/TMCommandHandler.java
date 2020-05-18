@@ -360,6 +360,14 @@ public class TMCommandHandler implements CommandExecutor {
                 } else if (args.length == 3) {
                     player.sendMessage(TurnManager.calendar.getPlayerDate(args[2]));
                 }
+                break;
+            case "auto":
+                if (args[2].equalsIgnoreCase("on")) {
+                    TurnManager.calendar.setIsAuto(true);
+                } else if (args[2].equalsIgnoreCase("off")) {
+                    TurnManager.calendar.setIsAuto(false);
+                }
+                break;
         }
     }
 }
