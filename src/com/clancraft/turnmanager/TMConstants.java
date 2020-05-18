@@ -67,4 +67,10 @@ public class TMConstants {
     public static final String SHIELD_REMOVE_PERMISSION = SHIELD_PERMISSION + ".remove";
     public static final String SHIELD_CLEAR_PERMISSION = SHIELD_PERMISSION + ".clear";
     public static final String SHIELD_LIST_PERMISSION = SHIELD_PERMISSION + ".list";
+
+    public static final int TICKS_IN_SECOND = 20;
+    public static final int TICKS_IN_MINUTE = 1200;
+
+    public static final int POSITION_CHECKER_INTERVAL_SECONDS = 5;
+    public static final int LOGOUT_LISTENER_INTERVAL_MINUTES = 20;
 }

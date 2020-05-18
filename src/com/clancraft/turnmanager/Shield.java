@@ -28,9 +28,10 @@ public class Shield {
     /**
      * Default constructor. Initialises the fields.
      */
-    public Shield(JavaPlugin plugin) {
+    public Shield() {
         shieldHashMap = new HashMap<>();
 
+        JavaPlugin plugin = TurnManager.plugin;
         shieldConfigFile = new File(plugin.getDataFolder(), TMConstants.SHIELDS_CONFIG_FILE_NAME);
         
         if (!shieldConfigFile.exists()) {
@@ -39,6 +40,10 @@ public class Shield {
         }
         
         shieldConfig = YamlConfiguration.loadConfiguration(shieldConfigFile);
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new PositionChecker(), 
+                TMConstants.TICKS_IN_SECOND,
+                TMConstants.POSITION_CHECKER_INTERVAL_SECONDS * TMConstants.TICKS_IN_SECOND);
     }
 
     /**
