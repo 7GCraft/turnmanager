@@ -27,20 +27,7 @@ public class PositionChecker implements Runnable {
      */
     @Override
     public void run() {
-        Player currPlayer = null;
-        Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
-        while (playerIter.hasNext()) {
-            Player p = playerIter.next();
-            if (p.getName().equals(TurnManager.cycle.currentPlayer())) {
-                currPlayer = p;
-            }
-        }
-
-        if (currPlayer == null) {
-            // TODO send Bukkit error log
-            // Log.e("Fatal error! Current Player object can't be found!");
-            return;
-        }
+        Player currPlayer = Bukkit.getPlayer(TurnManager.cycle.currentPlayer()); // TODO deprecated method
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             Location loc = player.getLocation();
