@@ -3,12 +3,15 @@ package com.clancraft.turnmanager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.clancraft.turnmanager.Shield.ShieldData;
 
 /**
  * A class to handle Date functionality.
@@ -180,6 +183,25 @@ public class Calendar implements TurnObserver{
 
         playerDate.setIsSynced(false);
 
+        return true;
+    }
+    
+    public boolean registerPlayer(String playerName) {
+        if (playerDates.containsKey(playerName)) {
+            return false;
+        }
+
+        Date date = new Date();
+        playerDates.put(playerName, date);
+        return true;
+    }
+
+    public boolean unregisterPlayer(String playerName) {
+        if (!playerDates.containsKey(playerName)) {
+            return false;
+        }
+
+        playerDates.remove(playerName);
         return true;
     }
 
