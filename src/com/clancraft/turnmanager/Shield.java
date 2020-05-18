@@ -143,6 +143,25 @@ public class Shield {
         return shieldHashMap.get(playerShieldList).getShieldList().contains(playerName);
     }
 
+    public boolean registerPlayer(String playerName) {
+        if (shieldHashMap.containsKey(playerName)) {
+            return false;
+        }
+
+        ShieldData data = new ShieldData(true, new HashSet<String>());
+        shieldHashMap.put(playerName, data);
+        return true;
+    }
+
+    public boolean unregisterPlayer(String playerName) {
+        if (!shieldHashMap.containsKey(playerName)) {
+            return false;
+        }
+
+        shieldHashMap.remove(playerName);
+        return true;
+    }
+
     /**
      * Returns a string representation of the shield list.
      * 
