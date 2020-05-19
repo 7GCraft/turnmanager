@@ -34,6 +34,12 @@ public class TurnTimer extends Thread {
      * decrementing variable value every NORMAL_INTERVAL minutes. Timer keeps
      * running after time is up, reminding user every OVERTIME_INTERVAL, up to
      * MAX_OVERTIME_MINS minutes.
+     * 
+     * @see com.clancraft.turnmanager.TMConstants#NORMAL_INTERVAL NORMAL_INTERVAL
+     * @see com.clancraft.turnmanager.TMConstants#OVERTIME_INTERVAL
+     *      OVERTIME_INTERVAL
+     * @see com.clancraft.turnmanager.TMConstants#MAX_OVERTIME_MINS
+     *      MAX_OVERTIME_MINS
      */
     @Override
     public void run() {
@@ -53,7 +59,7 @@ public class TurnTimer extends Thread {
                 minutesRemaining -= TIMER_RESOLUTION_MINS;
 
             } catch (Exception InterruptedException) {
-                // TODO print error message to logger.
+                TurnManager.getPlugin().getLogger().warning("Turn timer sleep has been interrupted!");
             }
 
             if (isPaused) {
@@ -68,7 +74,7 @@ public class TurnTimer extends Thread {
             try {
                 Thread.sleep(TIMER_RESOLUTION_MINS * MIN_TO_MS);
             } catch (Exception InterruptedException) {
-                // TODO print error message to logger.
+                TurnManager.getPlugin().getLogger().warning("Turn timer sleep has been interrupted!");
             }
             minutesRemaining += TIMER_RESOLUTION_MINS;
         }
@@ -103,7 +109,7 @@ public class TurnTimer extends Thread {
             try {
                 Thread.sleep(TIMER_RESOLUTION_MINS * MIN_TO_MS);
             } catch (InterruptedException e) {
-                // TODO print error message to logger.
+                TurnManager.getPlugin().getLogger().warning("Turn timer sleep has been interrupted!");
             }
         }
     }

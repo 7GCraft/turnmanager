@@ -8,11 +8,18 @@ import org.bukkit.entity.Player;
 
 /**
  * A class to hold a cycle of players. This class is similar to queue that 
- * always loops back to the front infinitely. This cycle is specifically written
- * to store players in Minecraft.
+ * always loops back to the front. This cycle is specifically written
+ * to store Minecraft player names.
  */
 public class Cycle {
+    /**
+     * List containing players in the cycle.
+     */
     private ArrayList<String> playerList;
+
+    /**
+     * Index of the current player.
+     */
     private int currIndex;
 
     /**
@@ -26,6 +33,7 @@ public class Cycle {
 
     /**
      * Returns the current player.
+     * 
      * @return name of the current player
      */
     public String currentPlayer() {
@@ -34,6 +42,7 @@ public class Cycle {
 
     /**
      * Advances the internal state of the cycle, returns the next player.
+     * 
      * @return name of the next player
      */
     public String next() {
@@ -43,6 +52,7 @@ public class Cycle {
 
     /**
      * Adds the specified player to the end of the queue.
+     * 
      * @param playerName name of the player to be added
      * @return whether player was added successfully
      */
@@ -52,8 +62,10 @@ public class Cycle {
 
     /**
      * Adds the specified player to the specified spot.
+     * 
      * @param playerName name of the player to be added
-     * @param spot where in the cycle to add the player
+     * @param spot where in the cycle to add the player. Has to be between 0
+     *             and cycle size.
      * @return whether player was added successfully
      */
     public boolean addPlayer(String playerName, int spot) {
@@ -83,8 +95,9 @@ public class Cycle {
 
     /**
      * Helper method to validate player name to be added.
+     * 
      * @param input name of the player to be validated
-     * @return the actual player name with proper capitalization
+     * @return player name with proper capitalization
      */
     private String validatePlayerName(String input) {
         Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
@@ -99,6 +112,7 @@ public class Cycle {
 
     /**
      * Removes the specified player from the cycle.
+     * 
      * @param playerName name of the player to be removed
      * @return whether player was removed successfully
      */
@@ -113,7 +127,9 @@ public class Cycle {
 
     /**
      * Removes a player on the specified spot from the cycle.
-     * @param spot where in the list to remove player from
+     * 
+     * @param spot where in the list to remove player from. Has to be between 
+     *             0 and cycle size.
      * @return whether player was removed successfully
      */
     public boolean removePlayer(int spot) {
@@ -132,6 +148,7 @@ public class Cycle {
 
     /**
      * Swaps the two specified players' spots in the cycle.
+     * 
      * @param playerName1 name of the first player to be swapped
      * @param playerName2 name of the second player to be swapped
      * @return whether the players were swapped successfully
@@ -158,8 +175,11 @@ public class Cycle {
 
     /**
      * Swaps the players in the two specified spots in the cycle.
-     * @param index1 spot of the first player to be swapped
-     * @param index2 spot of the second player to be swapped
+     * 
+     * @param index1 spot of the first player to be swapped. Has to be between 
+     *               0 and cycle size.
+     * @param index2 spot of the second player to be swapped. Has to be between 
+     0*              0 and cycle size.
      * @return whether the players were swapped successfully
      */
     public boolean swap(int index1, int index2) {
@@ -185,6 +205,7 @@ public class Cycle {
 
     /**
      * Returns the number of players currently in the cycle.
+     * 
      * @return number of players in the cycle
      */
     public int size() {
@@ -193,15 +214,22 @@ public class Cycle {
 
     /**
      * Returns the name of the player in the specified spot.
-     * @return name of the player in the spot
+     * 
+     * @return name of the player in the spot. Has to be between 0 and cycle
+     *         size.
      */
     public String getPlayerName(int spot) {
+        if (spot < 0 || spot >= size()) {
+            return null;
+        }
+
         return playerList.get(spot);
     }
 
     /**
      * Returns a string representation of the cycle, which is the order of
      * the players in the cycle.
+     * 
      * @return order of the players in the cycle
      */
     public String toString() {

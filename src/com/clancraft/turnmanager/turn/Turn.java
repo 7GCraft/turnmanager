@@ -54,8 +54,7 @@ public class Turn implements TurnObservable {
         }
 
         if (currPlayer == null) {
-            // TODO send Bukkit error log
-            // Log.e("Fatal error! Current Player object can't be found!");
+            TurnManager.getPlugin().getLogger().severe("Fatal error! Current Player object can't be found!");
             return;
         } 
 
