@@ -203,6 +203,13 @@ public class Shield {
         shieldHashMap.get(playerName).setIsToggled(isToggled);
     }
 
+    /**
+     * @return whether the current player's shield is on
+     */
+    public boolean isActive() {
+        return shieldHashMap.get(TurnManager.getCycle().currentPlayer()).isToggled;
+    }
+
     public void loadShieldData() {
         List<String> playerList = this.getShieldConfig().getStringList("playerlist");
         Bukkit.getLogger().info("playerList: " + playerList);
