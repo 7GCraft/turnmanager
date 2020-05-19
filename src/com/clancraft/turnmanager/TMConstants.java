@@ -41,7 +41,6 @@ public class TMConstants {
     public static final String CALENDAR_CONFIG_FILE_NAME = "calendar.yml";
 
     // PERMISSIONS
-    // TODO make separate class?
     public static final String CYCLE_PERMISSION = "tm.cycle";
     public static final String CYCLE_ADD_PERMISSION = CYCLE_PERMISSION + ".add";
     public static final String CYCLE_LIST_PERMISSION = CYCLE_PERMISSION + ".list";
@@ -73,4 +72,6 @@ public class TMConstants {
 
     public static final int POSITION_CHECKER_INTERVAL_SECONDS = 5;
     public static final int LOGOUT_LISTENER_INTERVAL_MINUTES = 20;
+    
+    public static final Double SHIELD_RADIUS = 65.00;
 }

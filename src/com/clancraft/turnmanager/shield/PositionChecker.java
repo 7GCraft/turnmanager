@@ -9,8 +9,6 @@ import org.bukkit.entity.Player;
 import com.clancraft.turnmanager.*;
 
 public class PositionChecker implements Runnable {
-    public final Double SHIELD_RADIUS = 65.00;
-
     HashMap<String, PlayerCoordinate> coordinateMap;
 
     public PositionChecker() {
@@ -36,7 +34,7 @@ public class PositionChecker implements Runnable {
             Double distSqr = Math.pow(loc.getX() - currPlayer.getLocation().getX(), 2)
                     + Math.pow(loc.getY() - currPlayer.getLocation().getY(), 2);
 
-            if (distSqr < Math.pow(SHIELD_RADIUS, 2)) {
+            if (distSqr < Math.pow(TMConstants.SHIELD_RADIUS, 2)) {
                 loc.setX(coordinateMap.get(player.getName()).x);
                 loc.setY(coordinateMap.get(player.getName()).y);
                 loc.setZ(coordinateMap.get(player.getName()).z);
