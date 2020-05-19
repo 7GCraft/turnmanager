@@ -86,9 +86,8 @@ public class Shield {
     /**
      * Adds all online players to a specified player's shield list.
      * 
-     * @param playerName player whose shield list is added all players to
+     * @param playerName player whose shield list gets added with all players
      */
-    // TODO shorten the param description
     public void addAllPlayers(String playerName) {
         clearShield(playerName);
 
