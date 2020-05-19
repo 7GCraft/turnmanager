@@ -355,9 +355,9 @@ public class TMCommandHandler implements CommandExecutor {
                 }
                 break;
             case "set":
-                if (args.length == 7) {
+                if (args.length == 6) {
                     TurnManager.getCalendar().setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
-                } else if (args.length == 6) {
+                } else if (args.length == 5) {
                     TurnManager.getCalendar().setWorldDate(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
                 }
                 break;
