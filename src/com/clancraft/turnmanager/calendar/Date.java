@@ -79,7 +79,7 @@ public class Date {
      * @return  specified Month
      */
     public static Month getMonthEnum(int monthNum) {
-        return Date.values()[monthNum - 1];
+        return Date.Month.values()[monthNum - 1];
     }
     
     /**
