@@ -28,6 +28,10 @@ public class PositionChecker implements Runnable {
      */
     @Override
     public void run() {
+        if (TurnManager.getCycle().size() <= 0) {
+            return;
+        }
+
         Player currPlayer = null;
         Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
         while (playerIter.hasNext()) {
@@ -37,9 +41,17 @@ public class PositionChecker implements Runnable {
             }
         }
 
+        if (currPlayer == null || !TurnManager.getShield().isActive()) {
+            return;
+        }
+
         playerIter = Bukkit.getOnlinePlayers().iterator();
         while (playerIter.hasNext()) {
             Player player = playerIter.next();
+            if (!TurnManager.getShield().isInShield(player.getName())) {
+                continue;
+            }
+            
             Location loc = player.getLocation();
             Double distSqr = Math.pow(loc.getX() - currPlayer.getLocation().getX(), 2)
                     + Math.pow(loc.getY() - currPlayer.getLocation().getY(), 2);
