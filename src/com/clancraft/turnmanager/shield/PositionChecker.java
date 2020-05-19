@@ -1,6 +1,7 @@
 package com.clancraft.turnmanager.shield;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,9 +28,18 @@ public class PositionChecker implements Runnable {
      */
     @Override
     public void run() {
-        Player currPlayer = Bukkit.getPlayer(TurnManager.getCycle().currentPlayer()); // TODO deprecated method
+        Player currPlayer = null;
+        Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
+        while (playerIter.hasNext()) {
+            Player p = playerIter.next();
+            if (p.getName().equals(TurnManager.getCycle().currentPlayer())) {
+                currPlayer = p;
+            }
+        }
 
-        Bukkit.getOnlinePlayers().forEach(player -> {
+        playerIter = Bukkit.getOnlinePlayers().iterator();
+        while (playerIter.hasNext()) {
+            Player player = playerIter.next();
             Location loc = player.getLocation();
             Double distSqr = Math.pow(loc.getX() - currPlayer.getLocation().getX(), 2)
                     + Math.pow(loc.getY() - currPlayer.getLocation().getY(), 2);
@@ -41,7 +51,7 @@ public class PositionChecker implements Runnable {
             } else {
                 coordinateMap.put(player.getName(), new PlayerCoordinate(loc.getX(), loc.getY(), loc.getZ()));
             }
-        });
+        }
     }
 
     class PlayerCoordinate {
