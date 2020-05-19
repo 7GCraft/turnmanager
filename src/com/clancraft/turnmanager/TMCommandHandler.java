@@ -384,10 +384,10 @@ public class TMCommandHandler implements CommandExecutor {
                 }
                 break;
             case "register":
-                TurnManager.getShield().registerPlayer(args[2]);
+                TurnManager.getCalendar().registerPlayer(args[2]);
                 break;
             case "unregister":
-                TurnManager.getShield().unregisterPlayer(args[2]);
+                TurnManager.getCalendar().unregisterPlayer(args[2]);
                 break;
         }
     }
