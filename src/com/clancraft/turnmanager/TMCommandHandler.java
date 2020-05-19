@@ -133,6 +133,15 @@ public class TMCommandHandler implements CommandExecutor {
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
+        case "accept":
+            TurnManager.turn.acceptTurn(player);
+            break;
+        case "reject":
+            TurnManager.turn.rejectTurn(player);
+            break;
+        case "override":
+            TurnManager.turn.acceptTurn();
+            break;
         default:
             player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
             break;
