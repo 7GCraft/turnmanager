@@ -314,6 +314,12 @@ public class TMCommandHandler implements CommandExecutor {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
             break;
+        case "register":
+            TurnManager.shield.registerPlayer(args[2]);
+            break;
+        case "unregister":
+            TurnManager.shield.unregisterPlayer(args[2]);
+            break;
         }
     }
 
@@ -367,6 +373,12 @@ public class TMCommandHandler implements CommandExecutor {
                 } else if (args[2].equalsIgnoreCase("off")) {
                     TurnManager.calendar.setIsAuto(false);
                 }
+                break;
+            case "register":
+                TurnManager.shield.registerPlayer(args[2]);
+                break;
+            case "unregister":
+                TurnManager.shield.unregisterPlayer(args[2]);
                 break;
         }
     }
