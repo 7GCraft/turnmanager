@@ -47,7 +47,7 @@ public class Calendar implements TurnObserver{
         String worldDateString = this.getCalendarConfig().getString("world-date");
         String[] worldDateStringParts = worldDateString.split("-");
         int worldDay = Integer.parseInt(worldDateStringParts[0]);
-        Date.Month worldMonth = Date.Month.values()[Integer.parseInt(worldDateStringParts[1])];
+        Date.Month worldMonth = Date.getMonthEnum(Integer.parseInt(worldDateStringParts[1]));
         int worldYear = Integer.parseInt(worldDateStringParts[2]);
         
         worldDate = new Date(worldDay, worldMonth, worldYear, false);
@@ -60,7 +60,7 @@ public class Calendar implements TurnObserver{
             String dateString = this.getCalendarConfig().getString("dates." + playerName + ".date");
             String[] dateStringParts = dateString.split("-");
             int day = Integer.parseInt(dateStringParts[0]);
-            Date.Month month = Date.Month.values()[Integer.parseInt(dateStringParts[1])];
+            Date.Month month = Date.getMonthEnum(Integer.parseInt(worldDateStringParts[1]));
             int year = Integer.parseInt(dateStringParts[2]);
             
             boolean isSynced = this.getCalendarConfig().getBoolean("dates." + playerName + ".sync");
