@@ -72,6 +72,15 @@ public class Date {
         setDate(day, month, year);
         setIsSynced(isSynced);
     }
+
+    /**
+     * Gets a Month from its month number.
+     * @param monthNum  number of the month (1 - 12)
+     * @return  specified Month
+     */
+    public static Month getMonthEnum(int monthNum) {
+        return Date.values()[monthNum - 1];
+    }
     
     /**
      * Advances date by specified number of days.
