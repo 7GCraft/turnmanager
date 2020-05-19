@@ -1,10 +1,12 @@
-package com.clancraft.turnmanager;
+package com.clancraft.turnmanager.shield;
 
 import java.util.Iterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+
+import com.clancraft.turnmanager.*;
 
 /**
  * Class to handle teleportation.
@@ -17,12 +19,12 @@ public class Teleport {
 	 */
 	public boolean teleport(Player player) {
 		// disallow teleportation if player is in the current player's shield list
-        if (TurnManager.shield.isInShield(player.getName())) {
+        if (TurnManager.getShield().isInShield(player.getName())) {
 			// TODO send player message that they are shielded
 			return false;
 		}
 		
-		String currPlayerName = TurnManager.cycle.currentPlayer();
+		String currPlayerName = TurnManager.getCycle().currentPlayer();
 		Player currPlayer = null;
 	
 		// cached reference

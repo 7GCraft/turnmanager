@@ -1,17 +1,16 @@
-package com.clancraft.turnmanager;
+package com.clancraft.turnmanager.calendar;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.clancraft.turnmanager.Shield.ShieldData;
+import com.clancraft.turnmanager.turn.TurnObserver;
+import com.clancraft.turnmanager.*;
 
 /**
  * A class to handle Date functionality.
@@ -41,7 +40,7 @@ public class Calendar implements TurnObserver{
         
         calendarConfig = YamlConfiguration.loadConfiguration(calendarConfigFile);
 
-        TurnManager.turn.registerTurnObserver(this);
+        TurnManager.getTurn().registerTurnObserver(this);
     }
     
     public void loadCalendarData() {

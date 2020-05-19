@@ -1,4 +1,4 @@
-package com.clancraft.turnmanager;
+package com.clancraft.turnmanager.calendar;
 
 public class Date {
     public enum Month {

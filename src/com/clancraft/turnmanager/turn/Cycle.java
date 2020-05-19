@@ -1,4 +1,4 @@
-package com.clancraft.turnmanager;
+package com.clancraft.turnmanager.turn;
 
 import java.util.ArrayList;
 import java.util.Iterator;

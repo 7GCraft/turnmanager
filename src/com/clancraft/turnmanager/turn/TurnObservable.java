@@ -1,4 +1,4 @@
-package com.clancraft.turnmanager;
+package com.clancraft.turnmanager.turn;
 
 public interface TurnObservable {
     public void registerTurnObserver(TurnObserver obs);

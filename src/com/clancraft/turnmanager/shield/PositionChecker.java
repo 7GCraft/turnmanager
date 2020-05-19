@@ -1,10 +1,12 @@
-package com.clancraft.turnmanager;
+package com.clancraft.turnmanager.shield;
 
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import com.clancraft.turnmanager.*;
 
 public class PositionChecker implements Runnable {
     public final Double SHIELD_RADIUS = 65.00;
@@ -27,7 +29,7 @@ public class PositionChecker implements Runnable {
      */
     @Override
     public void run() {
-        Player currPlayer = Bukkit.getPlayer(TurnManager.cycle.currentPlayer()); // TODO deprecated method
+        Player currPlayer = Bukkit.getPlayer(TurnManager.getCycle().currentPlayer()); // TODO deprecated method
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             Location loc = player.getLocation();

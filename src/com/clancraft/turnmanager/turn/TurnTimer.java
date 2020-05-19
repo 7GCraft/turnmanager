@@ -1,6 +1,8 @@
-package com.clancraft.turnmanager;
+package com.clancraft.turnmanager.turn;
 
 import org.bukkit.Bukkit;
+
+import com.clancraft.turnmanager.*;
 
 /**
  * A class to create threads that function as a timer. The timer duration is

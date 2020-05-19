@@ -1,4 +1,4 @@
-package com.clancraft.turnmanager;
+package com.clancraft.turnmanager.shield;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -14,6 +14,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.clancraft.turnmanager.*;
 
 /**
  * A class to handle shield functionality.
@@ -31,7 +33,7 @@ public class Shield {
     public Shield() {
         shieldHashMap = new HashMap<>();
 
-        JavaPlugin plugin = TurnManager.plugin;
+        JavaPlugin plugin = TurnManager.getPlugin();
         shieldConfigFile = new File(plugin.getDataFolder(), TMConstants.SHIELDS_CONFIG_FILE_NAME);
         
         if (!shieldConfigFile.exists()) {
@@ -53,7 +55,7 @@ public class Shield {
      * @return true if successful, false if unsuccessful
      */
     public boolean addPlayer(String playerName) {
-        return addPlayer(TurnManager.cycle.currentPlayer(), playerName);
+        return addPlayer(TurnManager.getCycle().currentPlayer(), playerName);
     }
 
     /**
@@ -78,7 +80,7 @@ public class Shield {
      * Adds all online players to the current player's shield list.
      */
     public void addAllPlayers() {
-        addAllPlayers(TurnManager.cycle.currentPlayer());
+        addAllPlayers(TurnManager.getCycle().currentPlayer());
     }
 
     /**
@@ -103,7 +105,7 @@ public class Shield {
      * @return true if successful, false if unsuccessful
      */
     public boolean removePlayer(String playerName) {
-        return removePlayer(TurnManager.cycle.currentPlayer(), playerName);
+        return removePlayer(TurnManager.getCycle().currentPlayer(), playerName);
     }
 
     /**
@@ -123,7 +125,7 @@ public class Shield {
      * Empties the current player's shield list.
      */
     public void clearShield() {
-        clearShield(TurnManager.cycle.currentPlayer());
+        clearShield(TurnManager.getCycle().currentPlayer());
     }
 
     /**
@@ -136,7 +138,7 @@ public class Shield {
     }
 
     public boolean isInShield(String playerName) {
-        return isInShield(TurnManager.cycle.currentPlayer(), playerName);
+        return isInShield(TurnManager.getCycle().currentPlayer(), playerName);
     }
 
     public boolean isInShield(String playerShieldList, String playerName) {
@@ -180,7 +182,7 @@ public class Shield {
      */
     // TODO improve string format?
     public String toString() {
-        return toString(TurnManager.cycle.currentPlayer());
+        return toString(TurnManager.getCycle().currentPlayer());
     }
 
     /**
@@ -189,7 +191,7 @@ public class Shield {
      * @param isToggled shield on or off
      */
     public void toggle(boolean isToggled) {
-        toggle(TurnManager.cycle.currentPlayer(), isToggled);
+        toggle(TurnManager.getCycle().currentPlayer(), isToggled);
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.clancraft.turnmanager;
+package com.clancraft.turnmanager.turn;
 
 import java.util.Iterator;
 
@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import com.clancraft.turnmanager.*;
 
 public class LogoutListener implements Listener {
     class InactivePlayerRemover implements Runnable {
@@ -26,13 +28,13 @@ public class LogoutListener implements Listener {
                 }
             }
 
-            TurnManager.cycle.removePlayer(playerToRemove.getName());
+            TurnManager.getCycle().removePlayer(playerToRemove.getName());
         }
     }
     
     @EventHandler
     public void onPlayerLogout(PlayerQuitEvent event) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(TurnManager.plugin, 
+        Bukkit.getScheduler().scheduleSyncDelayedTask(TurnManager.getPlugin(), 
                 new InactivePlayerRemover(event.getPlayer()), 
                 TMConstants.LOGOUT_LISTENER_INTERVAL_MINUTES * TMConstants.TICKS_IN_MINUTE);
     }
