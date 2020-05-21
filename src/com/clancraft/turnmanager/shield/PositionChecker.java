@@ -9,9 +9,20 @@ import org.bukkit.entity.Player;
 
 import com.clancraft.turnmanager.*;
 
+/**
+ * Bukkit Runnable class that checks every player's location every predetermined
+ * interval, compares each location with the current player, and decides if 
+ * the location violates the predetermined shield boundary.
+ */
 public class PositionChecker implements Runnable {
+    /**
+     * Map that stores previous valid coordinates for each players.
+     */
     HashMap<String, PlayerCoordinate> coordinateMap;
 
+    /**
+     * Default constructor. Creates and populates the coordinate map. 
+     */
     public PositionChecker() {
         coordinateMap = new HashMap<>();
 
@@ -22,9 +33,9 @@ public class PositionChecker implements Runnable {
     }
 
     /**
-     * Scan everyone's position every 5 seconds. If a player is within 65m of the
-     * active player, their position is reverted back. Maybe can also send an error
-     * message: "You approached a shielded area" TODO
+     * Every time it's scheduled, scans all player's position. If a player is
+     * within SHIELD_RADIUS of the active player, their position is reverted
+     * back to the last known valid position.
      */
     @Override
     public void run() {
@@ -51,12 +62,13 @@ public class PositionChecker implements Runnable {
             if (!TurnManager.getShield().isInShield(player.getName())) {
                 continue;
             }
-            
+
             Location loc = player.getLocation();
             Double distSqr = Math.pow(loc.getX() - currPlayer.getLocation().getX(), 2)
                     + Math.pow(loc.getY() - currPlayer.getLocation().getY(), 2);
 
             if (distSqr < Math.pow(TMConstants.SHIELD_RADIUS, 2)) {
+                // TODO send error message to player saying the player violated shield boundary.
                 loc.setX(coordinateMap.get(player.getName()).x);
                 loc.setY(coordinateMap.get(player.getName()).y);
                 loc.setZ(coordinateMap.get(player.getName()).z);
@@ -66,6 +78,9 @@ public class PositionChecker implements Runnable {
         }
     }
 
+    /**
+     * Inner class to store the x, y, z coordinates of a player
+     */
     class PlayerCoordinate {
         public double x, y, z;
 
