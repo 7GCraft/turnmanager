@@ -24,14 +24,14 @@ public class TMCommandHandler implements CommandExecutor {
 
             switch (args[0]) {
             case "cycle":
-                if (player.hasPermission(TMConstants.CYCLE_PERMISSION)) {
+                if (player.hasPermission(TMPermissions.CYCLE_PERMISSION)) {
                     handleCycle(player, args);
                 } else {
                     player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
                 }
                 break;
             case "turn":
-                if (player.hasPermission(TMConstants.TURN_PERMISSION)) {
+                if (player.hasPermission(TMPermissions.TURN_PERMISSION)) {
                     handleTurn(player, args);
                 } else {
                     player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
@@ -76,7 +76,7 @@ public class TMCommandHandler implements CommandExecutor {
 
         switch (args[1]) {
         case "start":
-            if (player.hasPermission(TMConstants.TIMER_START_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.TIMER_START_PERMISSION)) {
                 if (args.length > 2) {
                     TurnManager.getTurn().startTimer(Integer.parseInt(args[2]));
                 } else {
@@ -87,21 +87,21 @@ public class TMCommandHandler implements CommandExecutor {
             }
             break;
         case "stop":
-            if (player.hasPermission(TMConstants.TIMER_STOP_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.TIMER_STOP_PERMISSION)) {
                 TurnManager.getTurn().stopTimer();
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
             break;
         case "pause":
-            if (player.hasPermission(TMConstants.TIMER_PAUSE_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.TIMER_PAUSE_PERMISSION)) {
                 TurnManager.getTurn().pauseTimer();
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
             break;
         case "resume":
-        if (player.hasPermission(TMConstants.TIMER_RESUME_PERMISSION)) {
+        if (player.hasPermission(TMPermissions.TIMER_RESUME_PERMISSION)) {
                 TurnManager.getTurn().resumeTimer();
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
@@ -129,34 +129,34 @@ public class TMCommandHandler implements CommandExecutor {
 
         switch (args[1]) {
         case "next":
-            if (player.hasPermission(TMConstants.TURN_NEXT_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.TURN_NEXT_PERMISSION)) {
                 TurnManager.getTurn().nextTurn();
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
             break;
         case "announce":
-            if (player.hasPermission(TMConstants.TURN_ANNOUNCE_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.TURN_ANNOUNCE_PERMISSION)) {
                 TurnManager.getTurn().announceTurn();
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
         case "accept":
-            if (player.hasPermission(TMConstants.TURN_ACCEPT_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.TURN_ACCEPT_PERMISSION)) {
                 TurnManager.getTurn().acceptTurn(player);
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
             break;
         case "reject":
-            if (player.hasPermission(TMConstants.TURN_REJECT_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.TURN_REJECT_PERMISSION)) {
                 TurnManager.getTurn().rejectTurn(player);
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
             break;
         case "override":
-            if (player.hasPermission(TMConstants.TURN_OVERRIDE_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.TURN_OVERRIDE_PERMISSION)) {
                 TurnManager.getTurn().rejectTurn();
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
@@ -184,7 +184,7 @@ public class TMCommandHandler implements CommandExecutor {
 
         switch (args[1]) {
         case "list":
-            if (player.hasPermission(TMConstants.CYCLE_LIST_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.CYCLE_LIST_PERMISSION)) {
                 player.sendMessage(String.format(TMConstants.ANNOUNCE_SEQUENCE, TurnManager.getCycle().toString()));
             } else {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
@@ -198,7 +198,7 @@ public class TMCommandHandler implements CommandExecutor {
                 return;
             }
 
-            if (player.hasPermission(TMConstants.CYCLE_ADD_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.CYCLE_ADD_PERMISSION)) {
                 if (TurnManager.getCycle().addPlayer(args[2])) {
                     player.sendMessage(String.format(TMConstants.ADD_PLAYER_SUCCESS, args[2]));
                 } else {
@@ -216,7 +216,7 @@ public class TMCommandHandler implements CommandExecutor {
                 return;
             }
 
-            if (player.hasPermission(TMConstants.CYCLE_REMOVE_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.CYCLE_REMOVE_PERMISSION)) {
                 if (TurnManager.getCycle().removePlayer(args[2])) {
                     player.sendMessage(String.format(TMConstants.REMOVE_PLAYER_SUCCESS, args[2]));
                 } else {
@@ -234,7 +234,7 @@ public class TMCommandHandler implements CommandExecutor {
                 return;
             }
 
-            if (player.hasPermission(TMConstants.CYCLE_SWAP_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.CYCLE_SWAP_PERMISSION)) {
                 if (TurnManager.getCycle().swap(args[2], args[3])) {
                     player.sendMessage(String.format(TMConstants.SWAP_PLAYER_SUCCESS, args[2], args[3]));
                 } else {
@@ -267,7 +267,7 @@ public class TMCommandHandler implements CommandExecutor {
         // TODO add permission validation
         switch (args[1]) {
         case "add":
-            if (player.hasPermission(TMConstants.SHIELD_ADD_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.SHIELD_ADD_PERMISSION)) {
                 if (args.length == 4) {
                     TurnManager.getShield().addPlayer(args[2], args[3]);
                 } else {
@@ -278,7 +278,7 @@ public class TMCommandHandler implements CommandExecutor {
             }
             break;
         case "remove":
-            if (player.hasPermission(TMConstants.SHIELD_REMOVE_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.SHIELD_REMOVE_PERMISSION)) {
                 if (args.length == 4) {
                     TurnManager.getShield().removePlayer(args[2], args[3]);
                 } else {
@@ -289,7 +289,7 @@ public class TMCommandHandler implements CommandExecutor {
             }
             break;
         case "all":
-            if (player.hasPermission(TMConstants.SHIELD_ALL_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.SHIELD_ALL_PERMISSION)) {
                 if (args.length == 3) {
                     TurnManager.getShield().addAllPlayers(args[2]);
                 } else {
@@ -300,7 +300,7 @@ public class TMCommandHandler implements CommandExecutor {
             }
             break;
         case "clear":
-            if (player.hasPermission(TMConstants.SHIELD_CLEAR_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.SHIELD_CLEAR_PERMISSION)) {
                 if (args.length == 3) {
                     TurnManager.getShield().clearShield(args[2]);
                 } else {
@@ -311,7 +311,7 @@ public class TMCommandHandler implements CommandExecutor {
             }
             break;
         case "list":
-            if (player.hasPermission(TMConstants.SHIELD_LIST_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.SHIELD_LIST_PERMISSION)) {
                 if (args.length == 3) {
                     player.sendMessage(TurnManager.getShield().toString(args[2]));
                 } else {
@@ -322,7 +322,7 @@ public class TMCommandHandler implements CommandExecutor {
             }
             break;
         case "on":
-            if (player.hasPermission(TMConstants.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMConstants.SHIELD_ON_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMPermissions.SHIELD_ON_PERMISSION)) {
                 if (args.length == 4) {
                     TurnManager.getShield().toggle(args[2], true);
                 } else {
@@ -333,7 +333,7 @@ public class TMCommandHandler implements CommandExecutor {
             }
             break;
         case "off":
-            if (player.hasPermission(TMConstants.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMConstants.SHIELD_OFF_PERMISSION)) {
+            if (player.hasPermission(TMPermissions.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMPermissions.SHIELD_OFF_PERMISSION)) {
                 if (args.length == 4) {
                     TurnManager.getShield().toggle(args[2], false);
                 } else {
