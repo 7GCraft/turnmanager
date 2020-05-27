@@ -50,6 +50,9 @@ public class TMConstants {
     public static final String TURN_PERMISSION = "tm.turn";
     public static final String TURN_NEXT_PERMISSION = TURN_PERMISSION + ".next";
     public static final String TURN_ANNOUNCE_PERMISSION = TURN_PERMISSION + ".announce";
+    public static final String TURN_ACCEPT_PERMISSION = TURN_PERMISSION + ".accept";
+    public static final String TURN_REJECT_PERMISSION = TURN_PERMISSION + ".reject";
+    public static final String TURN_OVERRIDE_PERMISSION = TURN_PERMISSION + ".override";
 
     public static final String TIMER_PERMISSION = "tm.timer";
     public static final String TIMER_START_PERMISSION = TIMER_PERMISSION + ".start";

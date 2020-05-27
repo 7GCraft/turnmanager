@@ -24,10 +24,18 @@ public class TMCommandHandler implements CommandExecutor {
 
             switch (args[0]) {
             case "cycle":
-                handleCycle(player, args);
+                if (player.hasPermission(TMConstants.CYCLE_PERMISSION)) {
+                    handleCycle(player, args);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
             case "turn":
-                handleTurn(player, args);
+                if (player.hasPermission(TMConstants.TURN_PERMISSION)) {
+                    handleTurn(player, args);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
             case "timer":
                 handleTimer(player, args);
@@ -134,13 +142,25 @@ public class TMCommandHandler implements CommandExecutor {
                 player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
         case "accept":
-            TurnManager.getTurn().acceptTurn(player);
+            if (player.hasPermission(TMConstants.TURN_ACCEPT_PERMISSION)) {
+                TurnManager.getTurn().acceptTurn(player);
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
             break;
         case "reject":
-            TurnManager.getTurn().rejectTurn(player);
+            if (player.hasPermission(TMConstants.TURN_REJECT_PERMISSION)) {
+                TurnManager.getTurn().rejectTurn(player);
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
             break;
         case "override":
-            TurnManager.getTurn().rejectTurn();
+            if (player.hasPermission(TMConstants.TURN_OVERRIDE_PERMISSION)) {
+                TurnManager.getTurn().rejectTurn();
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
             break;
         default:
             player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
