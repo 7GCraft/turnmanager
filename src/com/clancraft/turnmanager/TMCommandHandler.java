@@ -52,7 +52,11 @@ public class TMCommandHandler implements CommandExecutor {
                 }
                 break;
             case "shield":
-                handleShield(player, args);
+                if (player.hasPermission(TMPermissions.SHIELD_PERMISSION)) {
+                    handleShield(player, args);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
             case "date":
                 handleDate(player, args);
@@ -350,10 +354,18 @@ public class TMCommandHandler implements CommandExecutor {
             }
             break;
         case "register":
-            TurnManager.getShield().registerPlayer(args[2]);
+            if (player.hasPermission(TMPermissions.SHIELD_REGISTER_PERMISSION)) {
+                TurnManager.getShield().registerPlayer(args[2]);
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
             break;
         case "unregister":
-            TurnManager.getShield().unregisterPlayer(args[2]);
+            if (player.hasPermission(TMPermissions.SHIELD_UNREGISTER_PERMISSION)) {
+                TurnManager.getShield().unregisterPlayer(args[2]);
+            } else {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            }
             break;
         }
     }

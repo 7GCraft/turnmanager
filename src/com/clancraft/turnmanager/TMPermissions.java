@@ -32,5 +32,7 @@ public class TMPermissions {
 	public static final String SHIELD_REMOVE_PERMISSION = SHIELD_PERMISSION + ".remove";
 	public static final String SHIELD_CLEAR_PERMISSION = SHIELD_PERMISSION + ".clear";
 	public static final String SHIELD_LIST_PERMISSION = SHIELD_PERMISSION + ".list";
+	public static final String SHIELD_REGISTER_PERMISSION = SHIELD_PERMISSION + ".register";
+	public static final String SHIELD_UNREGISTER_PERMISSION = SHIELD_PERMISSION + ".unregister";
     
 }
