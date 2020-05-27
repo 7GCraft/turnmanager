@@ -19,7 +19,9 @@ public class TMPermissions {
 	public static final String TIMER_START_PERMISSION = TIMER_PERMISSION + ".start";
 	public static final String TIMER_STOP_PERMISSION = TIMER_PERMISSION + ".stop";
 	public static final String TIMER_PAUSE_PERMISSION = TIMER_PERMISSION + ".pause";
-    public static final String TIMER_RESUME_PERMISSION = TIMER_PERMISSION + ".resume";
+	public static final String TIMER_RESUME_PERMISSION = TIMER_PERMISSION + ".resume";
+	
+	public static final String TELEPORT_PERMISSION = "tm.teleport";
     
 	public static final String SHIELD_PERMISSION = "tm.shield";
 	public static final String SHIELD_TOGGLE_PERMISSION = SHIELD_PERMISSION + ".toggle";

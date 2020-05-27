@@ -45,9 +45,11 @@ public class TMCommandHandler implements CommandExecutor {
                 }
                 break;
             case "teleport":
-                // TODO add permission validation
-                // TODO add shield validation
-                TurnManager.getTeleport().teleport(player);
+                if (player.hasPermission(TMPermissions.TELEPORT_PERMISSION)) {
+                    TurnManager.getTeleport().teleport(player);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
             case "shield":
                 handleShield(player, args);
