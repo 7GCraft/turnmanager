@@ -38,7 +38,11 @@ public class TMCommandHandler implements CommandExecutor {
                 }
                 break;
             case "timer":
-                handleTimer(player, args);
+                if (player.hasPermission(TMConstants.TIMER_PERMISSION)) {
+                    handleTimer(player, args);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
             case "teleport":
                 // TODO add permission validation
