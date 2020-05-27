@@ -24,7 +24,11 @@ public class TMCommandHandler implements CommandExecutor {
 
             switch (args[0]) {
             case "cycle":
-                handleCycle(player, args);
+                if (player.hasPermission(TMConstants.CYCLE_PERMISSION)) {
+                    handleCycle(player, args);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
             case "turn":
                 handleTurn(player, args);
