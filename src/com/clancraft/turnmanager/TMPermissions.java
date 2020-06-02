@@ -35,4 +35,21 @@ public class TMPermissions {
 	public static final String SHIELD_REGISTER_PERMISSION = SHIELD_PERMISSION + ".register";
 	public static final String SHIELD_UNREGISTER_PERMISSION = SHIELD_PERMISSION + ".unregister";
     
+	public static final String DATE_PERMISSION = "tm.date";
+	public static final String DATE_ADD_PERMISSION = DATE_PERMISSION + ".add.*";
+	public static final String DATE_ADD_WORLD_PERMISSION = DATE_PERMISSION + ".add.world";
+	public static final String DATE_ADD_PLAYER_PERMISSION = DATE_PERMISSION + ".add.player";
+	public static final String DATE_SET_PERMISSION = DATE_PERMISSION + ".set.*";
+	public static final String DATE_SET_WORLD_PERMISSION = DATE_PERMISSION + ".set.world";
+	public static final String DATE_SET_PLAYER_PERMISSION = DATE_PERMISSION + ".set.player";
+	public static final String DATE_SYNC_PERMISSION = DATE_PERMISSION + ".sync";
+	public static final String DATE_UNSYNC_PERMISSION = DATE_PERMISSION + ".unsync";
+	public static final String DATE_TODAY_PERMISSION = DATE_PERMISSION + ".today.*";
+	public static final String DATE_TODAY_SELF_PERMISSION = DATE_PERMISSION + ".today.self";
+	public static final String DATE_TODAY_WORLD_PERMISSION = DATE_PERMISSION + ".today.world";
+	public static final String DATE_TODAY_PLAYER_PERMISSION = DATE_PERMISSION + ".today.player";
+	public static final String DATE_AUTO_ON_PERMISSION = DATE_PERMISSION + ".auto.on";
+	public static final String DATE_AUTO_OFF_PERMISSION = DATE_PERMISSION + ".auto.off";
+	public static final String DATE_REGISTER_PERMISSION = DATE_PERMISSION + ".register";
+	public static final String DATE_UNREGISTER_PERMISSION = DATE_PERMISSION + ".unregister";
 }

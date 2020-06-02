@@ -59,7 +59,11 @@ public class TMCommandHandler implements CommandExecutor {
                 }
                 break;
             case "date":
-                handleDate(player, args);
+                if (player.hasPermission(TMPermissions.DATE_PERMISSION)) {
+                    handleDate(player, args);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
             default:
                 player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
@@ -387,45 +391,97 @@ public class TMCommandHandler implements CommandExecutor {
         switch(args[1]) {
             case "add":
                 if (args.length == 4) {
-                    TurnManager.getCalendar().addPlayerDate(args[2], Integer.parseInt(args[3]));
+                    if (player.hasPermission(TMPermissions.DATE_ADD_PERMISSION) || player.hasPermission(TMPermissions.DATE_ADD_PLAYER_PERMISSION)) {
+                        TurnManager.getCalendar().addPlayerDate(args[2], Integer.parseInt(args[3]));
+                    } else {
+                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                    } 
                 } else if (args.length == 3) {
-                    TurnManager.getCalendar().addWorldDate(Integer.parseInt(args[2]));
+                    if (player.hasPermission(TMPermissions.DATE_ADD_PERMISSION) || player.hasPermission(TMPermissions.DATE_ADD_WORLD_PERMISSION)) {
+                        TurnManager.getCalendar().addWorldDate(Integer.parseInt(args[2]));
+                    } else {
+                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                    }
                 }
                 break;
             case "set":
                 if (args.length == 6) {
-                    TurnManager.getCalendar().setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+                    if (player.hasPermission(TMPermissions.DATE_SET_PERMISSION) || player.hasPermission(TMPermissions.DATE_SET_PLAYER_PERMISSION)) {
+                        TurnManager.getCalendar().setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+                    } else {
+                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                    } 
                 } else if (args.length == 5) {
-                    TurnManager.getCalendar().setWorldDate(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+                    if (player.hasPermission(TMPermissions.DATE_SET_PERMISSION) || player.hasPermission(TMPermissions.DATE_SET_WORLD_PERMISSION)) {
+                        TurnManager.getCalendar().setWorldDate(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+                    } else {
+                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                    }
                 }
                 break;
             case "sync":
-                TurnManager.getCalendar().sync(args[2]);
+                if (player.hasPermission(TMPermissions.DATE_SYNC_PERMISSION)) {
+                    TurnManager.getCalendar().sync(args[2]);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
             case "unsync":
-                TurnManager.getCalendar().unsync(args[2]);
+                if (player.hasPermission(TMPermissions.DATE_UNSYNC_PERMISSION)) {
+                    TurnManager.getCalendar().unsync(args[2]);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
             case "today":
                 if (args.length == 3 && args[2].equalsIgnoreCase("world")) {
-                    player.sendMessage(TurnManager.getCalendar().getWorldDate());
+                    if (player.hasPermission(TMPermissions.DATE_TODAY_WORLD_PERMISSION)) {
+                        player.sendMessage(TurnManager.getCalendar().getWorldDate());
+                    } else {
+                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                    }
                 } else if (args.length == 2) {
-                    player.sendMessage(TurnManager.getCalendar().getPlayerDate(player.getName()));
+                    if (player.hasPermission(TMPermissions.DATE_TODAY_SELF_PERMISSION)) {
+                        player.sendMessage(TurnManager.getCalendar().getPlayerDate(player.getName()));
+                    } else {
+                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                    }
                 } else if (args.length == 3) {
-                    player.sendMessage(TurnManager.getCalendar().getPlayerDate(args[2]));
+                    if (player.hasPermission(TMPermissions.DATE_TODAY_PLAYER_PERMISSION)) {
+                        player.sendMessage(TurnManager.getCalendar().getPlayerDate(args[2]));
+                    } else {
+                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                    }
                 }
                 break;
             case "auto":
                 if (args[2].equalsIgnoreCase("on")) {
-                    TurnManager.getCalendar().setIsAuto(true);
+                    if (player.hasPermission(TMPermissions.DATE_AUTO_ON_PERMISSION)) {
+                        TurnManager.getCalendar().setIsAuto(true);
+                    } else {
+                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                    }
                 } else if (args[2].equalsIgnoreCase("off")) {
-                    TurnManager.getCalendar().setIsAuto(false);
+                    if (player.hasPermission(TMPermissions.DATE_AUTO_OFF_PERMISSION)) {
+                        TurnManager.getCalendar().setIsAuto(false);
+                    } else {
+                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                    }
                 }
                 break;
             case "register":
-                TurnManager.getCalendar().registerPlayer(args[2]);
+                if (player.hasPermission(TMPermissions.DATE_REGISTER_PERMISSION)) {
+                    TurnManager.getCalendar().registerPlayer(args[2]);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
             case "unregister":
-                TurnManager.getCalendar().unregisterPlayer(args[2]);
+                if (player.hasPermission(TMPermissions.DATE_UNREGISTER_PERMISSION)) {
+                    TurnManager.getCalendar().unregisterPlayer(args[2]);
+                } else {
+                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                }
                 break;
         }
     }
