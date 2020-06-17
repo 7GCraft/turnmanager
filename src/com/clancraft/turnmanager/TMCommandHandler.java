@@ -2,6 +2,7 @@ package com.clancraft.turnmanager;
 
 import com.clancraft.turnmanager.exception.DateSyncException;
 import com.clancraft.turnmanager.exception.DuplicatePlayerException;
+import com.clancraft.turnmanager.exception.InsufficientPermissionException;
 import com.clancraft.turnmanager.exception.PlayerNotFoundException;
 
 import org.bukkit.command.Command;
@@ -26,52 +27,38 @@ public class TMCommandHandler implements CommandExecutor {
                 return true;
             }
 
-            switch (args[0]) {
-            case "cycle":
-                if (player.hasPermission(TMPermissions.CYCLE_PERMISSION)) {
+            try {
+                switch (args[0]) {
+                case "cycle":
+                    assertSufficientPermission(player, TMPermissions.CYCLE_PERMISSION);
                     handleCycle(player, args);
-                } else {
-                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                }
-                break;
-            case "turn":
-                if (player.hasPermission(TMPermissions.TURN_PERMISSION)) {
+                    break;
+                case "turn":
+                    assertSufficientPermission(player, TMPermissions.TURN_PERMISSION);
                     handleTurn(player, args);
-                } else {
-                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                }
-                break;
-            case "timer":
-                if (player.hasPermission(TMPermissions.TIMER_PERMISSION)) {
+                    break;
+                case "timer":
+                    assertSufficientPermission(player, TMPermissions.TIMER_PERMISSION);
                     handleTimer(player, args);
-                } else {
-                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                }
-                break;
-            case "teleport":
-                if (player.hasPermission(TMPermissions.TELEPORT_PERMISSION)) {
+                    break;
+                case "teleport":
+                    assertSufficientPermission(player, TMPermissions.TELEPORT_PERMISSION);
                     TurnManager.getTeleport().teleport(player);
-                } else {
-                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                }
-                break;
-            case "shield":
-                if (player.hasPermission(TMPermissions.SHIELD_PERMISSION)) {
+                    break;
+                case "shield":
+                    assertSufficientPermission(player, TMPermissions.SHIELD_PERMISSION);
                     handleShield(player, args);
-                } else {
-                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                }
-                break;
-            case "date":
-                if (player.hasPermission(TMPermissions.DATE_PERMISSION)) {
+                    break;
+                case "date":
+                    assertSufficientPermission(player, TMPermissions.DATE_PERMISSION);
                     handleDate(player, args);
-                } else {
-                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                    break;
+                default:
+                    player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
+                    break;
                 }
-                break;
-            default:
-                player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
-                break;
+            } catch (InsufficientPermissionException e) {
+                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
             }
         }
 
@@ -84,7 +71,7 @@ public class TMCommandHandler implements CommandExecutor {
      * @param player player who executed the command
      * @param args   argument of the command calls
      */
-    private void handleTimer(Player player, String[] args) {
+    private void handleTimer(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm timer missing 1 argument
             // TODO add a tm timer custom error message
@@ -94,36 +81,24 @@ public class TMCommandHandler implements CommandExecutor {
 
         switch (args[1]) {
         case "start":
-            if (player.hasPermission(TMPermissions.TIMER_START_PERMISSION)) {
-                if (args.length > 2) {
-                    TurnManager.getTurn().startTimer(Integer.parseInt(args[2]));
-                } else {
-                    TurnManager.getTurn().startTimer();
-                }
+            assertSufficientPermission(player, TMPermissions.TIMER_START_PERMISSION);
+            if (args.length > 2) {
+                TurnManager.getTurn().startTimer(Integer.parseInt(args[2]));
             } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                TurnManager.getTurn().startTimer();
             }
             break;
         case "stop":
-            if (player.hasPermission(TMPermissions.TIMER_STOP_PERMISSION)) {
-                TurnManager.getTurn().stopTimer();
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.TIMER_STOP_PERMISSION);
+            TurnManager.getTurn().stopTimer();
             break;
         case "pause":
-            if (player.hasPermission(TMPermissions.TIMER_PAUSE_PERMISSION)) {
-                TurnManager.getTurn().pauseTimer();
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.TIMER_PAUSE_PERMISSION);
+            TurnManager.getTurn().pauseTimer();
             break;
         case "resume":
-        if (player.hasPermission(TMPermissions.TIMER_RESUME_PERMISSION)) {
-                TurnManager.getTurn().resumeTimer();
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.TIMER_RESUME_PERMISSION);
+            TurnManager.getTurn().resumeTimer();
             break;
         default:
             player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
@@ -137,7 +112,7 @@ public class TMCommandHandler implements CommandExecutor {
      * @param player player who executed the command
      * @param args   argument of the command calls
      */
-    private void handleTurn(Player player, String[] args) {
+    private void handleTurn(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm turn missing 1 argument
             // TODO add a tm turn custom error message
@@ -147,38 +122,23 @@ public class TMCommandHandler implements CommandExecutor {
 
         switch (args[1]) {
         case "next":
-            if (player.hasPermission(TMPermissions.TURN_NEXT_PERMISSION)) {
-                TurnManager.getTurn().nextTurn();
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.TURN_NEXT_PERMISSION);
+            TurnManager.getTurn().nextTurn();
             break;
         case "announce":
-            if (player.hasPermission(TMPermissions.TURN_ANNOUNCE_PERMISSION)) {
-                TurnManager.getTurn().announceTurn();
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.TURN_ANNOUNCE_PERMISSION);
+            TurnManager.getTurn().announceTurn();
         case "accept":
-            if (player.hasPermission(TMPermissions.TURN_ACCEPT_PERMISSION)) {
-                TurnManager.getTurn().acceptTurn(player);
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.TURN_ACCEPT_PERMISSION);
+            TurnManager.getTurn().acceptTurn(player);
             break;
         case "reject":
-            if (player.hasPermission(TMPermissions.TURN_REJECT_PERMISSION)) {
-                TurnManager.getTurn().rejectTurn(player);
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.TURN_REJECT_PERMISSION);
+            TurnManager.getTurn().rejectTurn(player);
             break;
         case "override":
-            if (player.hasPermission(TMPermissions.TURN_OVERRIDE_PERMISSION)) {
-                TurnManager.getTurn().rejectTurn();
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.TURN_OVERRIDE_PERMISSION);
+            TurnManager.getTurn().rejectTurn();
             break;
         default:
             player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
@@ -192,7 +152,7 @@ public class TMCommandHandler implements CommandExecutor {
      * @param player player who executed the command
      * @param args   argument of the command calls
      */
-    private void handleCycle(Player player, String[] args) {
+    private void handleCycle(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm cycle missing 1 argument
             // TODO add a tm cycle custom error message
@@ -202,11 +162,8 @@ public class TMCommandHandler implements CommandExecutor {
 
         switch (args[1]) {
         case "list":
-            if (player.hasPermission(TMPermissions.CYCLE_LIST_PERMISSION)) {
-                player.sendMessage(String.format(TMConstants.ANNOUNCE_SEQUENCE, TurnManager.getCycle().toString()));
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.CYCLE_LIST_PERMISSION);
+            player.sendMessage(String.format(TMConstants.ANNOUNCE_SEQUENCE, TurnManager.getCycle().toString()));
             break;
         case "add":
             if (args.length < 3) {
@@ -216,19 +173,16 @@ public class TMCommandHandler implements CommandExecutor {
                 return;
             }
 
-            if (player.hasPermission(TMPermissions.CYCLE_ADD_PERMISSION)) {
-                try {
-                    TurnManager.getCycle().addPlayer(args[2]);
-                    player.sendMessage(String.format(TMConstants.ADD_PLAYER_SUCCESS, args[2]));
-                } catch (DuplicatePlayerException e) {
-                    //TODO update
-                    player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED, args[2]));
-                } catch (PlayerNotFoundException e) {
-                    //TODO updat
-                    player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED, args[2]));
-                }
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            assertSufficientPermission(player, TMPermissions.CYCLE_ADD_PERMISSION);
+            try {
+                TurnManager.getCycle().addPlayer(args[2]);
+                player.sendMessage(String.format(TMConstants.ADD_PLAYER_SUCCESS, args[2]));
+            } catch (DuplicatePlayerException e) {
+                //TODO update
+                player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED, args[2]));
+            } catch (PlayerNotFoundException e) {
+                //TODO updat
+                player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED, args[2]));
             }
             break;
         case "remove":
@@ -239,15 +193,12 @@ public class TMCommandHandler implements CommandExecutor {
                 return;
             }
 
-            if (player.hasPermission(TMPermissions.CYCLE_REMOVE_PERMISSION)) {
-                try {
-                    TurnManager.getCycle().removePlayer(args[2]);
-                    player.sendMessage(String.format(TMConstants.REMOVE_PLAYER_SUCCESS, args[2]));
-                } catch (PlayerNotFoundException e) {
-                    player.sendMessage(String.format(TMConstants.REMOVE_PLAYER_FAILED, args[2]));
-                }
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            assertSufficientPermission(player, TMPermissions.CYCLE_REMOVE_PERMISSION);
+            try {
+                TurnManager.getCycle().removePlayer(args[2]);
+                player.sendMessage(String.format(TMConstants.REMOVE_PLAYER_SUCCESS, args[2]));
+            } catch (PlayerNotFoundException e) {
+                player.sendMessage(String.format(TMConstants.REMOVE_PLAYER_FAILED, args[2]));
             }
             break;
         case "swap":
@@ -258,15 +209,12 @@ public class TMCommandHandler implements CommandExecutor {
                 return;
             }
 
-            if (player.hasPermission(TMPermissions.CYCLE_SWAP_PERMISSION)) {
-                try {
-                    TurnManager.getCycle().swap(args[2], args[3]);
-                    player.sendMessage(String.format(TMConstants.SWAP_PLAYER_SUCCESS, args[2], args[3]));
-                } catch (PlayerNotFoundException e) {
-                    player.sendMessage(String.format(TMConstants.SWAP_PLAYER_FAILED, args[2], args[3]));
-                }
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+            assertSufficientPermission(player, TMPermissions.CYCLE_SWAP_PERMISSION);
+            try {
+                TurnManager.getCycle().swap(args[2], args[3]);
+                player.sendMessage(String.format(TMConstants.SWAP_PLAYER_SUCCESS, args[2], args[3]));
+            } catch (PlayerNotFoundException e) {
+                player.sendMessage(String.format(TMConstants.SWAP_PLAYER_FAILED, args[2], args[3]));
             }
             break;
         default:
@@ -281,7 +229,7 @@ public class TMCommandHandler implements CommandExecutor {
      * @param player player who executed the command
      * @param args   argument of the command calls
      */
-    private void handleShield(Player player, String[] args) {
+    private void handleShield(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm shield missing 1 argument
             // TODO add a tm shield custom error message
@@ -289,98 +237,70 @@ public class TMCommandHandler implements CommandExecutor {
             return;
         }
         
-        // TODO add permission validation
         switch (args[1]) {
         case "add":
-            if (player.hasPermission(TMPermissions.SHIELD_ADD_PERMISSION)) {
-                if (args.length == 4) {
-                    TurnManager.getShield().addPlayer(args[2], args[3]);
-                } else {
-                    TurnManager.getShield().addPlayer(args[2]);
-                }
+            assertSufficientPermission(player, TMPermissions.SHIELD_ADD_PERMISSION);
+            if (args.length == 4) {
+                TurnManager.getShield().addPlayer(args[2], args[3]);
             } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                TurnManager.getShield().addPlayer(args[2]);
             }
             break;
         case "remove":
-            if (player.hasPermission(TMPermissions.SHIELD_REMOVE_PERMISSION)) {
-                if (args.length == 4) {
-                    TurnManager.getShield().removePlayer(args[2], args[3]);
-                } else {
-                    TurnManager.getShield().removePlayer(args[2]);
-                }
+            assertSufficientPermission(player, TMPermissions.SHIELD_REMOVE_PERMISSION);
+            if (args.length == 4) {
+                TurnManager.getShield().removePlayer(args[2], args[3]);
             } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                TurnManager.getShield().removePlayer(args[2]);
             }
             break;
         case "all":
-            if (player.hasPermission(TMPermissions.SHIELD_ALL_PERMISSION)) {
-                if (args.length == 3) {
-                    TurnManager.getShield().addAllPlayers(args[2]);
-                } else {
-                    TurnManager.getShield().addAllPlayers();
-                }
+            assertSufficientPermission(player, TMPermissions.SHIELD_ALL_PERMISSION);
+            if (args.length == 3) {
+                TurnManager.getShield().addAllPlayers(args[2]);
             } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                TurnManager.getShield().addAllPlayers();
             }
             break;
         case "clear":
-            if (player.hasPermission(TMPermissions.SHIELD_CLEAR_PERMISSION)) {
-                if (args.length == 3) {
-                    TurnManager.getShield().clearShield(args[2]);
-                } else {
-                    TurnManager.getShield().clearShield();
-                }
+            assertSufficientPermission(player, TMPermissions.SHIELD_CLEAR_PERMISSION);
+            if (args.length == 3) {
+                TurnManager.getShield().clearShield(args[2]);
             } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                TurnManager.getShield().clearShield();
             }
             break;
         case "list":
-            if (player.hasPermission(TMPermissions.SHIELD_LIST_PERMISSION)) {
-                if (args.length == 3) {
-                    player.sendMessage(TurnManager.getShield().toString(args[2]));
-                } else {
-                    player.sendMessage(TurnManager.getShield().toString());
-                }
+            assertSufficientPermission(player, TMPermissions.SHIELD_LIST_PERMISSION);
+            if (args.length == 3) {
+                player.sendMessage(TurnManager.getShield().toString(args[2]));
             } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                player.sendMessage(TurnManager.getShield().toString());
             }
             break;
         case "on":
-            if (player.hasPermission(TMPermissions.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMPermissions.SHIELD_ON_PERMISSION)) {
-                if (args.length == 4) {
-                    TurnManager.getShield().toggle(args[2], true);
-                } else {
-                    TurnManager.getShield().toggle(true);
-                }
+            assertSufficientPermission(player, TMPermissions.SHIELD_TOGGLE_PERMISSION, TMPermissions.SHIELD_ON_PERMISSION);
+            if (args.length == 4) {
+                TurnManager.getShield().toggle(args[2], true);
             } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                TurnManager.getShield().toggle(true);
             }
             break;
         case "off":
-            if (player.hasPermission(TMPermissions.SHIELD_TOGGLE_PERMISSION) || player.hasPermission(TMPermissions.SHIELD_OFF_PERMISSION)) {
-                if (args.length == 4) {
-                    TurnManager.getShield().toggle(args[2], false);
-                } else {
-                    TurnManager.getShield().toggle(false);
-                }
+            assertSufficientPermission(player, TMPermissions.SHIELD_TOGGLE_PERMISSION, TMPermissions.SHIELD_OFF_PERMISSION);
+            if (args.length == 4) {
+                TurnManager.getShield().toggle(args[2], false);
             } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
+                TurnManager.getShield().toggle(false);
             }
             break;
         case "register":
-            if (player.hasPermission(TMPermissions.SHIELD_REGISTER_PERMISSION)) {
-                TurnManager.getShield().registerPlayer(args[2]);
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.SHIELD_REGISTER_PERMISSION);
+            TurnManager.getShield().registerPlayer(args[2]);
             break;
         case "unregister":
-            if (player.hasPermission(TMPermissions.SHIELD_UNREGISTER_PERMISSION)) {
-                TurnManager.getShield().unregisterPlayer(args[2]);
-            } else {
-                player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-            }
+            assertSufficientPermission(player, TMPermissions.SHIELD_UNREGISTER_PERMISSION);
+            TurnManager.getShield().unregisterPlayer(args[2]);
             break;
         }
     }
@@ -391,7 +311,7 @@ public class TMCommandHandler implements CommandExecutor {
      * @param player player who executed the command
      * @param args   argument of the command calls
      */
-    private void handleDate(Player player, String[] args) {
+    private void handleDate(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm shield missing 1 argument
             // TODO add a tm date custom error message
@@ -400,116 +320,94 @@ public class TMCommandHandler implements CommandExecutor {
         }
 
         switch(args[1]) {
-            case "add":
-                if (args.length == 4) {
-                    if (player.hasPermission(TMPermissions.DATE_ADD_PERMISSION) || player.hasPermission(TMPermissions.DATE_ADD_PLAYER_PERMISSION)) {
-                        try {
-                            TurnManager.getCalendar().addPlayerDate(args[2], Integer.parseInt(args[3]));
-                        } catch (DateSyncException e) {
-                            //TODO print error msg
-                        }
-                    } else {
-                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                    } 
-                } else if (args.length == 3) {
-                    if (player.hasPermission(TMPermissions.DATE_ADD_PERMISSION) || player.hasPermission(TMPermissions.DATE_ADD_WORLD_PERMISSION)) {
-                        TurnManager.getCalendar().addWorldDate(Integer.parseInt(args[2]));
-                    } else {
-                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                    }
-                }
-                break;
-            case "set":
-                if (args.length == 6) {
-                    if (player.hasPermission(TMPermissions.DATE_SET_PERMISSION) || player.hasPermission(TMPermissions.DATE_SET_PLAYER_PERMISSION)) {
-                        try {
-                            TurnManager.getCalendar().setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
-                        } catch (DateSyncException e) {
-                            //TODO error msg
-                        }
-                    } else {
-                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                    } 
-                } else if (args.length == 5) {
-                    if (player.hasPermission(TMPermissions.DATE_SET_PERMISSION) || player.hasPermission(TMPermissions.DATE_SET_WORLD_PERMISSION)) {
-                        TurnManager.getCalendar().setWorldDate(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
-                    } else {
-                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                    }
-                }
-                break;
-            case "sync":
-                if (player.hasPermission(TMPermissions.DATE_SYNC_PERMISSION)) {
-                    TurnManager.getCalendar().sync(args[2]);
-                } else {
-                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                }
-                break;
-            case "unsync":
-                if (player.hasPermission(TMPermissions.DATE_UNSYNC_PERMISSION)) {
-                    TurnManager.getCalendar().unsync(args[2]);
-                } else {
-                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                }
-                break;
-            case "today":
-                if (args.length == 3 && args[2].equalsIgnoreCase("world")) {
-                    if (player.hasPermission(TMPermissions.DATE_TODAY_WORLD_PERMISSION)) {
-                        player.sendMessage(TurnManager.getCalendar().getWorldDate());
-                    } else {
-                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                    }
-                } else if (args.length == 2) {
-                    if (player.hasPermission(TMPermissions.DATE_TODAY_SELF_PERMISSION)) {
-                        player.sendMessage(TurnManager.getCalendar().getPlayerDate(player.getName()));
-                    } else {
-                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                    }
-                } else if (args.length == 3) {
-                    if (player.hasPermission(TMPermissions.DATE_TODAY_PLAYER_PERMISSION)) {
-                        player.sendMessage(TurnManager.getCalendar().getPlayerDate(args[2]));
-                    } else {
-                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                    }
-                }
-                break;
-            case "auto":
-                if (args[2].equalsIgnoreCase("on")) {
-                    if (player.hasPermission(TMPermissions.DATE_AUTO_ON_PERMISSION)) {
-                        TurnManager.getCalendar().setIsAuto(true);
-                    } else {
-                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                    }
-                } else if (args[2].equalsIgnoreCase("off")) {
-                    if (player.hasPermission(TMPermissions.DATE_AUTO_OFF_PERMISSION)) {
-                        TurnManager.getCalendar().setIsAuto(false);
-                    } else {
-                        player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                    }
-                }
-                break;
-            case "register":
-                if (player.hasPermission(TMPermissions.DATE_REGISTER_PERMISSION)) {
-                    try {
-                        TurnManager.getCalendar().registerPlayer(args[2]);
-                    } catch (DuplicatePlayerException e) {
-                        // TODO error msg
-                    }
-                } else {
-                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                }
-                break;
-            case "unregister":
-                if (player.hasPermission(TMPermissions.DATE_UNREGISTER_PERMISSION)) {
-                    try {
-                        TurnManager.getCalendar().unregisterPlayer(args[2]);
-                    } catch (PlayerNotFoundException e) {
-                        //TODO error msg
-                    }
-                } else {
-                    player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
-                }
-                break;
+        case "add":
+            if (args.length == 4) {
+                assertSufficientPermission(player, TMPermissions.DATE_ADD_PERMISSION, TMPermissions.DATE_ADD_PLAYER_PERMISSION);
+                try {
+                    TurnManager.getCalendar().addPlayerDate(args[2], Integer.parseInt(args[3]));
+                } catch (DateSyncException e) {
+                    //TODO print error msg
+                } 
+            } else if (args.length == 3) {
+                assertSufficientPermission(player, TMPermissions.DATE_ADD_PERMISSION, TMPermissions.DATE_ADD_WORLD_PERMISSION);
+                TurnManager.getCalendar().addWorldDate(Integer.parseInt(args[2]));
+            }
+            break;
+        case "set":
+            if (args.length == 6) {
+                assertSufficientPermission(player, TMPermissions.DATE_SET_PERMISSION, TMPermissions.DATE_SET_PLAYER_PERMISSION);
+                try {
+                    TurnManager.getCalendar().setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+                } catch (DateSyncException e) {
+                    //TODO error msg
+                } 
+            } else if (args.length == 5) {
+                assertSufficientPermission(player, TMPermissions.DATE_SET_PERMISSION, TMPermissions.DATE_SET_WORLD_PERMISSION);
+                TurnManager.getCalendar().setWorldDate(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+            }
+            break;
+        case "sync":
+            assertSufficientPermission(player, TMPermissions.DATE_SYNC_PERMISSION);
+            TurnManager.getCalendar().sync(args[2]);
+            break;
+        case "unsync":
+            assertSufficientPermission(player, TMPermissions.DATE_UNSYNC_PERMISSION);
+            TurnManager.getCalendar().unsync(args[2]);
+            break;
+        case "today":
+            if (args.length == 3 && args[2].equalsIgnoreCase("world")) {
+                assertSufficientPermission(player, TMPermissions.DATE_TODAY_WORLD_PERMISSION);
+                player.sendMessage(TurnManager.getCalendar().getWorldDate());
+            } else if (args.length == 2) {
+                assertSufficientPermission(player, TMPermissions.DATE_TODAY_SELF_PERMISSION);
+                player.sendMessage(TurnManager.getCalendar().getPlayerDate(player.getName()));
+            } else if (args.length == 3) {
+                assertSufficientPermission(player, TMPermissions.DATE_TODAY_PLAYER_PERMISSION);
+                player.sendMessage(TurnManager.getCalendar().getPlayerDate(args[2]));
+            }
+            break;
+        case "auto":
+            if (args[2].equalsIgnoreCase("on")) {
+                assertSufficientPermission(player, TMPermissions.DATE_AUTO_ON_PERMISSION);
+                TurnManager.getCalendar().setIsAuto(true);
+            } else if (args[2].equalsIgnoreCase("off")) {
+                assertSufficientPermission(player, TMPermissions.DATE_AUTO_OFF_PERMISSION);
+                TurnManager.getCalendar().setIsAuto(false);
+            }
+            break;
+        case "register":
+            assertSufficientPermission(player, TMPermissions.DATE_REGISTER_PERMISSION);
+            try {
+                TurnManager.getCalendar().registerPlayer(args[2]);
+            } catch (DuplicatePlayerException e) {
+                // TODO error msg
+            }
+            break;
+        case "unregister":
+            assertSufficientPermission(player, TMPermissions.DATE_UNREGISTER_PERMISSION);
+            try {
+                TurnManager.getCalendar().unregisterPlayer(args[2]);
+            } catch (PlayerNotFoundException e) {
+                //TODO error msg
+            }
+            break;
+        }
+    }
+
+    /**
+     * Asserts that the player has one of the specified permissions
+     * @param player player whose permission is checked
+     * @param perms  list of permissions where one permission has to be satisfied
+     */
+    private static void assertSufficientPermission(Player player, String... perms) throws InsufficientPermissionException {
+        boolean valid = false;
+
+        for (String perm : perms) {
+            valid = valid || player.hasPermission(perm);
+        }
+
+        if (!valid) {
+            throw new InsufficientPermissionException();
         }
     }
 }
