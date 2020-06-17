@@ -1,0 +1,12 @@
+package com.clancraft.turnmanager.exception;
+
+@SuppressWarnings("serial")
+public class InvalidArgumentException extends Exception {
+    public InvalidArgumentException() {
+        super();
+    }
+    
+    public InvalidArgumentException(String message) {
+        super(message);
+    }
+}

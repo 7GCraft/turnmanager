@@ -3,6 +3,10 @@ package com.clancraft.turnmanager.turn;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.clancraft.turnmanager.exception.DuplicatePlayerException;
+import com.clancraft.turnmanager.exception.InvalidArgumentException;
+import com.clancraft.turnmanager.exception.PlayerNotFoundException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -56,8 +60,13 @@ public class Cycle {
      * @param playerName name of the player to be added
      * @return whether player was added successfully
      */
-    public boolean addPlayer(String playerName) {
-        return addPlayer(playerName, size());
+    public void addPlayer(String playerName) throws 
+            DuplicatePlayerException, PlayerNotFoundException {
+        try {
+            addPlayer(playerName, size());
+        } catch (InvalidArgumentException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /**
@@ -66,23 +75,23 @@ public class Cycle {
      * @param playerName name of the player to be added
      * @param spot where in the cycle to add the player. Has to be between 0
      *             and cycle size.
-     * @return whether player was added successfully
      */
-    public boolean addPlayer(String playerName, int spot) {
+    public void addPlayer(String playerName, int spot) throws 
+            InvalidArgumentException, DuplicatePlayerException, PlayerNotFoundException {
         if (spot < 0 || spot > size()) {
-            return false;
+            throw new InvalidArgumentException();
         }
 
         // checks whether player already exists inside the list
         for (String s : playerList) {
             if (s.toLowerCase().equals(playerName.toLowerCase())) {
-                return false;
+                throw new DuplicatePlayerException();
             }
         }
 
         String validatedName = validatePlayerName(playerName);
         if (validatedName == null) {
-            return false;
+            throw new PlayerNotFoundException();
         }
 
         if (spot <= currIndex) {
@@ -90,7 +99,6 @@ public class Cycle {
         }
 
         playerList.add(spot, validatedName);
-        return true;
     }
 
     /**
@@ -99,7 +107,7 @@ public class Cycle {
      * @param input name of the player to be validated
      * @return player name with proper capitalization
      */
-    private String validatePlayerName(String input) {
+    private String validatePlayerName(String input) throws PlayerNotFoundException {
         Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
         while (playerIter.hasNext()) {
             String currPlayer = playerIter.next().getName();
@@ -107,22 +115,27 @@ public class Cycle {
                 return currPlayer;
             }
         }
-        return null;
+        
+        throw new PlayerNotFoundException();
     }
 
     /**
      * Removes the specified player from the cycle.
      * 
      * @param playerName name of the player to be removed
-     * @return whether player was removed successfully
      */
-    public boolean removePlayer(String playerName) {
+    public void removePlayer(String playerName) throws PlayerNotFoundException {
         for (int i = 0; i < size(); i++) {
             if (playerList.get(i).toLowerCase().equals(playerName.toLowerCase())) {
-                return removePlayer(i);
+                try {
+                    removePlayer(i);
+                } catch (InvalidArgumentException e) {
+                    throw new IllegalArgumentException(e);
+                }
             }
         }
-        return false;
+        
+        throw new PlayerNotFoundException();
     }
 
     /**
@@ -132,9 +145,9 @@ public class Cycle {
      *             0 and cycle size.
      * @return whether player was removed successfully
      */
-    public boolean removePlayer(int spot) {
+    public void removePlayer(int spot) throws InvalidArgumentException {
         if (spot < 0 || spot >= size()) {
-            return false;
+            throw new InvalidArgumentException();
         }
 
         playerList.remove(spot);
@@ -142,8 +155,6 @@ public class Cycle {
         if (spot <= currIndex) {
             currIndex--;
         }
-
-        return true;
     }
 
     /**
@@ -153,7 +164,7 @@ public class Cycle {
      * @param playerName2 name of the second player to be swapped
      * @return whether the players were swapped successfully
      */
-    public boolean swap(String playerName1, String playerName2) {
+    public void swap(String playerName1, String playerName2) throws PlayerNotFoundException {
         int index1 = -1;
         int index2 = -1;
 
@@ -167,10 +178,14 @@ public class Cycle {
         }
 
         if (index1 == -1 || index2 == -1) {
-            return false;
+            throw new PlayerNotFoundException();
         }
 
-        return swap(index1, index2);
+        try {
+            swap(index1, index2);
+        } catch (InvalidArgumentException e) {
+            throw new IllegalArgumentException(e);
+        }
     } 
 
     /**
@@ -182,25 +197,23 @@ public class Cycle {
      0*              0 and cycle size.
      * @return whether the players were swapped successfully
      */
-    public boolean swap(int index1, int index2) {
+    public void swap(int index1, int index2) throws InvalidArgumentException {
         if (index1 < 0 || index1 >= size()) {
-            return false;
+            throw new InvalidArgumentException();
         }
 
         if (index2 < 0 || index2 >= size()) {
-            return false;
+            throw new InvalidArgumentException();
         }
 
         if (index1 < currIndex && index2 > currIndex || 
             index2 < currIndex && index1 > currIndex) {
-            return false;
+            throw new InvalidArgumentException();
         }
 
         String tempString = playerList.get(index1);
         playerList.set(index1, playerList.get(index2));
         playerList.set(index2, tempString);
-
-        return true;
     }
 
     /**
@@ -218,9 +231,9 @@ public class Cycle {
      * @return name of the player in the spot. Has to be between 0 and cycle
      *         size.
      */
-    public String getPlayerName(int spot) {
+    public String getPlayerName(int spot) throws InvalidArgumentException {
         if (spot < 0 || spot >= size()) {
-            return null;
+            throw new InvalidArgumentException();
         }
 
         return playerList.get(spot);

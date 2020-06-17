@@ -1,5 +1,8 @@
 package com.clancraft.turnmanager;
 
+import com.clancraft.turnmanager.exception.DuplicatePlayerException;
+import com.clancraft.turnmanager.exception.PlayerNotFoundException;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -213,9 +216,14 @@ public class TMCommandHandler implements CommandExecutor {
             }
 
             if (player.hasPermission(TMPermissions.CYCLE_ADD_PERMISSION)) {
-                if (TurnManager.getCycle().addPlayer(args[2])) {
+                try {
+                    TurnManager.getCycle().addPlayer(args[2]);
                     player.sendMessage(String.format(TMConstants.ADD_PLAYER_SUCCESS, args[2]));
-                } else {
+                } catch (DuplicatePlayerException e) {
+                    //TODO update
+                    player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED, args[2]));
+                } catch (PlayerNotFoundException e) {
+                    //TODO updat
                     player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED, args[2]));
                 }
             } else {
@@ -231,9 +239,10 @@ public class TMCommandHandler implements CommandExecutor {
             }
 
             if (player.hasPermission(TMPermissions.CYCLE_REMOVE_PERMISSION)) {
-                if (TurnManager.getCycle().removePlayer(args[2])) {
+                try {
+                    TurnManager.getCycle().removePlayer(args[2]);
                     player.sendMessage(String.format(TMConstants.REMOVE_PLAYER_SUCCESS, args[2]));
-                } else {
+                } catch (PlayerNotFoundException e) {
                     player.sendMessage(String.format(TMConstants.REMOVE_PLAYER_FAILED, args[2]));
                 }
             } else {
@@ -249,9 +258,10 @@ public class TMCommandHandler implements CommandExecutor {
             }
 
             if (player.hasPermission(TMPermissions.CYCLE_SWAP_PERMISSION)) {
-                if (TurnManager.getCycle().swap(args[2], args[3])) {
+                try {
+                    TurnManager.getCycle().swap(args[2], args[3]);
                     player.sendMessage(String.format(TMConstants.SWAP_PLAYER_SUCCESS, args[2], args[3]));
-                } else {
+                } catch (PlayerNotFoundException e) {
                     player.sendMessage(String.format(TMConstants.SWAP_PLAYER_FAILED, args[2], args[3]));
                 }
             } else {

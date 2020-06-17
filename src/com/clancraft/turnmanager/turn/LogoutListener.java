@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.clancraft.turnmanager.*;
+import com.clancraft.turnmanager.exception.PlayerNotFoundException;
 
 /**
  * Class to listen to a Bukkit PlayerQuitEvent and schedule a player remover.
@@ -48,7 +49,11 @@ public class LogoutListener implements Listener {
                 }
             }
 
-            TurnManager.getCycle().removePlayer(playerToRemove.getName());
+            try {
+                TurnManager.getCycle().removePlayer(playerToRemove.getName());
+            } catch (PlayerNotFoundException e) {
+                //no op, player is no longer in cycle
+            }
         }
     }
     
