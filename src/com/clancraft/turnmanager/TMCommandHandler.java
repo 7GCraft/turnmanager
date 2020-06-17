@@ -4,6 +4,7 @@ import com.clancraft.turnmanager.exception.DateSyncException;
 import com.clancraft.turnmanager.exception.DuplicatePlayerException;
 import com.clancraft.turnmanager.exception.InsufficientPermissionException;
 import com.clancraft.turnmanager.exception.PlayerNotFoundException;
+import com.clancraft.turnmanager.exception.ShieldBreachException;
 import com.clancraft.turnmanager.shield.ShieldObserver;
 
 import org.bukkit.command.Command;
@@ -44,7 +45,15 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
                     break;
                 case "teleport":
                     assertSufficientPermission(player, TMPermissions.TELEPORT_PERMISSION);
-                    TurnManager.getTeleport().teleport(player);
+                    try {
+                        TurnManager.getTeleport().teleport(player);
+                    } catch (ShieldBreachException e) {
+                        player.sendMessage("Unable to teleport. You are in the current player's shield list.");
+                        // TODO update message
+                    } catch (PlayerNotFoundException e) {
+                        player.sendMessage("Unable to teleport. There is no active player in turn");
+                        // TODO update message
+                    }
                     break;
                 case "shield":
                     assertSufficientPermission(player, TMPermissions.SHIELD_PERMISSION);
