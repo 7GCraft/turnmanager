@@ -48,11 +48,9 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
                     try {
                         TurnManager.getTeleport().teleport(player);
                     } catch (ShieldBreachException e) {
-                        player.sendMessage("Unable to teleport. You are in the current player's shield list.");
-                        // TODO update message
+                        player.sendMessage(TMConstants.SHIELD_TELEPORT_BREACH);
                     } catch (PlayerNotFoundException e) {
-                        player.sendMessage("Unable to teleport. There is no active player in turn");
-                        // TODO update message
+                        player.sendMessage(TMConstants.SHIELD_NO_ACTIVE_PLAYER);
                     }
                     break;
                 case "shield":
@@ -188,11 +186,9 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
                 TurnManager.getCycle().addPlayer(args[2]);
                 player.sendMessage(String.format(TMConstants.ADD_PLAYER_SUCCESS, args[2]));
             } catch (DuplicatePlayerException e) {
-                //TODO update
-                player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED, args[2]));
+                player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED_DUPLICATE, args[2]));
             } catch (PlayerNotFoundException e) {
-                //TODO updat
-                player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED, args[2]));
+                player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED_NOT_FOUND, args[2]));
             }
             break;
         case "remove":
@@ -336,7 +332,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
                 try {
                     TurnManager.getCalendar().addPlayerDate(args[2], Integer.parseInt(args[3]));
                 } catch (DateSyncException e) {
-                    //TODO print error msg
+                    player.sendMessage(String.format(TMConstants.DATE_SYNC_ERROR, args[2]));
                 } 
             } else if (args.length == 3) {
                 assertSufficientPermission(player, TMPermissions.DATE_ADD_PERMISSION, TMPermissions.DATE_ADD_WORLD_PERMISSION);
@@ -349,7 +345,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
                 try {
                     TurnManager.getCalendar().setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
                 } catch (DateSyncException e) {
-                    //TODO error msg
+                    player.sendMessage(String.format(TMConstants.DATE_SYNC_ERROR, args[2]));
                 } 
             } else if (args.length == 5) {
                 assertSufficientPermission(player, TMPermissions.DATE_SET_PERMISSION, TMPermissions.DATE_SET_WORLD_PERMISSION);
@@ -390,7 +386,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
             try {
                 TurnManager.getCalendar().registerPlayer(args[2]);
             } catch (DuplicatePlayerException e) {
-                // TODO error msg
+                player.sendMessage(String.format(TMConstants.DATE_REGISTER_DUPLICATE, args[2]));
             }
             break;
         case "unregister":
@@ -398,7 +394,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
             try {
                 TurnManager.getCalendar().unregisterPlayer(args[2]);
             } catch (PlayerNotFoundException e) {
-                //TODO error msg
+                player.sendMessage(String.format(TMConstants.DATE_UNREGISTER_MISSING, args[2]));
             }
             break;
         }
@@ -423,7 +419,6 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
 
     @Override
     public void updateShieldBreach(Player player) {
-        player.sendMessage("YO SHIELD IS BREACHED, GOTTA GO BACK");
-        // TODO send error message to player saying the player violated shield boundary.
+        player.sendMessage(TMConstants.SHIELD_PERIMETER_BREACH);
     }
 }
