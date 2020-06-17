@@ -1,6 +1,7 @@
 package com.clancraft.turnmanager.shield;
 
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -168,10 +169,21 @@ public class Shield {
      * 
      * @return players in the shield list
      */
-    // TODO improve string format?
-    public String toString(String playerName) {
+    public String printShieldList(String playerName) {
+        StringBuilder sb = new StringBuilder("You are shielding your turn from these players:\n");
+        
         HashSet<String> shieldList = shieldHashMap.get(playerName).getShieldList();
-        return shieldList.toString();
+        PriorityQueue<String> heap = new PriorityQueue<>();
+
+        shieldList.forEach(shieldedPlayer -> {
+            heap.add(shieldedPlayer);
+        });
+
+        while (heap.peek() != null) {
+            sb.append(heap.poll() + "\n");
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -179,9 +191,8 @@ public class Shield {
      * 
      * @return players in the shield list
      */
-    // TODO improve string format?
-    public String toString() {
-        return toString(TurnManager.getCycle().currentPlayer());
+    public String printShieldList() {
+        return printShieldList(TurnManager.getCycle().currentPlayer());
     }
 
     /**

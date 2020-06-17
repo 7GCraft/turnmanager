@@ -279,9 +279,9 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
         case "list":
             assertSufficientPermission(player, TMPermissions.SHIELD_LIST_PERMISSION);
             if (args.length == 3) {
-                player.sendMessage(TurnManager.getShield().toString(args[2]));
+                player.sendMessage(TurnManager.getShield().printShieldList(args[2]));
             } else {
-                player.sendMessage(TurnManager.getShield().toString());
+                player.sendMessage(TurnManager.getShield().printShieldList());
             }
             break;
         case "on":
