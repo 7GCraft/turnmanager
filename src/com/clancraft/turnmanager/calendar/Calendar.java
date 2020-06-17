@@ -11,6 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.clancraft.turnmanager.turn.TurnObserver;
 import com.clancraft.turnmanager.*;
+import com.clancraft.turnmanager.exception.DateSyncException;
+import com.clancraft.turnmanager.exception.DuplicatePlayerException;
+import com.clancraft.turnmanager.exception.PlayerNotFoundException;
 
 /**
  * A class to handle Date functionality.
@@ -95,32 +98,26 @@ public class Calendar implements TurnObserver{
      * 
      * @param playerName   player's date to be advanced
      * @param daysToAdd    days to advance
-     * @return
      */
-    public boolean addPlayerDate(String playerName, int daysToAdd) {
+    public void addPlayerDate(String playerName, int daysToAdd) throws DateSyncException {
         Date playerDate = playerDates.get(playerName);
         
         if (playerDate.getIsSynced()) {
-            return false;
+            throw new DateSyncException();
         }
         
         playerDate.add(daysToAdd);
-        
-        return true;
     }
     
     /**
      * Advances world date and all synced dates.
      * @param daysToAdd    days to advance
-     * @return
      */
-    public boolean addWorldDate(int daysToAdd) {
+    public void addWorldDate(int daysToAdd) {
         worldDate.add(daysToAdd);
         
         // advance all synced player dates
         syncPlayerDates();
-        
-        return true;
     }
 
     /**
@@ -129,18 +126,15 @@ public class Calendar implements TurnObserver{
      * @param day
      * @param month
      * @param year
-     * @return
      */
-    public boolean setPlayerDate(String playerName, int day, int month, int year) {
+    public void setPlayerDate(String playerName, int day, int month, int year) throws DateSyncException {
         Date playerDate = playerDates.get(playerName);
         
         if (playerDate.getIsSynced()) {
-            return false;
+            throw new DateSyncException();
         }
         
         playerDate.setDate(day, Date.Month.values()[month], year);
-        
-        return true;
     }
 
     /**
@@ -148,60 +142,49 @@ public class Calendar implements TurnObserver{
      * @param day
      * @param month
      * @param year
-     * @return
      */
-    public boolean setWorldDate(int day, int month, int year) {
+    public void setWorldDate(int day, int month, int year) {
         worldDate.setDate(day, Date.Month.values()[month], year);
 
         // set all synced player dates
         syncPlayerDates();
-
-        return true;
     }
 
     /**
      * Syncs a specified player's date to the world date.
      * @param playerName
-     * @return
      */
-    public boolean sync(String playerName) {
+    public void sync(String playerName) {
         Date playerDate = playerDates.get(playerName);
 
         playerDate.setIsSynced(true);
-
-        return true;
     }
 
     /**
      * Unsyncs a specified player's date to the world date.
      * @param playerName
-     * @return
      */
-    public boolean unsync(String playerName) {
+    public void unsync(String playerName) {
         Date playerDate = playerDates.get(playerName);
 
         playerDate.setIsSynced(false);
-
-        return true;
     }
     
-    public boolean registerPlayer(String playerName) {
+    public void registerPlayer(String playerName) throws DuplicatePlayerException {
         if (playerDates.containsKey(playerName)) {
-            return false;
+            throw new DuplicatePlayerException();
         }
 
         Date date = new Date();
         playerDates.put(playerName, date);
-        return true;
     }
 
-    public boolean unregisterPlayer(String playerName) {
+    public void unregisterPlayer(String playerName) throws PlayerNotFoundException {
         if (!playerDates.containsKey(playerName)) {
-            return false;
+            throw new PlayerNotFoundException();
         }
 
         playerDates.remove(playerName);
-        return true;
     }
 
     /**

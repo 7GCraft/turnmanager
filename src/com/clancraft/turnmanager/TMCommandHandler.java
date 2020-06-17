@@ -1,5 +1,6 @@
 package com.clancraft.turnmanager;
 
+import com.clancraft.turnmanager.exception.DateSyncException;
 import com.clancraft.turnmanager.exception.DuplicatePlayerException;
 import com.clancraft.turnmanager.exception.PlayerNotFoundException;
 
@@ -402,7 +403,11 @@ public class TMCommandHandler implements CommandExecutor {
             case "add":
                 if (args.length == 4) {
                     if (player.hasPermission(TMPermissions.DATE_ADD_PERMISSION) || player.hasPermission(TMPermissions.DATE_ADD_PLAYER_PERMISSION)) {
-                        TurnManager.getCalendar().addPlayerDate(args[2], Integer.parseInt(args[3]));
+                        try {
+                            TurnManager.getCalendar().addPlayerDate(args[2], Integer.parseInt(args[3]));
+                        } catch (DateSyncException e) {
+                            //TODO print error msg
+                        }
                     } else {
                         player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
                     } 
@@ -417,7 +422,11 @@ public class TMCommandHandler implements CommandExecutor {
             case "set":
                 if (args.length == 6) {
                     if (player.hasPermission(TMPermissions.DATE_SET_PERMISSION) || player.hasPermission(TMPermissions.DATE_SET_PLAYER_PERMISSION)) {
-                        TurnManager.getCalendar().setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+                        try {
+                            TurnManager.getCalendar().setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+                        } catch (DateSyncException e) {
+                            //TODO error msg
+                        }
                     } else {
                         player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
                     } 
@@ -481,14 +490,22 @@ public class TMCommandHandler implements CommandExecutor {
                 break;
             case "register":
                 if (player.hasPermission(TMPermissions.DATE_REGISTER_PERMISSION)) {
-                    TurnManager.getCalendar().registerPlayer(args[2]);
+                    try {
+                        TurnManager.getCalendar().registerPlayer(args[2]);
+                    } catch (DuplicatePlayerException e) {
+                        // TODO error msg
+                    }
                 } else {
                     player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
                 }
                 break;
             case "unregister":
                 if (player.hasPermission(TMPermissions.DATE_UNREGISTER_PERMISSION)) {
-                    TurnManager.getCalendar().unregisterPlayer(args[2]);
+                    try {
+                        TurnManager.getCalendar().unregisterPlayer(args[2]);
+                    } catch (PlayerNotFoundException e) {
+                        //TODO error msg
+                    }
                 } else {
                     player.sendMessage(TMConstants.NO_PERMISSION_ERROR);
                 }
