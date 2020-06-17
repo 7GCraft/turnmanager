@@ -1,5 +1,6 @@
 package com.clancraft.turnmanager.shield;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -14,11 +15,13 @@ import com.clancraft.turnmanager.*;
  * interval, compares each location with the current player, and decides if 
  * the location violates the predetermined shield boundary.
  */
-public class PositionChecker implements Runnable {
+public class PositionChecker implements Runnable, ShieldObservable {
     /**
      * Map that stores previous valid coordinates for each players.
      */
     HashMap<String, PlayerCoordinate> coordinateMap;
+
+    private ArrayList<ShieldObserver> observerList;
 
     /**
      * Default constructor. Creates and populates the coordinate map. 
@@ -68,14 +71,31 @@ public class PositionChecker implements Runnable {
                     + Math.pow(loc.getY() - currPlayer.getLocation().getY(), 2);
 
             if (distSqr < Math.pow(TMConstants.SHIELD_RADIUS, 2)) {
-                // TODO send error message to player saying the player violated shield boundary.
                 loc.setX(coordinateMap.get(player.getName()).x);
                 loc.setY(coordinateMap.get(player.getName()).y);
                 loc.setZ(coordinateMap.get(player.getName()).z);
+                notifyShieldBreach(player);
             } else {
                 coordinateMap.put(player.getName(), new PlayerCoordinate(loc.getX(), loc.getY(), loc.getZ()));
             }
         }
+    }
+
+    @Override
+    public void registerShieldObserver(ShieldObserver obs){
+        observerList.add(obs);
+    }
+
+    @Override
+    public boolean removeShieldObserver(ShieldObserver obs){
+        return observerList.remove(obs);
+    }
+
+    @Override
+    public void notifyShieldBreach(Player player){
+        observerList.forEach(observer -> {
+            observer.updateShieldBreach(player);
+        });
     }
 
     /**

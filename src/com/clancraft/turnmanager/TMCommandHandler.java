@@ -4,6 +4,7 @@ import com.clancraft.turnmanager.exception.DateSyncException;
 import com.clancraft.turnmanager.exception.DuplicatePlayerException;
 import com.clancraft.turnmanager.exception.InsufficientPermissionException;
 import com.clancraft.turnmanager.exception.PlayerNotFoundException;
+import com.clancraft.turnmanager.shield.ShieldObserver;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,7 +14,7 @@ import org.bukkit.entity.Player;
 /**
  * Class to handle commands passed from Bukkit.
  */
-public class TMCommandHandler implements CommandExecutor {
+public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     /**
      * Overridden from CommandExecutor. TODO comprehensive explanation
      */
@@ -409,5 +410,11 @@ public class TMCommandHandler implements CommandExecutor {
         if (!valid) {
             throw new InsufficientPermissionException();
         }
+    }
+
+    @Override
+    public void updateShieldBreach(Player player) {
+        player.sendMessage("YO SHIELD IS BREACHED, GOTTA GO BACK");
+        // TODO send error message to player saying the player violated shield boundary.
     }
 }
