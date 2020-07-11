@@ -37,7 +37,7 @@ public class Turn implements TurnObservable {
     public void nextTurn() {
         // while next player is not available
         for (int i = 0; !checkPlayerAvailability(TurnManager.getCycle().next()); i++) {
-            if (TurnManager.getCycle().currentPlayer().equals(TurnManager.getCycle().BREAK_NAME)) {
+            if (TurnManager.getCycle().currentPlayer().equals(Cycle.BREAK_NAME)) {
                 announceTurn();
                 stopTimer();
                 startTimer();
