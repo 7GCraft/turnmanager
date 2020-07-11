@@ -5,6 +5,7 @@ import com.clancraft.turnmanager.exception.DuplicatePlayerException;
 import com.clancraft.turnmanager.exception.InsufficientPermissionException;
 import com.clancraft.turnmanager.exception.PlayerNotFoundException;
 import com.clancraft.turnmanager.exception.ShieldBreachException;
+import com.clancraft.turnmanager.exception.InvalidArgumentException;
 import com.clancraft.turnmanager.shield.ShieldObserver;
 
 import org.bukkit.command.Command;
@@ -183,10 +184,16 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
 
             assertSufficientPermission(player, TMPermissions.CYCLE_ADD_PERMISSION);
             try {
-                TurnManager.getCycle().addPlayer(args[2]);
+                if (args.length == 3) {
+                    TurnManager.getCycle().addPlayer(args[2]);
+                } else {
+                    TurnManager.getCycle().addPlayer(args[2], Integer.parseInt(args[3]) - 1);
+                }
                 player.sendMessage(String.format(TMConstants.ADD_PLAYER_SUCCESS, args[2]));
             } catch (DuplicatePlayerException e) {
                 player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED_DUPLICATE, args[2]));
+            } catch (InvalidArgumentException e) {
+                throw new IllegalArgumentException(e);
             } catch (PlayerNotFoundException e) {
                 player.sendMessage(String.format(TMConstants.ADD_PLAYER_FAILED_NOT_FOUND, args[2]));
             }
