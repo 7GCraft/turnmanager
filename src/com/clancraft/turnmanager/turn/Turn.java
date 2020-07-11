@@ -51,6 +51,7 @@ public class Turn implements TurnObservable {
         }
 
         announceTurn();
+        stopTimer();
         Player currPlayer = null;
         Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
         while (playerIter.hasNext()) {
