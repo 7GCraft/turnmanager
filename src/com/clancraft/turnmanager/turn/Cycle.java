@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
  * to store Minecraft player names.
  */
 public class Cycle {
+    public static final String BREAK_NAME = "Break";
+
     /**
      * List containing players in the cycle.
      */
@@ -31,7 +33,7 @@ public class Cycle {
      */
     public Cycle() {
         playerList = new ArrayList<String>();
-        playerList.add("Break");
+        playerList.add(BREAK_NAME);
         currIndex = 0;
     }
 
