@@ -131,6 +131,7 @@ public class Cycle {
             if (playerList.get(i).toLowerCase().equals(playerName.toLowerCase())) {
                 try {
                     removePlayer(i);
+                    return;
                 } catch (InvalidArgumentException e) {
                     throw new IllegalArgumentException(e);
                 }
