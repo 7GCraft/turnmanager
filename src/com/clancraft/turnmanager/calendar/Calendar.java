@@ -1,10 +1,12 @@
 package com.clancraft.turnmanager.calendar;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -85,12 +87,14 @@ public class Calendar implements TurnObserver{
             playerList.add(playerName);
         }
         
-        this.getCalendarConfig().set("playerList", playerList);
+        this.getCalendarConfig().set("playerlist", playerList);
         
         playerDates.forEach((playerName, playerDate) -> {
             this.getCalendarConfig().set("dates." + playerName + ".date", playerDate.getDay() + "-" + playerDate.getMonth().monthNum + "-" + playerDate.getYear());
             this.getCalendarConfig().set("dates." + playerName + ".sync", playerDate.getIsSynced());
         });
+
+        this.saveCalendarConfig();
     }
     
     /**
@@ -230,6 +234,14 @@ public class Calendar implements TurnObserver{
     
     private FileConfiguration getCalendarConfig() {
         return calendarConfig;
+    }
+
+    private void saveCalendarConfig() {
+        try {
+            this.calendarConfig.save(calendarConfigFile);
+        } catch (IOException e) {
+            Bukkit.getLogger().warning("Unable to save calendar data!");
+        }
     }
 
     @Override
