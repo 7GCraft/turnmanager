@@ -309,6 +309,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
             case "register":
                 assertSufficientPermission(player, TMPermissions.SHIELD_REGISTER_PERMISSION);
                 TurnManager.getShield().registerPlayer(args[2]);
+                player.sendMessage(String.format(TMConstants.SHIELD_REGISTER_SUCCESS, args[2]));
                 break;
             case "unregister":
                 assertSufficientPermission(player, TMPermissions.SHIELD_UNREGISTER_PERMISSION);

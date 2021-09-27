@@ -44,6 +44,7 @@ public class TMConstants {
     public static final String TIMER_OVERTIME = PLUGIN_PREFIX + "This turn is %d minutes over time!";
 
     //TODO change SHIELD_PERIMETER_BREACH, SHIELD_TELEPORT_BREACH, SHIELD_NO_ACTIVE_PLAYER and message
+    public static final String SHIELD_REGISTER_SUCCESS = PLUGIN_PREFIX + "%s has been registered.";
     public static final String SHIELD_PERIMETER_BREACH = "You have entered a shielded area. Your location has been reverted a the previously recorded location.";
     public static final String SHIELD_TELEPORT_BREACH = "Unable to teleport. You are shielded from the current player's turn.";
     public static final String SHIELD_NO_ACTIVE_PLAYER = "Unable to teleport. There is no active player having a turn.";
