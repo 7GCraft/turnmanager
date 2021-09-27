@@ -351,12 +351,14 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
                     assertSufficientPermission(player, TMPermissions.DATE_SET_PERMISSION, TMPermissions.DATE_SET_PLAYER_PERMISSION);
                     try {
                         TurnManager.getCalendar().setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+                        player.sendMessage(String.format(TMConstants.DATE_SET_PLAYER_SUCCESS, args[2]));
                     } catch (DateSyncException e) {
                         player.sendMessage(String.format(TMConstants.DATE_SYNC_ERROR, args[2]));
                     }
                 } else if (args.length == 5) {
                     assertSufficientPermission(player, TMPermissions.DATE_SET_PERMISSION, TMPermissions.DATE_SET_WORLD_PERMISSION);
                     TurnManager.getCalendar().setWorldDate(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+                    player.sendMessage(TMConstants.DATE_SET_WORLD_SUCCESS);
                 }
                 break;
             case "sync":

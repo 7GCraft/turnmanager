@@ -45,6 +45,8 @@ public class TMConstants {
     public static final String SHIELD_NO_ACTIVE_PLAYER = "Unable to teleport. There is no active player having a turn.";
 
     //TODO change DATE_SYNC_ERROR, DATE_REGISTER_DUPLICATE, and DATE_UNREGISTER_MISSING message
+    public static final String DATE_SET_PLAYER_SUCCESS = PLUGIN_PREFIX + "%s's player date has been changed.";
+    public static final String DATE_SET_WORLD_SUCCESS = PLUGIN_PREFIX + "The world date has been changed.";
     public static final String DATE_SYNC_ERROR = "%s's date is synced to the world date. Unable to change date.";
     public static final String DATE_REGISTER_DUPLICATE = "%s is already register";
     public static final String DATE_UNREGISTER_MISSING = "Unable to unregister %s, player not found";
