@@ -38,10 +38,10 @@ public class TMConstants {
     public static final String ANNOUNCE_CURRENT_PLAYER = PLUGIN_PREFIX + "Current player is: %s";
     public static final String ANNOUNCE_SEQUENCE = PLUGIN_PREFIX + "Sequence: %s";
 
-    public static final String TIMER_INITIAL = "Turn has started.";
-    public static final String TIMER_COUNTDOWN = "%d minutes remaining in this turn.";
-    public static final String TIMER_TIMEUP = "The time for this turn is up!";
-    public static final String TIMER_OVERTIME = "This turn is %d minutes over time!";
+    public static final String TIMER_INITIAL = PLUGIN_PREFIX + "Turn has started.";
+    public static final String TIMER_COUNTDOWN = PLUGIN_PREFIX + "%d minutes remaining in this turn.";
+    public static final String TIMER_TIMEUP = PLUGIN_PREFIX + "The time for this turn is up!";
+    public static final String TIMER_OVERTIME = PLUGIN_PREFIX + "This turn is %d minutes over time!";
 
     //TODO change SHIELD_PERIMETER_BREACH, SHIELD_TELEPORT_BREACH, SHIELD_NO_ACTIVE_PLAYER and message
     public static final String SHIELD_PERIMETER_BREACH = "You have entered a shielded area. Your location has been reverted a the previously recorded location.";
