@@ -30,6 +30,9 @@ public class TMConstants {
             + "%s and %s have been swapped in the turn sequence.";
     public static final String SWAP_PLAYER_FAILED = PLUGIN_PREFIX + ChatColor.RED
             + "%s and %s could not be swapped in the turn sequence.";
+    public static final String SWAP_PLAYER_MISSING_ARGUMENT_ERROR = PLUGIN_PREFIX + ChatColor.RED
+            + "/tm swap requires two arguments!\n"
+            + PLUGIN_PREFIX + "/tm swap [player1] [player2]";
 
     public static final String ANNOUNCE_CURRENT_PLAYER = PLUGIN_PREFIX + "Current player is: %s";
     public static final String ANNOUNCE_SEQUENCE = PLUGIN_PREFIX + "Sequence: %s";

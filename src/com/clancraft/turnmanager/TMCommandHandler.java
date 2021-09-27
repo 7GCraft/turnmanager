@@ -217,8 +217,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
             case "swap":
                 if (args.length < 4) {
                     // tm cycle swap missing 1 or 2 arguments
-                    // TODO add a tm cycle swap custom error message
-                    player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+                    player.sendMessage(TMConstants.SWAP_PLAYER_MISSING_ARGUMENT_ERROR);
                     return;
                 }
 
