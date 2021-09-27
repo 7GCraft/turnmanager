@@ -83,8 +83,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     private void handleTimer(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm timer missing 1 argument
-            // TODO add a tm timer custom error message
-            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            player.sendMessage(TMConstants.TIMER_MISSING_ARGUMENT_ERROR);
             return;
         }
 
@@ -124,8 +123,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     private void handleTurn(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm turn missing 1 argument
-            // TODO add a tm turn custom error message
-            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            player.sendMessage(TMConstants.TURN_MISSING_ARGUMENT_ERROR);
             return;
         }
 
@@ -164,8 +162,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     private void handleCycle(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm cycle missing 1 argument
-            // TODO add a tm cycle custom error message
-            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            player.sendMessage(TMConstants.CYCLE_MISSING_ARGUMENT_ERROR);
             return;
         }
 
@@ -177,8 +174,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
             case "add":
                 if (args.length < 3) {
                     // tm cycle add missing 1 argument
-                    // TODO add a tm cycle add custom error message
-                    player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+                    player.sendMessage(TMConstants.ADD_PLAYER_MISSING_ARGUMENT_ERROR);
                     return;
                 }
 
@@ -201,8 +197,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
             case "remove":
                 if (args.length < 3) {
                     // tm cycle remove missing 1 argument
-                    // TODO add a tm cycle remove custom error message
-                    player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+                    player.sendMessage(TMConstants.REMOVE_PLAYER_MISSING_ARGUMENT_ERROR);
                     return;
                 }
 
@@ -244,8 +239,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     private void handleShield(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm shield missing 1 argument
-            // TODO add a tm shield custom error message
-            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            player.sendMessage(TMConstants.SHIELD_MISSING_ARGUMENT_ERROR);
             return;
         }
 
@@ -327,8 +321,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     private void handleDate(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm shield missing 1 argument
-            // TODO add a tm date custom error message
-            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            player.sendMessage(TMConstants.DATE_MISSING_ARGUMENT_ERROR);
             return;
         }
 
