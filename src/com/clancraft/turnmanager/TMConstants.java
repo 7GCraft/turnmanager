@@ -62,7 +62,7 @@ public class TMConstants {
             + "Unable to teleport. You are shielded from the current player's turn.";
     public static final String SHIELD_NO_ACTIVE_PLAYER = PLUGIN_PREFIX + ChatColor.RED
             + "Unable to teleport. There is no active player having a turn.";
-    
+
     public static final String DATE_MISSING_ARGUMENT_ERROR = PLUGIN_PREFIX + ChatColor.RED
             + "/tm date requires an argument!\n" + PLUGIN_PREFIX + "/tm date [argument]";
     public static final String DATE_ADD_PLAYER_SUCCESS = PLUGIN_PREFIX + "%s's player date has been moved.";
