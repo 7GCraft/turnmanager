@@ -48,8 +48,8 @@ public class Teleport {
         }
 
         // set player gamemode to SPECTATOR before teleporting
-        player.setGameMode(GameMode.SPECTATOR);
         player.teleport(currPlayer);
+        player.setGameMode(GameMode.SPECTATOR);
     }
 
 }
