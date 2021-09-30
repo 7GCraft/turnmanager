@@ -10,7 +10,7 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../7GCraft/Servers/clancraft-spigot-1.15-test/Spigot/Spigot-API/target/spigot-api-1.15.2-R0.1-SNAPSHOT.jar!/" />
+          <root url="jar://$MODULE_DIR$/../turnmanager-dependency/Spigot API/spigot-api-1.15.2-R0.1-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
