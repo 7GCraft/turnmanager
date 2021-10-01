@@ -47,7 +47,7 @@ public class TMConstants {
             + "/tm cycle requires an argument!\n" + PLUGIN_PREFIX + "/tm cycle [argument]";
 
     public static final String TIMER_MISSING_ARGUMENT_ERROR = PLUGIN_PREFIX + ChatColor.RED
-        + "/tm timer requires an argument!\n" + PLUGIN_PREFIX + "/tm timer [argument]";
+            + "/tm timer requires an argument!\n" + PLUGIN_PREFIX + "/tm timer [argument]";
     public static final String TIMER_INITIAL = PLUGIN_PREFIX + "Turn has started.";
     public static final String TIMER_COUNTDOWN = PLUGIN_PREFIX + "%d minutes remaining in this turn.";
     public static final String TIMER_TIMEUP = PLUGIN_PREFIX + "The time for this turn is up!";
