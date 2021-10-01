@@ -83,8 +83,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     private void handleTimer(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm timer missing 1 argument
-            // TODO add a tm timer custom error message
-            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            player.sendMessage(TMConstants.TIMER_MISSING_ARGUMENT_ERROR);
             return;
         }
 
@@ -124,8 +123,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     private void handleTurn(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm turn missing 1 argument
-            // TODO add a tm turn custom error message
-            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            player.sendMessage(TMConstants.TURN_MISSING_ARGUMENT_ERROR);
             return;
         }
 
@@ -164,8 +162,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     private void handleCycle(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm cycle missing 1 argument
-            // TODO add a tm cycle custom error message
-            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            player.sendMessage(TMConstants.CYCLE_MISSING_ARGUMENT_ERROR);
             return;
         }
 
@@ -177,8 +174,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
             case "add":
                 if (args.length < 3) {
                     // tm cycle add missing 1 argument
-                    // TODO add a tm cycle add custom error message
-                    player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+                    player.sendMessage(TMConstants.ADD_PLAYER_MISSING_ARGUMENT_ERROR);
                     return;
                 }
 
@@ -201,8 +197,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
             case "remove":
                 if (args.length < 3) {
                     // tm cycle remove missing 1 argument
-                    // TODO add a tm cycle remove custom error message
-                    player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+                    player.sendMessage(TMConstants.REMOVE_PLAYER_MISSING_ARGUMENT_ERROR);
                     return;
                 }
 
@@ -217,8 +212,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
             case "swap":
                 if (args.length < 4) {
                     // tm cycle swap missing 1 or 2 arguments
-                    // TODO add a tm cycle swap custom error message
-                    player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+                    player.sendMessage(TMConstants.SWAP_PLAYER_MISSING_ARGUMENT_ERROR);
                     return;
                 }
 
@@ -245,8 +239,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     private void handleShield(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm shield missing 1 argument
-            // TODO add a tm shield custom error message
-            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            player.sendMessage(TMConstants.SHIELD_MISSING_ARGUMENT_ERROR);
             return;
         }
 
@@ -310,6 +303,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
             case "register":
                 assertSufficientPermission(player, TMPermissions.SHIELD_REGISTER_PERMISSION);
                 TurnManager.getShield().registerPlayer(args[2]);
+                player.sendMessage(String.format(TMConstants.SHIELD_REGISTER_SUCCESS, args[2]));
                 break;
             case "unregister":
                 assertSufficientPermission(player, TMPermissions.SHIELD_UNREGISTER_PERMISSION);
@@ -327,8 +321,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
     private void handleDate(Player player, String[] args) throws InsufficientPermissionException {
         if (args.length < 2) {
             // tm shield missing 1 argument
-            // TODO add a tm date custom error message
-            player.sendMessage(TMConstants.MISSING_ARGUMENT_ERROR);
+            player.sendMessage(TMConstants.DATE_MISSING_ARGUMENT_ERROR);
             return;
         }
 
@@ -338,12 +331,14 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
                     assertSufficientPermission(player, TMPermissions.DATE_ADD_PERMISSION, TMPermissions.DATE_ADD_PLAYER_PERMISSION);
                     try {
                         TurnManager.getCalendar().addPlayerDate(args[2], Integer.parseInt(args[3]));
+                        player.sendMessage(String.format(TMConstants.DATE_ADD_PLAYER_SUCCESS, args[2]));
                     } catch (DateSyncException e) {
                         player.sendMessage(String.format(TMConstants.DATE_SYNC_ERROR, args[2]));
                     }
                 } else if (args.length == 3) {
                     assertSufficientPermission(player, TMPermissions.DATE_ADD_PERMISSION, TMPermissions.DATE_ADD_WORLD_PERMISSION);
                     TurnManager.getCalendar().addWorldDate(Integer.parseInt(args[2]));
+                    player.sendMessage(TMConstants.DATE_ADD_WORLD_SUCCESS);
                 }
                 break;
             case "set":
@@ -351,12 +346,14 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
                     assertSufficientPermission(player, TMPermissions.DATE_SET_PERMISSION, TMPermissions.DATE_SET_PLAYER_PERMISSION);
                     try {
                         TurnManager.getCalendar().setPlayerDate(args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+                        player.sendMessage(String.format(TMConstants.DATE_SET_PLAYER_SUCCESS, args[2]));
                     } catch (DateSyncException e) {
                         player.sendMessage(String.format(TMConstants.DATE_SYNC_ERROR, args[2]));
                     }
                 } else if (args.length == 5) {
                     assertSufficientPermission(player, TMPermissions.DATE_SET_PERMISSION, TMPermissions.DATE_SET_WORLD_PERMISSION);
                     TurnManager.getCalendar().setWorldDate(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+                    player.sendMessage(TMConstants.DATE_SET_WORLD_SUCCESS);
                 }
                 break;
             case "sync":
