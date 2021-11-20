@@ -19,16 +19,14 @@ public class PositionChecker implements Runnable, ShieldObservable {
     /**
      * Map that stores previous valid coordinates for each players.
      */
-    HashMap<String, PlayerCoordinate> coordinateMap;
+    HashMap<String, PlayerCoordinate> coordinateMap = new HashMap<>();
 
-    private ArrayList<ShieldObserver> observerList;
+    private ArrayList<ShieldObserver> observerList = new ArrayList<>();
 
     /**
      * Default constructor. Creates and populates the coordinate map.
      */
     public PositionChecker() {
-        coordinateMap = new HashMap<>();
-
         Bukkit.getOnlinePlayers().forEach(player -> {
             Location loc = player.getLocation();
             coordinateMap.put(player.getName(), new PlayerCoordinate(loc.getX(), loc.getY(), loc.getZ()));
