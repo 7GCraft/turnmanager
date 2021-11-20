@@ -6,14 +6,14 @@ package com.clancraft.turnmanager.turn;
 public interface TurnObservable {
     /**
      * Adds the observer to the observer list
-     * 
+     *
      * @param obs observer to be added to the observer list
      */
     public void registerTurnObserver(TurnObserver obs);
-    
+
     /**
      * Removes the observer from the observer list
-     * 
+     *
      * @param obs observer to be removed from the observer list
      */
     public boolean removeTurnObserver(TurnObserver obs);

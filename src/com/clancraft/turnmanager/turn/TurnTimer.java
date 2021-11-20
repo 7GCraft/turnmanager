@@ -22,7 +22,7 @@ public class TurnTimer extends Thread {
 
     /**
      * Default constructor that accepts the duration of the timer.
-     * 
+     *
      * @param minute duration of the timer
      */
     public TurnTimer(int minute) {
@@ -34,7 +34,7 @@ public class TurnTimer extends Thread {
      * decrementing variable value every NORMAL_INTERVAL minutes. Timer keeps
      * running after time is up, reminding user every OVERTIME_INTERVAL, up to
      * MAX_OVERTIME_MINS minutes.
-     * 
+     *
      * @see com.clancraft.turnmanager.TMConstants#NORMAL_INTERVAL NORMAL_INTERVAL
      * @see com.clancraft.turnmanager.TMConstants#OVERTIME_INTERVAL
      *      OVERTIME_INTERVAL

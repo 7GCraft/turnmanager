@@ -2,16 +2,16 @@ package com.clancraft.turnmanager.calendar;
 
 public class Date {
     public enum Month {
-        JANUARY("January", 1, 31), 
-        FEBRUARY("February", 2, 28), 
-        MARCH("March", 3, 31), 
+        JANUARY("January", 1, 31),
+        FEBRUARY("February", 2, 28),
+        MARCH("March", 3, 31),
         APRIL("April", 4, 30),
-        MAY("May", 5, 31), 
-        JUNE("June", 6, 30), 
-        JULY("July", 7, 31), 
+        MAY("May", 5, 31),
+        JUNE("June", 6, 30),
+        JULY("July", 7, 31),
         AUGUST("August", 8, 31),
-        SEPTEMBER("September", 9, 30), 
-        OCTOBER("October", 10, 31), 
+        SEPTEMBER("September", 9, 30),
+        OCTOBER("October", 10, 31),
         NOVEMBER("November", 11, 30),
         DECEMBER("December", 12, 31) {
             @Override
@@ -25,7 +25,7 @@ public class Date {
             this.monthNum = monthNum;
             this.numDays = numDays;
         }
-        
+
         public Month next() {
             return values()[ordinal() + 1];
         }
@@ -51,7 +51,7 @@ public class Date {
 
     /**
      * Constructor overload. Initialises fields according to args.
-     * 
+     *
      * @param day   date day
      * @param month date month
      * @param year  date year
@@ -59,10 +59,10 @@ public class Date {
     public Date(int day, Month month, int year) {
         setDate(day, month, year);
     }
-    
+
     /**
      * Constructor overload. Initialises fields according to args.
-     * 
+     *
      * @param day       date day
      * @param month     date month
      * @param year      date year
@@ -81,7 +81,7 @@ public class Date {
     public static Month getMonthEnum(int monthNum) {
         return Date.Month.values()[monthNum - 1];
     }
-    
+
     /**
      * Advances date by specified number of days.
      * @param daysToAdd days to advance
@@ -91,25 +91,25 @@ public class Date {
         int tempDay = getDay() + daysToAdd;
         Month tempMonth = getMonth();
         int tempYear = getYear();
-        
+
         int maxDays = month.numDays;
         if (tempMonth == Month.FEBRUARY && isLeapYear(tempYear)) {
             maxDays = 29;
         }
-        
+
         while (tempDay > maxDays) {
             tempDay -= maxDays;
             tempMonth = tempMonth.next();
             if (tempMonth.monthNum == 1) {
                 tempYear++;
             }
-            
+
             maxDays = month.numDays;
             if (tempMonth == Month.FEBRUARY && isLeapYear(tempYear)) {
                 maxDays = 29;
             }
         }
-        
+
         setDate(tempDay, tempMonth, tempYear);
     }
 
@@ -124,7 +124,7 @@ public class Date {
             return true;
         return false;
     }
-    
+
     /**
      * Checks if specified year is a leap year.
      * @param year  year to check
@@ -140,7 +140,7 @@ public class Date {
 
     /**
      * Get formatted date.
-     * 
+     *
      * @return formatted date
      */
     public String getDate() {
@@ -149,16 +149,16 @@ public class Date {
 
     /**
      * Gets the current day number.
-     * 
+     *
      * @return day number
      */
     public int getDay() {
         return day;
     }
-    
+
     /**
      * Gets month.
-     * 
+     *
      * @return
      */
     public Month getMonth() {
@@ -167,7 +167,7 @@ public class Date {
 
     /**
      * Gets month name.
-     * 
+     *
      * @return name of the month
      */
     public String getMonthName() {
@@ -176,16 +176,16 @@ public class Date {
 
     /**
      * Gets year.
-     * 
+     *
      * @return year
      */
     public int getYear() {
         return year;
     }
-    
+
     /**
      * Checks whether the date is synced to world date or not.
-     * 
+     *
      * @return
      */
     public boolean getIsSynced() {
@@ -193,7 +193,7 @@ public class Date {
     }
 
     /**
-     * 
+     *
      * @param day
      * @param month
      * @param year
@@ -206,7 +206,7 @@ public class Date {
 
     /**
      * Sets and validates the day.
-     * 
+     *
      * @param newDay new day
      */
     public void setDay(int newDay) {
@@ -226,7 +226,7 @@ public class Date {
 
     /**
      * Sets and validates the month.
-     * 
+     *
      * @param newMonth new month
      */
     public void setMonth(Month newMonth) {
@@ -235,16 +235,16 @@ public class Date {
 
     /**
      * Sets and validates the year.
-     * 
+     *
      * @param newYear new year
      */
     public void setYear(int newYear) {
         year = newYear;
     }
-    
+
     /**
      * Sets date to sync with world date or not.
-     * 
+     *
      * @param isSynced
      */
     public void setIsSynced(boolean isSynced) {

@@ -36,22 +36,22 @@ public class Shield {
 
         JavaPlugin plugin = TurnManager.getPlugin();
         shieldConfigFile = new File(plugin.getDataFolder(), TMConstants.SHIELDS_CONFIG_FILE_NAME);
-        
+
         if (!shieldConfigFile.exists()) {
-        	shieldConfigFile.getParentFile().mkdirs();
-        	plugin.saveResource("shields.yml", false);
+            shieldConfigFile.getParentFile().mkdirs();
+            plugin.saveResource("shields.yml", false);
         }
-        
+
         shieldConfig = YamlConfiguration.loadConfiguration(shieldConfigFile);
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new PositionChecker(), 
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new PositionChecker(),
                 TMConstants.TICKS_IN_SECOND,
                 TMConstants.POSITION_CHECKER_INTERVAL_SECONDS * TMConstants.TICKS_IN_SECOND);
     }
 
     /**
      * Adds a player to the current player's shield list.
-     * 
+     *
      * @param playerName player to be added to the shield list
      * @return true if successful, false if unsuccessful
      */
@@ -61,7 +61,7 @@ public class Shield {
 
     /**
      * Adds a player to a specified player's shield list.
-     * 
+     *
      * @param shieldPlayerName player whose shield list is being added to
      * @param playerToAddName  player to be added to the shield list
      * @param true             if successful, false if unsuccessful
@@ -86,7 +86,7 @@ public class Shield {
 
     /**
      * Adds all online players to a specified player's shield list.
-     * 
+     *
      * @param playerName player whose shield list gets added with all players
      */
     public void addAllPlayers(String playerName) {
@@ -100,7 +100,7 @@ public class Shield {
 
     /**
      * Removes a player from the current player's shield list.
-     * 
+     *
      * @param playerName player to be removed from the list
      * @return true if successful, false if unsuccessful
      */
@@ -110,7 +110,7 @@ public class Shield {
 
     /**
      * Removes a player from a specified player's shield list.
-     * 
+     *
      * @param shieldPlayerName player whose shield list is being removed from
      * @param playerName       player to be removed from the list
      * @return true if successful, false if unsuccessful
@@ -130,7 +130,7 @@ public class Shield {
 
     /**
      * Empties a specified player's shield list.
-     * 
+     *
      * @param playerName player whose shield list is to be cleared
      */
     public void clearShield(String playerName) {
@@ -166,12 +166,12 @@ public class Shield {
 
     /**
      * Returns a string representation of the shield list.
-     * 
+     *
      * @return players in the shield list
      */
     public String printShieldList(String playerName) {
         StringBuilder sb = new StringBuilder("You are shielding your turn from these players:\n");
-        
+
         HashSet<String> shieldList = shieldHashMap.get(playerName).getShieldList();
         PriorityQueue<String> heap = new PriorityQueue<>();
 
@@ -188,7 +188,7 @@ public class Shield {
 
     /**
      * Returns a string representation of the shield list.
-     * 
+     *
      * @return players in the shield list
      */
     public String printShieldList() {
@@ -197,7 +197,7 @@ public class Shield {
 
     /**
      * Toggles the current player's shield on or off.
-     * 
+     *
      * @param isToggled shield on or off
      */
     public void toggle(boolean isToggled) {
@@ -206,7 +206,7 @@ public class Shield {
 
     /**
      * Toggles a specified player's shield on or off.
-     * 
+     *
      * @param playerName player whose shield is being toggled
      * @param isToggled  shield on or off
      */
@@ -260,8 +260,8 @@ public class Shield {
             Bukkit.getLogger().info("getConfig().set() calls executed.");
         });
 
-        this.getShieldConfig().set("playerlist", playerList); 
-        
+        this.getShieldConfig().set("playerlist", playerList);
+
         this.saveShieldConfig();
     }
 

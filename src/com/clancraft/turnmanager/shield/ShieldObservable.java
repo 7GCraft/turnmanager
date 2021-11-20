@@ -8,14 +8,14 @@ import org.bukkit.entity.Player;
 public interface ShieldObservable {
     /**
      * Adds the observer to the observer list
-     * 
+     *
      * @param obs observer to be added to the observer list
      */
     public void registerShieldObserver(ShieldObserver obs);
-    
+
     /**
      * Removes the observer from the observer list
-     * 
+     *
      * @param obs observer to be removed from the observer list
      */
     public boolean removeShieldObserver(ShieldObserver obs);

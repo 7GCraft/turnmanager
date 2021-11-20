@@ -36,14 +36,14 @@ public class Turn implements TurnObservable {
      */
     public void nextTurn() {
         stopTimer();
-        
+
         // while next player is not available
         for (int i = 0; !checkPlayerAvailability(TurnManager.getCycle().next()); i++) {
             if (TurnManager.getCycle().currentPlayer().equals(Cycle.BREAK_NAME)) {
                 announceTurn();
                 return;
             }
-            
+
             if (i >= TurnManager.getCycle().size()) {
                 Bukkit.broadcastMessage("No player in the cycle is currently present!");
                 return;
@@ -64,7 +64,7 @@ public class Turn implements TurnObservable {
         if (currPlayer == null) {
             TurnManager.getPlugin().getLogger().severe("Fatal error! Current Player object can't be found!");
             return;
-        } 
+        }
 
         currPlayer.sendMessage("Please accept the turn by /tm turn accept, or reject the turn by /tm turn reject.");
     }
@@ -95,7 +95,7 @@ public class Turn implements TurnObservable {
     /**
      * Helper method to check whether player is currently available A player is
      * available if the player is online
-     * 
+     *
      * @param input name of the player to be checked
      * @return whether player specified is available
      */
@@ -136,7 +136,7 @@ public class Turn implements TurnObservable {
 
     /**
      * Starts the timer for the specified minute
-     * 
+     *
      * @param minute minutes to be counted
      */
     public void startTimer(int minute) {

@@ -11,7 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
- * A class to hold a cycle of players. This class is similar to queue that 
+ * A class to hold a cycle of players. This class is similar to queue that
  * always loops back to the front. This cycle is specifically written
  * to store Minecraft player names.
  */
@@ -29,7 +29,7 @@ public class Cycle {
     private int currIndex;
 
     /**
-     * Default constructor. Initializes the fields to zero-like values. 
+     * Default constructor. Initializes the fields to zero-like values.
      */
     public Cycle() {
         playerList = new ArrayList<String>();
@@ -39,7 +39,7 @@ public class Cycle {
 
     /**
      * Returns the current player.
-     * 
+     *
      * @return name of the current player
      */
     public String currentPlayer() {
@@ -48,7 +48,7 @@ public class Cycle {
 
     /**
      * Advances the internal state of the cycle, returns the next player.
-     * 
+     *
      * @return name of the next player
      */
     public String next() {
@@ -58,11 +58,11 @@ public class Cycle {
 
     /**
      * Adds the specified player to the end of the queue.
-     * 
+     *
      * @param playerName name of the player to be added
      * @return whether player was added successfully
      */
-    public void addPlayer(String playerName) throws 
+    public void addPlayer(String playerName) throws
             DuplicatePlayerException, PlayerNotFoundException {
         try {
             addPlayer(playerName, size());
@@ -73,12 +73,12 @@ public class Cycle {
 
     /**
      * Adds the specified player to the specified spot.
-     * 
+     *
      * @param playerName name of the player to be added
      * @param spot where in the cycle to add the player. Has to be between 0
      *             and cycle size.
      */
-    public void addPlayer(String playerName, int spot) throws 
+    public void addPlayer(String playerName, int spot) throws
             InvalidArgumentException, DuplicatePlayerException, PlayerNotFoundException {
         if (spot < 0 || spot > size()) {
             throw new InvalidArgumentException();
@@ -105,7 +105,7 @@ public class Cycle {
 
     /**
      * Helper method to validate player name to be added.
-     * 
+     *
      * @param input name of the player to be validated
      * @return player name with proper capitalization
      */
@@ -117,13 +117,13 @@ public class Cycle {
                 return currPlayer;
             }
         }
-        
+
         throw new PlayerNotFoundException();
     }
 
     /**
      * Removes the specified player from the cycle.
-     * 
+     *
      * @param playerName name of the player to be removed
      */
     public void removePlayer(String playerName) throws PlayerNotFoundException {
@@ -137,14 +137,14 @@ public class Cycle {
                 }
             }
         }
-        
+
         throw new PlayerNotFoundException();
     }
 
     /**
      * Removes a player on the specified spot from the cycle.
-     * 
-     * @param spot where in the list to remove player from. Has to be between 
+     *
+     * @param spot where in the list to remove player from. Has to be between
      *             0 and cycle size.
      * @return whether player was removed successfully
      */
@@ -162,7 +162,7 @@ public class Cycle {
 
     /**
      * Swaps the two specified players' spots in the cycle.
-     * 
+     *
      * @param playerName1 name of the first player to be swapped
      * @param playerName2 name of the second player to be swapped
      * @return whether the players were swapped successfully
@@ -189,15 +189,15 @@ public class Cycle {
         } catch (InvalidArgumentException e) {
             throw new IllegalArgumentException(e);
         }
-    } 
+    }
 
     /**
      * Swaps the players in the two specified spots in the cycle.
-     * 
-     * @param index1 spot of the first player to be swapped. Has to be between 
+     *
+     * @param index1 spot of the first player to be swapped. Has to be between
      *               0 and cycle size.
-     * @param index2 spot of the second player to be swapped. Has to be between 
-     0*              0 and cycle size.
+     * @param index2 spot of the second player to be swapped. Has to be between
+    0*              0 and cycle size.
      * @return whether the players were swapped successfully
      */
     public void swap(int index1, int index2) throws InvalidArgumentException {
@@ -209,8 +209,8 @@ public class Cycle {
             throw new InvalidArgumentException();
         }
 
-        if (index1 < currIndex && index2 > currIndex || 
-            index2 < currIndex && index1 > currIndex) {
+        if (index1 < currIndex && index2 > currIndex ||
+                index2 < currIndex && index1 > currIndex) {
             throw new InvalidArgumentException();
         }
 
@@ -221,7 +221,7 @@ public class Cycle {
 
     /**
      * Returns the number of players currently in the cycle.
-     * 
+     *
      * @return number of players in the cycle
      */
     public int size() {
@@ -230,7 +230,7 @@ public class Cycle {
 
     /**
      * Returns the name of the player in the specified spot.
-     * 
+     *
      * @return name of the player in the spot. Has to be between 0 and cycle
      *         size.
      */
@@ -245,17 +245,17 @@ public class Cycle {
     /**
      * Returns a string representation of the cycle, which is the order of
      * the players in the cycle.
-     * 
+     *
      * @return order of the players in the cycle
      */
     public String toString() {
-    	StringBuilder turnSequence = new StringBuilder();
+        StringBuilder turnSequence = new StringBuilder();
         turnSequence.append(playerList.get(0)); // guaranteed to have index 0
-        
+
         for (int i = 1; i < playerList.size(); i++) {
             turnSequence.append(" -> " + playerList.get(i));
         }
-        
+
         return turnSequence.toString();
     }
 }

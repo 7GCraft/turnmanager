@@ -27,8 +27,8 @@ public class LogoutListener implements Listener {
 
         /**
          * Default constructor
-         * 
-         * @param playerToRemove player to be removed. Player should ideally not 
+         *
+         * @param playerToRemove player to be removed. Player should ideally not
          *                       currently be logged in the server.
          */
         public InactivePlayerRemover(Player playerToRemove) {
@@ -36,7 +36,7 @@ public class LogoutListener implements Listener {
         }
 
         /**
-         * Checks if player is still missing from the server, then removes 
+         * Checks if player is still missing from the server, then removes
          * player from the cycle.
          */
         @Override
@@ -56,20 +56,20 @@ public class LogoutListener implements Listener {
             }
         }
     }
-    
+
     /**
      * Registered Bukkit event handler to handle PlayerQuitEvent event. Handler
      * schedules a delayed player remover runnable that runs after
      * TMConstants.LOGOUT_LISTENER_INTERVAL_MINUTES minutes.
-     * 
+     *
      * @param event the player quit event, as per Bukkit API specifications
      * @see com.clancraft.turnmanager.TMConstants#LOGOUT_LISTENER_INTERVAL_MINUTES
      *      LOGOUT_LISTENER_INTERVAL_MINUTES
      */
     @EventHandler
     public void onPlayerLogout(PlayerQuitEvent event) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(TurnManager.getPlugin(), 
-                new InactivePlayerRemover(event.getPlayer()), 
+        Bukkit.getScheduler().scheduleSyncDelayedTask(TurnManager.getPlugin(),
+                new InactivePlayerRemover(event.getPlayer()),
                 TMConstants.LOGOUT_LISTENER_INTERVAL_MINUTES * TMConstants.TICKS_IN_MINUTE);
     }
 }

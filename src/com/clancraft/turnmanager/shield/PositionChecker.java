@@ -12,7 +12,7 @@ import com.clancraft.turnmanager.*;
 
 /**
  * Bukkit Runnable class that checks every player's location every predetermined
- * interval, compares each location with the current player, and decides if 
+ * interval, compares each location with the current player, and decides if
  * the location violates the predetermined shield boundary.
  */
 public class PositionChecker implements Runnable, ShieldObservable {
@@ -24,7 +24,7 @@ public class PositionChecker implements Runnable, ShieldObservable {
     private ArrayList<ShieldObserver> observerList;
 
     /**
-     * Default constructor. Creates and populates the coordinate map. 
+     * Default constructor. Creates and populates the coordinate map.
      */
     public PositionChecker() {
         coordinateMap = new HashMap<>();

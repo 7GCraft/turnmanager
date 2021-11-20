@@ -94,10 +94,10 @@ public class TurnManager extends JavaPlugin {
     public static JavaPlugin getPlugin() {
         return plugin;
     }
-    
+
     /**
      * Gets this plugin's Cycle object
-     * 
+     *
      * @return Cycle object for the plugin
      */
     public static Cycle getCycle() {
@@ -106,7 +106,7 @@ public class TurnManager extends JavaPlugin {
 
     /**
      * Gets this plugin's Turn object
-     * 
+     *
      * @return Cycle object for the plugin
      */
     public static Turn getTurn() {
@@ -115,7 +115,7 @@ public class TurnManager extends JavaPlugin {
 
     /**
      * Gets this plugin's Teleport object
-     * 
+     *
      * @return Teleport object for the plugin
      */
     public static Teleport getTeleport() {
@@ -124,7 +124,7 @@ public class TurnManager extends JavaPlugin {
 
     /**
      * Gets this plugin's Shield object
-     * 
+     *
      * @return Shield object for the plugin
      */
     public static Shield getShield() {
@@ -133,7 +133,7 @@ public class TurnManager extends JavaPlugin {
 
     /**
      * Gets this plugin's Calendar object
-     * 
+     *
      * @return Calendar object for the plugin
      */
     public static Calendar getCalendar() {

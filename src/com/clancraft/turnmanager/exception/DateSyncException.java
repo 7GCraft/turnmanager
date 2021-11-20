@@ -5,7 +5,7 @@ public class DateSyncException extends Exception {
     public DateSyncException() {
         super();
     }
-    
+
     public DateSyncException(String message) {
         super(message);
     }
