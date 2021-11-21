@@ -51,45 +51,8 @@ public class Turn implements TurnObservable {
         }
 
         announceTurn();
-        stopTimer();
-        Player currPlayer = null;
-        Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
-        while (playerIter.hasNext()) {
-            Player p = playerIter.next();
-            if (p.getName().equals(TurnManager.getCycle().currentPlayer())) {
-                currPlayer = p;
-            }
-        }
-
-        if (currPlayer == null) {
-            TurnManager.getPlugin().getLogger().severe("Fatal error! Current Player object can't be found!");
-            return;
-        }
-
-        currPlayer.sendMessage("Please accept the turn by /tm turn accept, or reject the turn by /tm turn reject.");
-    }
-
-    public void acceptTurn(Player sender) {
-        if (sender.getName().equals(TurnManager.getCycle().currentPlayer())) {
-            stopTimer();
-            startTimer();
-            notifyTurnIncrement();
-        } else {
-            sender.sendMessage("You can't accept or reject other people's turns!");
-        }
-    }
-
-    public void rejectTurn(Player sender) {
-        if (sender.getName().equals(TurnManager.getCycle().currentPlayer())) {
-            rejectTurn();
-        } else {
-            sender.sendMessage("You can't accept or reject other people's turns!");
-        }
-    }
-
-    public void rejectTurn() {
-        Bukkit.broadcastMessage("Player " + TurnManager.getCycle().currentPlayer() + " declined the turn.");
-        nextTurn();
+        startTimer();
+        notifyTurnIncrement();
     }
 
     /**
