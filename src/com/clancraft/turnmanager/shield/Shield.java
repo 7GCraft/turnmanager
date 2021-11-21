@@ -14,7 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import com.clancraft.turnmanager.*;
 
@@ -22,8 +22,8 @@ import com.clancraft.turnmanager.*;
  * A class to handle shield functionality.
  */
 public class Shield {
-
     private HashMap<String, ShieldData> shieldHashMap;
+    private ShieldPublisher shieldBreachPublisher;
 
     private File shieldConfigFile;
     private FileConfiguration shieldConfig;
@@ -34,7 +34,7 @@ public class Shield {
     public Shield() {
         shieldHashMap = new HashMap<>();
 
-        JavaPlugin plugin = TurnManager.getPlugin();
+        Plugin plugin = TurnManager.getPlugin();
         shieldConfigFile = new File(plugin.getDataFolder(), TMConstants.SHIELDS_CONFIG_FILE_NAME);
 
         if (!shieldConfigFile.exists()) {
@@ -44,9 +44,17 @@ public class Shield {
 
         shieldConfig = YamlConfiguration.loadConfiguration(shieldConfigFile);
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new PositionChecker(),
+        PositionChecker positionChecker = new PositionChecker();
+        shieldBreachPublisher = positionChecker;
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, 
+                positionChecker,
                 TMConstants.TICKS_IN_SECOND,
                 TMConstants.POSITION_CHECKER_INTERVAL_SECONDS * TMConstants.TICKS_IN_SECOND);
+    }
+
+    public ShieldPublisher getShieldBreachPublisher() {
+        return shieldBreachPublisher;
     }
 
     /**

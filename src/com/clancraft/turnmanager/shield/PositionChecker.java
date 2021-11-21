@@ -15,20 +15,21 @@ import com.clancraft.turnmanager.*;
  * interval, compares each location with the current player, and decides if
  * the location violates the predetermined shield boundary.
  */
-public class PositionChecker implements Runnable, ShieldObservable {
+public class PositionChecker implements Runnable, ShieldPublisher {
     /**
      * Map that stores previous valid coordinates for each players.
      */
-    HashMap<String, PlayerCoordinate> coordinateMap;
+    private static HashMap<String, PlayerCoordinate> coordinateMap = new HashMap<>();
 
-    private ArrayList<ShieldObserver> observerList;
+    /**
+     * Array that stores the subscriber to shield events.
+     */
+    private static ArrayList<ShieldSubscriber> subscriberList = new ArrayList<>();
 
     /**
      * Default constructor. Creates and populates the coordinate map.
      */
     public PositionChecker() {
-        coordinateMap = new HashMap<>();
-
         Bukkit.getOnlinePlayers().forEach(player -> {
             Location loc = player.getLocation();
             coordinateMap.put(player.getName(), new PlayerCoordinate(loc.getX(), loc.getY(), loc.getZ()));
@@ -74,7 +75,7 @@ public class PositionChecker implements Runnable, ShieldObservable {
                 loc.setX(coordinateMap.get(player.getName()).x);
                 loc.setY(coordinateMap.get(player.getName()).y);
                 loc.setZ(coordinateMap.get(player.getName()).z);
-                notifyShieldBreach(player);
+                publishShieldBreach(player);
             } else {
                 coordinateMap.put(player.getName(), new PlayerCoordinate(loc.getX(), loc.getY(), loc.getZ()));
             }
@@ -82,19 +83,25 @@ public class PositionChecker implements Runnable, ShieldObservable {
     }
 
     @Override
-    public void registerShieldObserver(ShieldObserver obs){
-        observerList.add(obs);
+    public void registerShieldSubscriber(ShieldSubscriber sub){
+        subscriberList.add(sub);
     }
 
     @Override
-    public boolean removeShieldObserver(ShieldObserver obs){
-        return observerList.remove(obs);
+    public boolean removeShieldSubscriber(ShieldSubscriber sub){
+        return subscriberList.remove(sub);
     }
 
+    /**
+     * Notifies the subscriber that the specifies player breaches currently
+     * active shield.
+     * 
+     * @param player Player that breaches active shield
+     */
     @Override
-    public void notifyShieldBreach(Player player){
-        observerList.forEach(observer -> {
-            observer.updateShieldBreach(player);
+    public void publishShieldBreach(Player player){
+        subscriberList.forEach(sub -> {
+            sub.notifyShieldBreach(player);
         });
     }
 

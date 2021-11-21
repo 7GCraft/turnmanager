@@ -1,7 +1,6 @@
 package com.clancraft.turnmanager;
 
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.Plugin;
 
 /**
  * A class to store String prompts for all other methods.

@@ -6,7 +6,7 @@ import com.clancraft.turnmanager.exception.InsufficientPermissionException;
 import com.clancraft.turnmanager.exception.PlayerNotFoundException;
 import com.clancraft.turnmanager.exception.ShieldBreachException;
 import com.clancraft.turnmanager.exception.InvalidArgumentException;
-import com.clancraft.turnmanager.shield.ShieldObserver;
+import com.clancraft.turnmanager.shield.ShieldSubscriber;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,9 +14,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * Class to handle commands passed from Bukkit.
+ * Class to handle commands passed from Bukkit. Only class to handle messaging
+ * to players. 
  */
-public class TMCommandHandler implements CommandExecutor, ShieldObserver {
+public class TMCommandHandler implements CommandExecutor, ShieldSubscriber {
+    public TMCommandHandler() {
+        TurnManager.getShield().getShieldBreachPublisher().registerShieldSubscriber(this);
+    }
+
+    @Override
+    public void notifyShieldBreach(Player player) {
+        player.sendMessage(TMConstants.SHIELD_PERIMETER_BREACH);
+    }
+
     /**
      * Overridden from CommandExecutor. TODO comprehensive explanation
      */
@@ -419,10 +429,5 @@ public class TMCommandHandler implements CommandExecutor, ShieldObserver {
         if (!valid) {
             throw new InsufficientPermissionException();
         }
-    }
-
-    @Override
-    public void updateShieldBreach(Player player) {
-        player.sendMessage(TMConstants.SHIELD_PERIMETER_BREACH);
     }
 }
