@@ -11,12 +11,12 @@ import com.clancraft.turnmanager.*;
 /**
  * Class to handle Cycle input and output
  */
-public class Turn implements TurnObservable {
+public class Turn implements TurnPublisher {
     private TurnTimer timer;
-    private ArrayList<TurnObserver> observerList;
+    private ArrayList<TurnSubscriber> subscriberList;
 
     public Turn() {
-        observerList = new ArrayList<>();
+        subscriberList = new ArrayList<>();
     }
 
     /**
@@ -74,19 +74,19 @@ public class Turn implements TurnObservable {
     }
 
     @Override
-    public void registerTurnObserver(TurnObserver obs){
-        observerList.add(obs);
+    public void registerTurnSubscriber(TurnSubscriber sub){
+        subscriberList.add(sub);
     }
 
     @Override
-    public boolean removeTurnObserver(TurnObserver obs){
-        return observerList.remove(obs);
+    public boolean removeTurnSubscriber(TurnSubscriber sub){
+        return subscriberList.remove(sub);
     }
 
     @Override
     public void notifyTurnIncrement(){
-        observerList.forEach(observer -> {
-            observer.updateTurnIncrement();
+        subscriberList.forEach(subscriber -> {
+            subscriber.updateTurnIncrement();
         });
     }
 

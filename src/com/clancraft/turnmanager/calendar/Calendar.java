@@ -11,7 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.clancraft.turnmanager.turn.TurnObserver;
+import com.clancraft.turnmanager.turn.TurnSubscriber;
 import com.clancraft.turnmanager.*;
 import com.clancraft.turnmanager.exception.DateSyncException;
 import com.clancraft.turnmanager.exception.DuplicatePlayerException;
@@ -20,7 +20,7 @@ import com.clancraft.turnmanager.exception.PlayerNotFoundException;
 /**
  * A class to handle Date functionality.
  */
-public class Calendar implements TurnObserver{
+public class Calendar implements TurnSubscriber {
 
     private HashMap<String, Date> playerDates;
     private Date worldDate;
@@ -45,7 +45,7 @@ public class Calendar implements TurnObserver{
 
         calendarConfig = YamlConfiguration.loadConfiguration(calendarConfigFile);
 
-        TurnManager.getTurn().registerTurnObserver(this);
+        TurnManager.getTurn().registerTurnSubscriber(this);
     }
 
     public void loadCalendarData() {
