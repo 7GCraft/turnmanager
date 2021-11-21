@@ -7,5 +7,5 @@ public interface TurnSubscriber {
     /**
      * Gets called by the observable/subject to update observer.
      */
-    public void updateTurnIncrement();
+    void updateTurnIncrement();
 }

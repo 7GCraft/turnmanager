@@ -1,19 +1,18 @@
 package com.clancraft.turnmanager.turn;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
+import com.clancraft.turnmanager.TMConstants;
+import com.clancraft.turnmanager.TurnManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.clancraft.turnmanager.*;
+import java.util.ArrayList;
 
 /**
  * Class to handle Cycle input and output
  */
 public class Turn implements TurnPublisher {
     private TurnTimer timer;
-    private ArrayList<TurnSubscriber> subscriberList;
+    private final ArrayList<TurnSubscriber> subscriberList;
 
     public Turn() {
         subscriberList = new ArrayList<>();
@@ -63,10 +62,9 @@ public class Turn implements TurnPublisher {
      * @return whether player specified is available
      */
     private boolean checkPlayerAvailability(String input) {
-        Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
-        while (playerIter.hasNext()) {
-            String currPlayer = playerIter.next().getName();
-            if (input.toLowerCase().equals(currPlayer.toLowerCase())) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            String currPlayer = player.getName();
+            if (input.equalsIgnoreCase(currPlayer)) {
                 return true;
             }
         }
@@ -85,9 +83,7 @@ public class Turn implements TurnPublisher {
 
     @Override
     public void notifyTurnIncrement(){
-        subscriberList.forEach(subscriber -> {
-            subscriber.updateTurnIncrement();
-        });
+        subscriberList.forEach(TurnSubscriber::updateTurnIncrement);
     }
 
     /**
