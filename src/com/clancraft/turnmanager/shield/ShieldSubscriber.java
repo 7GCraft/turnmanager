@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 /**
  * Interface for observers in the Shield observer pattern.
  */
-public interface ShieldObserver {
+public interface ShieldSubscriber {
     /**
      * Gets called by the observable/subject to update observer.
      */
-    public void updateShieldBreach(Player player);
+    public void notifyShieldBreach(Player player);
 }
