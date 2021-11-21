@@ -2,7 +2,6 @@ package com.clancraft.turnmanager;
 
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -50,8 +49,6 @@ public class TurnManager extends JavaPlugin {
         PluginDescriptionFile pdfFile = getDescription();
         Logger logger = getLogger();
 
-        registerCommands();
-
         plugin = this;
         cycle = new Cycle();
         turn = new Turn();
@@ -59,11 +56,10 @@ public class TurnManager extends JavaPlugin {
         shield = new Shield();
         calendar = new Calendar(this);
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new PositionChecker(), TMConstants.TICKS_IN_SECOND,
-                TMConstants.POSITION_CHECKER_INTERVAL_SECONDS * TMConstants.TICKS_IN_SECOND);
-
         shield.loadShieldData();
         calendar.loadCalendarData();
+
+        registerCommands();
 
         logger.info(pdfFile.getName() + " has been enabled! (v." + pdfFile.getVersion() + ")");
     }
