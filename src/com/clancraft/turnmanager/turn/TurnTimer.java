@@ -10,11 +10,11 @@ import com.clancraft.turnmanager.*;
  * automatically stops (by default) 60 minutes after time is over.
  */
 public class TurnTimer extends Thread {
-    private final int MAX_OVERTIME_MINS = 60;
-    private final int NORMAL_INTERVAL = 5;
-    private final int OVERTIME_INTERVAL = 1;
-    private final int TIMER_RESOLUTION_MINS = 1;
-    private final int MIN_TO_MS = 60000;
+    private static final int MAX_OVERTIME_MINS = 60;
+    private static final int NORMAL_INTERVAL = 5;
+    private static final int OVERTIME_INTERVAL = 1;
+    private static final int TIMER_RESOLUTION_MINS = 1;
+    private static final int MIN_TO_MS = 60000;
 
     private int minutesRemaining;
     private volatile boolean terminateNow = false;
@@ -34,12 +34,6 @@ public class TurnTimer extends Thread {
      * decrementing variable value every NORMAL_INTERVAL minutes. Timer keeps
      * running after time is up, reminding user every OVERTIME_INTERVAL, up to
      * MAX_OVERTIME_MINS minutes.
-     *
-     * @see com.clancraft.turnmanager.TMConstants#NORMAL_INTERVAL NORMAL_INTERVAL
-     * @see com.clancraft.turnmanager.TMConstants#OVERTIME_INTERVAL
-     *      OVERTIME_INTERVAL
-     * @see com.clancraft.turnmanager.TMConstants#MAX_OVERTIME_MINS
-     *      MAX_OVERTIME_MINS
      */
     @Override
     public void run() {

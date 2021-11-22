@@ -1,15 +1,13 @@
 package com.clancraft.turnmanager.turn;
 
-import java.util.Iterator;
-
+import com.clancraft.turnmanager.TMConstants;
+import com.clancraft.turnmanager.TurnManager;
+import com.clancraft.turnmanager.exception.PlayerNotFoundException;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import com.clancraft.turnmanager.*;
-import com.clancraft.turnmanager.exception.PlayerNotFoundException;
 
 /**
  * Class to listen to a Bukkit PlayerQuitEvent and schedule a player remover.
@@ -41,10 +39,8 @@ public class LogoutListener implements Listener {
          */
         @Override
         public void run() {
-            Iterator<? extends Player> iter = Bukkit.getOnlinePlayers().iterator();
-            while (iter.hasNext()) {
-                Player p = iter.next();
-                if (p.getName() == playerToRemove.getName()) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p.getName().equals(playerToRemove.getName())) {
                     return;
                 }
             }

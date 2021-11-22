@@ -1,14 +1,12 @@
 package com.clancraft.turnmanager.turn;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import com.clancraft.turnmanager.exception.DuplicatePlayerException;
 import com.clancraft.turnmanager.exception.InvalidArgumentException;
 import com.clancraft.turnmanager.exception.PlayerNotFoundException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
 
 /**
  * A class to hold a cycle of players. This class is similar to queue that
@@ -21,7 +19,7 @@ public class Cycle {
     /**
      * List containing players in the cycle.
      */
-    private ArrayList<String> playerList;
+    private final ArrayList<String> playerList;
 
     /**
      * Index of the current player.
@@ -32,7 +30,7 @@ public class Cycle {
      * Default constructor. Initializes the fields to zero-like values.
      */
     public Cycle() {
-        playerList = new ArrayList<String>();
+        playerList = new ArrayList<>();
         playerList.add(BREAK_NAME);
         currIndex = 0;
     }
@@ -60,7 +58,6 @@ public class Cycle {
      * Adds the specified player to the end of the queue.
      *
      * @param playerName name of the player to be added
-     * @return whether player was added successfully
      */
     public void addPlayer(String playerName) throws
             DuplicatePlayerException, PlayerNotFoundException {
@@ -86,16 +83,12 @@ public class Cycle {
 
         // checks whether player already exists inside the list
         for (String s : playerList) {
-            if (s.toLowerCase().equals(playerName.toLowerCase())) {
+            if (s.equalsIgnoreCase(playerName)) {
                 throw new DuplicatePlayerException();
             }
         }
 
         String validatedName = validatePlayerName(playerName);
-        if (validatedName == null) {
-            throw new PlayerNotFoundException();
-        }
-
         if (spot <= currIndex) {
             currIndex++;
         }
@@ -110,10 +103,9 @@ public class Cycle {
      * @return player name with proper capitalization
      */
     private String validatePlayerName(String input) throws PlayerNotFoundException {
-        Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
-        while (playerIter.hasNext()) {
-            String currPlayer = playerIter.next().getName();
-            if (input.toLowerCase().equals(currPlayer.toLowerCase())) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            String currPlayer = player.getName();
+            if (input.equalsIgnoreCase(currPlayer)) {
                 return currPlayer;
             }
         }
@@ -128,7 +120,7 @@ public class Cycle {
      */
     public void removePlayer(String playerName) throws PlayerNotFoundException {
         for (int i = 0; i < size(); i++) {
-            if (playerList.get(i).toLowerCase().equals(playerName.toLowerCase())) {
+            if (playerList.get(i).equalsIgnoreCase(playerName)) {
                 try {
                     removePlayer(i);
                     return;
@@ -146,7 +138,6 @@ public class Cycle {
      *
      * @param spot where in the list to remove player from. Has to be between
      *             0 and cycle size.
-     * @return whether player was removed successfully
      */
     public void removePlayer(int spot) throws InvalidArgumentException {
         if (spot < 0 || spot >= size()) {
@@ -165,17 +156,16 @@ public class Cycle {
      *
      * @param playerName1 name of the first player to be swapped
      * @param playerName2 name of the second player to be swapped
-     * @return whether the players were swapped successfully
      */
     public void swap(String playerName1, String playerName2) throws PlayerNotFoundException {
         int index1 = -1;
         int index2 = -1;
 
         for (int i = 0; i < size(); i++) {
-            if (playerList.get(i).toLowerCase().equals(playerName1.toLowerCase())) {
+            if (playerList.get(i).equalsIgnoreCase(playerName1)) {
                 index1 = i;
             }
-            if (playerList.get(i).toLowerCase().equals(playerName2.toLowerCase())) {
+            if (playerList.get(i).equalsIgnoreCase(playerName2)) {
                 index2 = i;
             }
         }
@@ -198,7 +188,6 @@ public class Cycle {
      *               0 and cycle size.
      * @param index2 spot of the second player to be swapped. Has to be between
     0*              0 and cycle size.
-     * @return whether the players were swapped successfully
      */
     public void swap(int index1, int index2) throws InvalidArgumentException {
         if (index1 < 0 || index1 >= size()) {
@@ -253,7 +242,7 @@ public class Cycle {
         turnSequence.append(playerList.get(0)); // guaranteed to have index 0
 
         for (int i = 1; i < playerList.size(); i++) {
-            turnSequence.append(" -> " + playerList.get(i));
+            turnSequence.append(" -> ").append(playerList.get(i));
         }
 
         return turnSequence.toString();

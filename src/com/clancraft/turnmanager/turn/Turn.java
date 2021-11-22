@@ -1,22 +1,21 @@
 package com.clancraft.turnmanager.turn;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
+import com.clancraft.turnmanager.TMConstants;
+import com.clancraft.turnmanager.TurnManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.clancraft.turnmanager.*;
+import java.util.ArrayList;
 
 /**
  * Class to handle Cycle input and output
  */
-public class Turn implements TurnObservable {
+public class Turn implements TurnPublisher {
     private TurnTimer timer;
-    private ArrayList<TurnObserver> observerList;
+    private final ArrayList<TurnSubscriber> subscriberList;
 
     public Turn() {
-        observerList = new ArrayList<>();
+        subscriberList = new ArrayList<>();
     }
 
     /**
@@ -51,45 +50,8 @@ public class Turn implements TurnObservable {
         }
 
         announceTurn();
-        stopTimer();
-        Player currPlayer = null;
-        Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
-        while (playerIter.hasNext()) {
-            Player p = playerIter.next();
-            if (p.getName().equals(TurnManager.getCycle().currentPlayer())) {
-                currPlayer = p;
-            }
-        }
-
-        if (currPlayer == null) {
-            TurnManager.getPlugin().getLogger().severe("Fatal error! Current Player object can't be found!");
-            return;
-        }
-
-        currPlayer.sendMessage("Please accept the turn by /tm turn accept, or reject the turn by /tm turn reject.");
-    }
-
-    public void acceptTurn(Player sender) {
-        if (sender.getName().equals(TurnManager.getCycle().currentPlayer())) {
-            stopTimer();
-            startTimer();
-            notifyTurnIncrement();
-        } else {
-            sender.sendMessage("You can't accept or reject other people's turns!");
-        }
-    }
-
-    public void rejectTurn(Player sender) {
-        if (sender.getName().equals(TurnManager.getCycle().currentPlayer())) {
-            rejectTurn();
-        } else {
-            sender.sendMessage("You can't accept or reject other people's turns!");
-        }
-    }
-
-    public void rejectTurn() {
-        Bukkit.broadcastMessage("Player " + TurnManager.getCycle().currentPlayer() + " declined the turn.");
-        nextTurn();
+        startTimer();
+        notifyTurnIncrement();
     }
 
     /**
@@ -100,10 +62,9 @@ public class Turn implements TurnObservable {
      * @return whether player specified is available
      */
     private boolean checkPlayerAvailability(String input) {
-        Iterator<? extends Player> playerIter = Bukkit.getOnlinePlayers().iterator();
-        while (playerIter.hasNext()) {
-            String currPlayer = playerIter.next().getName();
-            if (input.toLowerCase().equals(currPlayer.toLowerCase())) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            String currPlayer = player.getName();
+            if (input.equalsIgnoreCase(currPlayer)) {
                 return true;
             }
         }
@@ -111,20 +72,18 @@ public class Turn implements TurnObservable {
     }
 
     @Override
-    public void registerTurnObserver(TurnObserver obs){
-        observerList.add(obs);
+    public void registerTurnSubscriber(TurnSubscriber sub){
+        subscriberList.add(sub);
     }
 
     @Override
-    public boolean removeTurnObserver(TurnObserver obs){
-        return observerList.remove(obs);
+    public boolean removeTurnSubscriber(TurnSubscriber sub){
+        return subscriberList.remove(sub);
     }
 
     @Override
     public void notifyTurnIncrement(){
-        observerList.forEach(observer -> {
-            observer.updateTurnIncrement();
-        });
+        subscriberList.forEach(TurnSubscriber::updateTurnIncrement);
     }
 
     /**

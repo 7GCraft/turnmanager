@@ -145,18 +145,6 @@ public class TMCommandHandler implements CommandExecutor, ShieldSubscriber {
             case "announce":
                 assertSufficientPermission(player, TMPermissions.TURN_ANNOUNCE_PERMISSION);
                 TurnManager.getTurn().announceTurn();
-            case "accept":
-                assertSufficientPermission(player, TMPermissions.TURN_ACCEPT_PERMISSION);
-                TurnManager.getTurn().acceptTurn(player);
-                break;
-            case "reject":
-                assertSufficientPermission(player, TMPermissions.TURN_REJECT_PERMISSION);
-                TurnManager.getTurn().rejectTurn(player);
-                break;
-            case "override":
-                assertSufficientPermission(player, TMPermissions.TURN_OVERRIDE_PERMISSION);
-                TurnManager.getTurn().rejectTurn();
-                break;
             default:
                 player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
                 break;
