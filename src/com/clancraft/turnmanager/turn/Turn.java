@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * Class to handle Cycle input and output
  */
 public class Turn implements TurnPublisher {
+    public static final int DEFAULT_TIMER_MINS = 15;
     private TurnTimer timer;
     private final ArrayList<TurnSubscriber> subscriberList;
 
@@ -90,7 +91,7 @@ public class Turn implements TurnPublisher {
      * Starts the timer with the default value of 15 minutes.
      */
     public void startTimer() {
-        startTimer(15);
+        startTimer(DEFAULT_TIMER_MINS);
     }
 
     /**
