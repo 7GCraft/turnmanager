@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A class to create threads that function as a timer. The timer duration is
  * configurable, and will keep alerting users after time is over. Timer thread
- * automatically stops (by default) 60 minutes after time is over.
+ * automatically stops {@value MAX_OVERTIME_MINS} beyond time up.
  */
 public class TurnTimer {
     private static final long NORMAL_INTERVAL_MINS = 5;
@@ -26,8 +26,9 @@ public class TurnTimer {
 
     /**
      * Default constructor that accepts the duration of the timer.
+     * Automatically starts the timer upon creation.
      *
-     * @param minute duration of the timer
+     * @param minute duration of the timer in minutes
      */
     public TurnTimer(int minute) {
         timeRemainingMillis = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(minute);
@@ -36,8 +37,9 @@ public class TurnTimer {
 
     /**
      * Starts a timer that ends at current time + timerDurationMillis.
-     * Timer runs a broadcast action that happens every NORMAL_INTERVAL_MINS
-     * before the deadline, every OVERTIME_INTERVAL_MINS after the deadline.
+     * Timer runs a broadcast action that happens every {@link #NORMAL_INTERVAL_MINS}
+     * before the deadline, every {@link #OVERTIME_INTERVAL_MINS} after the deadline.
+     * Timer automatically stops running after {@link #MAX_OVERTIME_MINS} beyond deadline.
      *
      * @param timerDurationMillis how far in the future deadline is
      */
@@ -93,7 +95,7 @@ public class TurnTimer {
     }
 
     /**
-     * Method to stop the execution of the thread.
+     * Stops the timer by unscheduling all future broadcasts.
      */
     public void haltTimer() {
         if (normalBroadcastId != -1) {
@@ -113,7 +115,7 @@ public class TurnTimer {
     }
 
     /**
-     * Pauses the current timer, with up to TIMER_RESOLUTION_MINS loss of time
+     * Pauses the current timer
      */
     public void pauseTimer() {
         haltTimer();
@@ -122,7 +124,7 @@ public class TurnTimer {
     }
 
     /**
-     * Resumes the timer, with up to TIMER_RESOLUTION_MINS delay in starting
+     * Resumes the timer
      */
     public void resumeTimer() {
         startTimer(timeRemainingMillis);
