@@ -5,6 +5,7 @@ import com.clancraft.turnmanager.TurnManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -48,29 +49,43 @@ public class TurnTimer {
         Bukkit.broadcastMessage(TMConstants.TIMER_INITIAL);
         Bukkit.broadcastMessage(String.format(TMConstants.TIMER_COUNTDOWN, initMinsRemaining));
 
-        // TODO check if the modulo math is correct.
-        normalBroadcastId = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin,
-                () -> {
-                    long minsRemaining = TimeUnit.MILLISECONDS.toMinutes(deadlineTimeMillis - System.currentTimeMillis());
-                    Bukkit.broadcastMessage(String.format(TMConstants.TIMER_COUNTDOWN, minsRemaining));
-                },
-                timerDurationMillis % TimeUnit.MINUTES.toMillis(NORMAL_INTERVAL_MINS),
-                NORMAL_INTERVAL_MINS * TMConstants.TICKS_IN_MINUTE
-        );
-
-        Runnable scheduleOvertime = () -> {
-            Bukkit.broadcastMessage(String.format(TMConstants.TIMER_TIMEUP, TimeUnit.MILLISECONDS.toMinutes(deadlineTimeMillis - System.currentTimeMillis())));
+        // refactored because repeated in timerDurationMillis > 0 and timerDurationMillis <= 0
+        Runnable scheduleOvertimeBroadcast = () -> {
             overtimeBroadcastId = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin,
                     () -> {
-                        long minsRemaining = TimeUnit.MILLISECONDS.toMinutes(deadlineTimeMillis - System.currentTimeMillis());
-                        Bukkit.broadcastMessage(String.format(TMConstants.TIMER_OVERTIME, minsRemaining));
+                        long minsOvertime = TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - deadlineTimeMillis);
+                        Bukkit.broadcastMessage(String.format(TMConstants.TIMER_OVERTIME, minsOvertime));
                     },
                     0,
                     OVERTIME_INTERVAL_MINS * TMConstants.TICKS_IN_MINUTE
             );
         };
 
-        overtimeTransitionId = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, scheduleOvertime, timerDurationMillis * TMConstants.TICKS_IN_MINUTE);
+        // TODO check if the modulo math is correct.
+        if (timerDurationMillis > 0) {
+            normalBroadcastId = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin,
+                    () -> {
+                        long minsRemaining = TimeUnit.MILLISECONDS.toMinutes(deadlineTimeMillis - System.currentTimeMillis());
+                        Bukkit.broadcastMessage(String.format(TMConstants.TIMER_COUNTDOWN, minsRemaining));
+                    },
+                    timerDurationMillis % TimeUnit.MINUTES.toMillis(NORMAL_INTERVAL_MINS),
+                    NORMAL_INTERVAL_MINS * TMConstants.TICKS_IN_MINUTE
+            );
+
+            Runnable transition = () -> {
+                Bukkit.broadcastMessage(String.format(TMConstants.TIMER_TIMEUP, TimeUnit.MILLISECONDS.toMinutes(deadlineTimeMillis - System.currentTimeMillis())));
+                if (normalBroadcastId != -1) {
+                    Bukkit.getScheduler().cancelTask(normalBroadcastId);
+                    normalBroadcastId = -1;
+                }
+
+                scheduleOvertimeBroadcast.run();
+            };
+
+            overtimeTransitionId = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, transition, timerDurationMillis * TMConstants.TICKS_IN_MINUTE);
+        } else {
+            scheduleOvertimeBroadcast.run();
+        }
     }
 
     /**
