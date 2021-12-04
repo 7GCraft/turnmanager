@@ -5,7 +5,6 @@ import com.clancraft.turnmanager.TurnManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class TurnTimer {
     private static final long NORMAL_INTERVAL_MINS = 5;
     private static final long OVERTIME_INTERVAL_MINS = 1;
+    private static final int MAX_OVERTIME_MINS = 60;
 
     private int normalBroadcastId = -1;
     private int overtimeBroadcastId = -1;
@@ -55,6 +55,10 @@ public class TurnTimer {
                     () -> {
                         long minsOvertime = TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - deadlineTimeMillis);
                         Bukkit.broadcastMessage(String.format(TMConstants.TIMER_OVERTIME, minsOvertime));
+
+                        if (minsOvertime > MAX_OVERTIME_MINS) {
+                            haltTimer();
+                        }
                     },
                     0,
                     OVERTIME_INTERVAL_MINS * TMConstants.TICKS_IN_MINUTE
