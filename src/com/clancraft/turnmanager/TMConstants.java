@@ -49,6 +49,7 @@ public class TMConstants {
             + "/tm timer requires an argument!\n" + PLUGIN_PREFIX + "/tm timer [argument]";
     public static final String TIMER_INITIAL = PLUGIN_PREFIX + "Turn has started.";
     public static final String TIMER_COUNTDOWN = PLUGIN_PREFIX + "%d minutes remaining in this turn.";
+    public static final String TIMER_PAUSE = PLUGIN_PREFIX + "Turn has been suspended.";
     public static final String TIMER_TIMEUP = PLUGIN_PREFIX + "The time for this turn is up!";
     public static final String TIMER_OVERTIME = PLUGIN_PREFIX + "This turn is %d minutes over time!";
 

@@ -44,6 +44,10 @@ public class TurnTimer {
         Plugin plugin = TurnManager.getPlugin();
         deadlineTimeMillis = System.currentTimeMillis() + timerDurationMillis;
 
+        long initMinsRemaining = TimeUnit.MILLISECONDS.toMinutes(deadlineTimeMillis - System.currentTimeMillis());
+        Bukkit.broadcastMessage(TMConstants.TIMER_INITIAL);
+        Bukkit.broadcastMessage(String.format(TMConstants.TIMER_COUNTDOWN, initMinsRemaining));
+
         // TODO check if the modulo math is correct.
         normalBroadcastId = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin,
                 () -> {
@@ -66,7 +70,7 @@ public class TurnTimer {
             );
         };
 
-        overtimeTransitionId = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, scheduleOvertime, (long) timerDurationMillis * TMConstants.TICKS_IN_MINUTE);
+        overtimeTransitionId = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, scheduleOvertime, timerDurationMillis * TMConstants.TICKS_IN_MINUTE);
     }
 
     /**
@@ -95,6 +99,7 @@ public class TurnTimer {
     public void pauseTimer() {
         haltTimer();
         timeRemainingMillis = deadlineTimeMillis - System.currentTimeMillis();
+        Bukkit.broadcastMessage(TMConstants.TIMER_PAUSE);
     }
 
     /**
