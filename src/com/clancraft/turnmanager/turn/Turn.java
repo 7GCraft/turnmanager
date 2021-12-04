@@ -105,7 +105,6 @@ public class Turn implements TurnPublisher {
         }
 
         timer = new TurnTimer(minute);
-        timer.start();
     }
 
     /**
