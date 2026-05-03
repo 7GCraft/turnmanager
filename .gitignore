@@ -75,3 +75,7 @@ fabric.properties
 
 .idea/
 *.iml
+
+# Gradle
+.gradle/
+build/

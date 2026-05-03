@@ -1,5 +1,5 @@
 main: com.clancraft.turnmanager.TurnManager
-version: 0.1.4
+version: 0.4.5
 name: TurnManager
 api-version: '1.21'
 
