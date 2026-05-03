@@ -1,6 +1,7 @@
 main: com.clancraft.turnmanager.TurnManager
 version: 0.1.4
 name: TurnManager
+api-version: '1.21'
 
 commands:
   tm:
@@ -45,9 +46,125 @@ permissions:
     children:
       tm.timer.start: true
       tm.timer.stop: true
+      tm.timer.pause: true
+      tm.timer.resume: true
   tm.timer.start:
     description: Allows you to start the turn timer.
     default: op
   tm.timer.stop:
     description: Allows you to stop the turn timer.
+    default: op
+  tm.timer.pause:
+    description: Allows you to pause the turn timer.
+    default: op
+  tm.timer.resume:
+    description: Allows you to resume the turn timer.
+    default: op
+  tm.teleport:
+    description: Allows you to teleport to the active player.
+    default: op
+  tm.shield:
+    description: Allows you to access all shield commands.
+    default: op
+    children:
+      tm.shield.toggle: true
+      tm.shield.on: true
+      tm.shield.off: true
+      tm.shield.all: true
+      tm.shield.add: true
+      tm.shield.remove: true
+      tm.shield.clear: true
+      tm.shield.list: true
+      tm.shield.register: true
+      tm.shield.unregister: true
+  tm.shield.toggle:
+    description: Allows you to toggle shields.
+    default: op
+  tm.shield.on:
+    description: Allows you to turn shield on.
+    default: op
+  tm.shield.off:
+    description: Allows you to turn shield off.
+    default: op
+  tm.shield.all:
+    description: Allows adding all players to a shield list.
+    default: op
+  tm.shield.add:
+    description: Allows adding a player to a shield list.
+    default: op
+  tm.shield.remove:
+    description: Allows removing a player from a shield list.
+    default: op
+  tm.shield.clear:
+    description: Allows clearing a shield list.
+    default: op
+  tm.shield.list:
+    description: Allows listing shielded players.
+    default: op
+  tm.shield.register:
+    description: Allows registering a shield profile.
+    default: op
+  tm.shield.unregister:
+    description: Allows unregistering a shield profile.
+    default: op
+  tm.date:
+    description: Allows you to access all date commands.
+    default: op
+    children:
+      tm.date.add.*: true
+      tm.date.set.*: true
+      tm.date.sync: true
+      tm.date.unsync: true
+      tm.date.today.*: true
+      tm.date.auto.on: true
+      tm.date.auto.off: true
+      tm.date.register: true
+      tm.date.unregister: true
+  tm.date.add.*:
+    description: Allows all date add commands.
+    default: op
+  tm.date.add.world:
+    description: Allows adding to world date.
+    default: op
+  tm.date.add.player:
+    description: Allows adding to a player date.
+    default: op
+  tm.date.set.*:
+    description: Allows all date set commands.
+    default: op
+  tm.date.set.world:
+    description: Allows setting world date.
+    default: op
+  tm.date.set.player:
+    description: Allows setting a player date.
+    default: op
+  tm.date.sync:
+    description: Allows syncing a player date.
+    default: op
+  tm.date.unsync:
+    description: Allows unsyncing a player date.
+    default: op
+  tm.date.today.*:
+    description: Allows all date today commands.
+    default: op
+  tm.date.today.self:
+    description: Allows reading your date.
+    default: op
+  tm.date.today.world:
+    description: Allows reading world date.
+    default: op
+  tm.date.today.player:
+    description: Allows reading another player's date.
+    default: op
+  tm.date.auto.on:
+    description: Allows enabling automatic world date advance.
+    default: op
+  tm.date.auto.off:
+    description: Allows disabling automatic world date advance.
+    default: op
+  tm.date.register:
+    description: Allows registering a date profile.
+    default: op
+  tm.date.unregister:
+    description: Allows unregistering a date profile.
     default: op

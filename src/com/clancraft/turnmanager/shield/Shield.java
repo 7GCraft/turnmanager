@@ -75,6 +75,10 @@ public class Shield {
      * @param true             if successful, false if unsuccessful
      */
     public boolean addPlayer(String shieldPlayerName, String playerToAddName) {
+        if (!shieldHashMap.containsKey(shieldPlayerName)) {
+            return false;
+        }
+
         HashSet<String> shieldList = shieldHashMap.get(shieldPlayerName).getShieldList();
         // checks whether player already exists inside the list
         if (shieldList.contains(playerToAddName)) {
@@ -124,9 +128,12 @@ public class Shield {
      * @return true if successful, false if unsuccessful
      */
     public boolean removePlayer(String shieldPlayerName, String playerName) {
+        if (!shieldHashMap.containsKey(shieldPlayerName)) {
+            return false;
+        }
+
         HashSet<String> shieldList = shieldHashMap.get(shieldPlayerName).getShieldList();
-        shieldList.remove("playerName");
-        return false;
+        return shieldList.remove(playerName);
     }
 
     /**
@@ -142,6 +149,10 @@ public class Shield {
      * @param playerName player whose shield list is to be cleared
      */
     public void clearShield(String playerName) {
+        if (!shieldHashMap.containsKey(playerName)) {
+            return;
+        }
+
         shieldHashMap.get(playerName).getShieldList().clear();
     }
 
@@ -150,6 +161,10 @@ public class Shield {
     }
 
     public boolean isInShield(String playerShieldList, String playerName) {
+        if (!shieldHashMap.containsKey(playerShieldList)) {
+            return false;
+        }
+
         return shieldHashMap.get(playerShieldList).getShieldList().contains(playerName);
     }
 
@@ -219,6 +234,10 @@ public class Shield {
      * @param isToggled  shield on or off
      */
     public void toggle(String playerName, boolean isToggled) {
+        if (!shieldHashMap.containsKey(playerName)) {
+            return;
+        }
+
         shieldHashMap.get(playerName).setIsToggled(isToggled);
     }
 
@@ -226,6 +245,10 @@ public class Shield {
      * @return whether the current player's shield is on
      */
     public boolean isActive() {
+        if (!shieldHashMap.containsKey(TurnManager.getCycle().currentPlayer())) {
+            return false;
+        }
+
         return shieldHashMap.get(TurnManager.getCycle().currentPlayer()).isToggled;
     }
 

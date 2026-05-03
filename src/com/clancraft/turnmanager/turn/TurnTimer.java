@@ -22,7 +22,7 @@ public class TurnTimer {
     private int overtimeTransitionId = -1;
 
     private long deadlineTimeMillis;
-    private long timeRemainingMillis;
+    private long timeRemainingMillis = 0;
 
     /**
      * Default constructor that accepts the duration of the timer.
@@ -31,7 +31,7 @@ public class TurnTimer {
      * @param minute duration of the timer in minutes
      */
     public TurnTimer(int minute) {
-        timeRemainingMillis = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(minute);
+        timeRemainingMillis = TimeUnit.MINUTES.toMillis(minute);
         startTimer(TimeUnit.MINUTES.toMillis(minute));
     }
 
@@ -67,15 +67,18 @@ public class TurnTimer {
             );
         };
 
-        // TODO check if the modulo math is correct.
         if (timerDurationMillis > 0) {
+            long intervalTicks = NORMAL_INTERVAL_MINS * TMConstants.TICKS_IN_MINUTE;
+            long initialDelayMillis = timerDurationMillis % TimeUnit.MINUTES.toMillis(NORMAL_INTERVAL_MINS);
+            long initialDelayTicks = Math.max(1L, initialDelayMillis / 50L);
+
             normalBroadcastId = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin,
                     () -> {
                         long minsRemaining = TimeUnit.MILLISECONDS.toMinutes(deadlineTimeMillis - System.currentTimeMillis());
                         Bukkit.broadcastMessage(String.format(TMConstants.TIMER_COUNTDOWN, minsRemaining));
                     },
-                    timerDurationMillis % TimeUnit.MINUTES.toMillis(NORMAL_INTERVAL_MINS),
-                    NORMAL_INTERVAL_MINS * TMConstants.TICKS_IN_MINUTE
+                    initialDelayTicks,
+                    intervalTicks
             );
 
             Runnable transition = () -> {
@@ -88,7 +91,8 @@ public class TurnTimer {
                 scheduleOvertimeBroadcast.run();
             };
 
-            overtimeTransitionId = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, transition, timerDurationMillis * TMConstants.TICKS_IN_MINUTE);
+            long transitionDelayTicks = Math.max(1L, timerDurationMillis / 50L);
+            overtimeTransitionId = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, transition, transitionDelayTicks);
         } else {
             scheduleOvertimeBroadcast.run();
         }
@@ -118,8 +122,13 @@ public class TurnTimer {
      * Pauses the current timer
      */
     public void pauseTimer() {
+        if (deadlineTimeMillis <= 0) {
+            return;
+        }
+
         haltTimer();
-        timeRemainingMillis = deadlineTimeMillis - System.currentTimeMillis();
+        timeRemainingMillis = Math.max(0, deadlineTimeMillis - System.currentTimeMillis());
+        deadlineTimeMillis = 0;
         Bukkit.broadcastMessage(TMConstants.TIMER_PAUSE);
     }
 
@@ -127,6 +136,10 @@ public class TurnTimer {
      * Resumes the timer
      */
     public void resumeTimer() {
+        if (timeRemainingMillis <= 0) {
+            return;
+        }
+
         startTimer(timeRemainingMillis);
     }
 }

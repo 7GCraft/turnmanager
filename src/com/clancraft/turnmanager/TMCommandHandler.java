@@ -145,6 +145,7 @@ public class TMCommandHandler implements CommandExecutor, ShieldSubscriber {
             case "announce":
                 assertSufficientPermission(player, TMPermissions.TURN_ANNOUNCE_PERMISSION);
                 TurnManager.getTurn().announceTurn();
+                break;
             default:
                 player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
                 break;
@@ -300,12 +301,23 @@ public class TMCommandHandler implements CommandExecutor, ShieldSubscriber {
                 break;
             case "register":
                 assertSufficientPermission(player, TMPermissions.SHIELD_REGISTER_PERMISSION);
+                if (args.length < 3) {
+                    player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
+                    return;
+                }
                 TurnManager.getShield().registerPlayer(args[2]);
                 player.sendMessage(String.format(TMConstants.SHIELD_REGISTER_SUCCESS, args[2]));
                 break;
             case "unregister":
                 assertSufficientPermission(player, TMPermissions.SHIELD_UNREGISTER_PERMISSION);
+                if (args.length < 3) {
+                    player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
+                    return;
+                }
                 TurnManager.getShield().unregisterPlayer(args[2]);
+                break;
+            default:
+                player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
                 break;
         }
     }
@@ -356,10 +368,18 @@ public class TMCommandHandler implements CommandExecutor, ShieldSubscriber {
                 break;
             case "sync":
                 assertSufficientPermission(player, TMPermissions.DATE_SYNC_PERMISSION);
+                if (args.length < 3) {
+                    player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
+                    return;
+                }
                 TurnManager.getCalendar().sync(args[2]);
                 break;
             case "unsync":
                 assertSufficientPermission(player, TMPermissions.DATE_UNSYNC_PERMISSION);
+                if (args.length < 3) {
+                    player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
+                    return;
+                }
                 TurnManager.getCalendar().unsync(args[2]);
                 break;
             case "today":
@@ -375,16 +395,26 @@ public class TMCommandHandler implements CommandExecutor, ShieldSubscriber {
                 }
                 break;
             case "auto":
+                if (args.length < 3) {
+                    player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
+                    return;
+                }
                 if (args[2].equalsIgnoreCase("on")) {
                     assertSufficientPermission(player, TMPermissions.DATE_AUTO_ON_PERMISSION);
                     TurnManager.getCalendar().setIsAuto(true);
                 } else if (args[2].equalsIgnoreCase("off")) {
                     assertSufficientPermission(player, TMPermissions.DATE_AUTO_OFF_PERMISSION);
                     TurnManager.getCalendar().setIsAuto(false);
+                } else {
+                    player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
                 }
                 break;
             case "register":
                 assertSufficientPermission(player, TMPermissions.DATE_REGISTER_PERMISSION);
+                if (args.length < 3) {
+                    player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
+                    return;
+                }
                 try {
                     TurnManager.getCalendar().registerPlayer(args[2]);
                 } catch (DuplicatePlayerException e) {
@@ -393,11 +423,18 @@ public class TMCommandHandler implements CommandExecutor, ShieldSubscriber {
                 break;
             case "unregister":
                 assertSufficientPermission(player, TMPermissions.DATE_UNREGISTER_PERMISSION);
+                if (args.length < 3) {
+                    player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
+                    return;
+                }
                 try {
                     TurnManager.getCalendar().unregisterPlayer(args[2]);
                 } catch (PlayerNotFoundException e) {
                     player.sendMessage(String.format(TMConstants.DATE_UNREGISTER_MISSING, args[2]));
                 }
+                break;
+            default:
+                player.sendMessage(TMConstants.INVALID_ARGUMENT_ERROR);
                 break;
         }
     }
