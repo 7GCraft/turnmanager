@@ -63,9 +63,13 @@ public class Calendar implements TurnSubscriber {
 
         playerList.forEach(playerName -> {
             String dateString = this.getCalendarConfig().getString("dates." + playerName + ".date");
+            if (dateString == null) {
+                return;
+            }
+
             String[] dateStringParts = dateString.split("-");
             int day = Integer.parseInt(dateStringParts[0]);
-            Date.Month month = Date.getMonthEnum(Integer.parseInt(worldDateStringParts[1]));
+            Date.Month month = Date.getMonthEnum(Integer.parseInt(dateStringParts[1]));
             int year = Integer.parseInt(dateStringParts[2]);
 
             boolean isSynced = this.getCalendarConfig().getBoolean("dates." + playerName + ".sync");

@@ -67,6 +67,12 @@ public class PositionChecker implements Runnable, ShieldPublisher {
                 continue;
             }
 
+            if (!coordinateMap.containsKey(player.getName())) {
+                Location currLoc = player.getLocation();
+                coordinateMap.put(player.getName(), new PlayerCoordinate(currLoc.getX(), currLoc.getY(), currLoc.getZ()));
+                continue;
+            }
+
             Location loc = player.getLocation();
             Double distSqr = Math.pow(loc.getX() - currPlayer.getLocation().getX(), 2)
                     + Math.pow(loc.getY() - currPlayer.getLocation().getY(), 2);
@@ -75,6 +81,7 @@ public class PositionChecker implements Runnable, ShieldPublisher {
                 loc.setX(coordinateMap.get(player.getName()).x);
                 loc.setY(coordinateMap.get(player.getName()).y);
                 loc.setZ(coordinateMap.get(player.getName()).z);
+                player.teleport(loc);
                 publishShieldBreach(player);
             } else {
                 coordinateMap.put(player.getName(), new PlayerCoordinate(loc.getX(), loc.getY(), loc.getZ()));
